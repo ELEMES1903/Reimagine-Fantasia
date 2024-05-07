@@ -14,14 +14,13 @@ public class NewBehaviourScript : MonoBehaviour
         // Check for spacebar press
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Call TakeDamage method of HealthBar script
-            healthBar.TakeDamage(10f, false); 
+            attributeAndSkill.AddModifier("Agility", "dsdsd ", 6, true);
         }
 
         // Check for spacebar press
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            modifiersManager.RemoveModifier("Strength", "Bonus Damage", attributeAndSkill.attributes);
+            attributeAndSkill.AddModifier("Strength", "Bonus Damage", 10, false);
         }
     }
 }
