@@ -4,13 +4,11 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider hpSlider;
-    public Slider maxHpSlider;
+    public Slider currentMaxHpSlider;
 
     private float maxHP;
     private float currentMaxHP;
     private float currentHP;
-
-    private bool isHPvalue;
 
     void Start()
     {
@@ -18,11 +16,10 @@ public class HealthBar : MonoBehaviour
         maxHP = 100f;
         currentMaxHP = maxHP;
         currentHP = maxHP;
-        isHPvalue = true;
 
         // Set slider max values
         hpSlider.maxValue = maxHP;
-        maxHpSlider.maxValue = maxHP;
+        currentMaxHpSlider.maxValue = maxHP;
 
         // Update slider values
         UpdateHealthBars();
@@ -77,7 +74,7 @@ public class HealthBar : MonoBehaviour
     void UpdateHealthBars()
     {
         hpSlider.value = currentHP;
-        maxHpSlider.value = currentMaxHP;
+        currentMaxHpSlider.value = currentMaxHP;
         
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     public HealthBar healthBar;
+    public ModifiersManager modifiersManager; // Reference to ModifiersManager
+    public AttributeAndSkill attributeAndSkill; // Reference to ModifiersManager
+
 
     void Update()
     {
@@ -18,8 +21,7 @@ public class NewBehaviourScript : MonoBehaviour
         // Check for spacebar press
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            // Call TakeDamage method of HealthBar script
-            healthBar.TakeDamage(10f, true); 
+            modifiersManager.RemoveModifier("Strength", "Bonus Damage", attributeAndSkill.attributes);
         }
     }
 }
