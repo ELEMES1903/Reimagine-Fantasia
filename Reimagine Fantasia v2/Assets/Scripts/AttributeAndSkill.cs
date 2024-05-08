@@ -41,7 +41,7 @@ public class AttributeAndSkill : MonoBehaviour
         // Initialize input field listeners
         foreach (Attributes attribute in attributes)
         {
-            attribute.inputField.onValueChanged.AddListener(delegate { UpdateBaseValue(attribute); });
+            attribute.inputField.onEndEdit.AddListener(delegate { UpdateBaseValue(attribute); });
 
             // Add listener for proficientToggle changes
             foreach (Skills skill in attribute.skills)
@@ -117,7 +117,7 @@ public class AttributeAndSkill : MonoBehaviour
         }        
     }
 
-    void CalculateTotalValue(object obj)
+    public void CalculateTotalValue(object obj)
     {
         // Check if the object is an Attributes
         if (obj is Attributes)

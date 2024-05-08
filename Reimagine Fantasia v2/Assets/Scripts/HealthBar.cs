@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class HPUIElement
 {
     public string name;
-    public TMP_InputField hpInputField;
-    public TMP_Text inputText;
+    public TMP_InputField hitPointsInput;
+    public GameObject inputText;
+    public TMP_Text hitPointsText;
     
 }
 
@@ -20,11 +21,15 @@ public class HealthBar : MonoBehaviour
     public float maxHP;
     public float currentMaxHP;
     public float currentHP;
+    public TMP_InputField hpInput;
+    public TMP_InputField currentMaxHpInput;
+    public TMP_InputField maxHpInput;
+    
 
     void Start()
     {
         // Initialize values
-        maxHP = 100f;
+        maxHP = 10f;
         currentMaxHP = maxHP;
         currentHP = maxHP;
         
@@ -32,37 +37,45 @@ public class HealthBar : MonoBehaviour
         foreach (HPUIElement element in hpUI)
         {
             // Add listener for input field changes
-            element.hpInputField.onValueChanged.AddListener(delegate { OnHPInputValueChanged(element); });
+            element.hitPointsInput.onEndEdit.AddListener(delegate { OnHPInputValueChanged(element); });
         }
-
-        // Set slider max values
-        hpSlider.maxValue = maxHP;
-        currentMaxHpSlider.maxValue = maxHP;
 
         // Update slider values
         UpdateHealthBars();
     }
 
-    void OnHPInputValueChanged(HPUIElement element)
-    {
-        if (int.TryParse(element.hpInputField.text, out int newValue))
+    void Update(){
+
+        foreach (HPUIElement element in hpUI)
         {
-            if(element.name == "HP"){
-                currentHP = newValue;
+            if(element.hitPointsInput.isFocused){
+
+                element.hitPointsText.gameObject.SetActive(false);
+                element.inputText.SetActive(true);
+
+            } else {
+                element.hitPointsText.gameObject.SetActive(true);
+                element.inputText.SetActive(false);
             }
-            if(element.name == "Current Max HP"){
-                currentMaxHP = newValue;
-            }
-            if(element.name == "Max HP"){
-                maxHP = newValue;
-            }
-            UpdateHealthBars();
         }
+
+    }
+
+
+    public void OnHPInputValueChanged(HPUIElement element)
+    {
+        if (int.TryParse(element.hitPointsInput.text, out int newValue))
+        {
+            if(element.name == "HP"){ currentHP = newValue;}
+            if(element.name == "Current Max HP"){ currentMaxHP = newValue;}
+            if(element.name == "Max HP"){ maxHP = newValue;}
+        }
+
+        UpdateHealthBars();
     }
 
     public void TakeDamage(float damage, bool isHPvalue)
     {
-
         if(isHPvalue == true){
 
             currentHP -= damage;
@@ -76,45 +89,42 @@ public class HealthBar : MonoBehaviour
             currentMaxHP = Mathf.Max(currentMaxHP, 0f);
 
         }
-        
-        if(currentHP > currentMaxHP){
-            currentHP = currentMaxHP;
-        }
-
         // Update health bars
         UpdateHealthBars();
     }
 
     public void Heal(float heal, bool isHPvalue)
     {
-
         if(isHPvalue == true){
 
             currentHP += heal;
             // Ensure HP doesn't exceed current max HP
             currentHP = Mathf.Min(currentHP, currentMaxHP);
-            
         } else {
 
             currentMaxHP += heal;
             // Ensure current max HP doesn't exceed max HP
             currentMaxHP = Mathf.Max(currentMaxHP, maxHP);
-
         }
-
-        // Update health bars
         UpdateHealthBars();
     }
 
-    void UpdateHealthBars()
+    public void UpdateHealthBars()
     {
-
         if(currentHP > currentMaxHP){ currentHP = currentMaxHP; }
         if(currentMaxHP > maxHP){ currentMaxHP = maxHP; }
+
+        foreach (HPUIElement element in hpUI)
+        {
+            if(element.name == "HP"){ element.hitPointsText.text = currentHP.ToString();}
+            if(element.name == "Current Max HP"){ element.hitPointsText.text = currentMaxHP.ToString();}
+            if(element.name == "Max HP"){ element.hitPointsText.text = maxHP.ToString();}
+        }
 
         hpSlider.value = currentHP;
         hpSlider.maxValue = maxHP;
         currentMaxHpSlider.value = currentMaxHP;
         currentMaxHpSlider.maxValue = maxHP;
+
     }
 }
