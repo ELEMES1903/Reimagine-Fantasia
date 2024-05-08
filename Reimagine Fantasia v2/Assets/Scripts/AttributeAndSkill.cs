@@ -155,8 +155,6 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValue = totalValue;  
             skill.modifiedValueText.text = skill.modifiedValue.ToString();
         }
-
-
     }
 
     // Method to update base value when input field value changes

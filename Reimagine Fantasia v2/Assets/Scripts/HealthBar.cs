@@ -1,14 +1,25 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class HPUIElement
+{
+    public string name;
+    public TMP_InputField hpInputField;
+    public TMP_Text inputText;
+    
+}
 
 public class HealthBar : MonoBehaviour
 {
     public Slider hpSlider;
     public Slider currentMaxHpSlider;
+    public HPUIElement[] hpUI;
 
-    private float maxHP;
-    private float currentMaxHP;
-    private float currentHP;
+    public float maxHP;
+    public float currentMaxHP;
+    public float currentHP;
 
     void Start()
     {
@@ -16,6 +27,13 @@ public class HealthBar : MonoBehaviour
         maxHP = 100f;
         currentMaxHP = maxHP;
         currentHP = maxHP;
+        
+
+        foreach (HPUIElement element in hpUI)
+        {
+            // Add listener for input field changes
+            element.hpInputField.onValueChanged.AddListener(delegate { OnHPInputValueChanged(element); });
+        }
 
         // Set slider max values
         hpSlider.maxValue = maxHP;
@@ -23,6 +41,23 @@ public class HealthBar : MonoBehaviour
 
         // Update slider values
         UpdateHealthBars();
+    }
+
+    void OnHPInputValueChanged(HPUIElement element)
+    {
+        if (int.TryParse(element.hpInputField.text, out int newValue))
+        {
+            if(element.name == "HP"){
+                currentHP = newValue;
+            }
+            if(element.name == "Current Max HP"){
+                currentMaxHP = newValue;
+            }
+            if(element.name == "Max HP"){
+                maxHP = newValue;
+            }
+            UpdateHealthBars();
+        }
     }
 
     public void TakeDamage(float damage, bool isHPvalue)
@@ -61,7 +96,7 @@ public class HealthBar : MonoBehaviour
             
         } else {
 
-            currentMaxHP -= heal;
+            currentMaxHP += heal;
             // Ensure current max HP doesn't exceed max HP
             currentMaxHP = Mathf.Max(currentMaxHP, maxHP);
 
@@ -73,8 +108,13 @@ public class HealthBar : MonoBehaviour
 
     void UpdateHealthBars()
     {
+
+        if(currentHP > currentMaxHP){ currentHP = currentMaxHP; }
+        if(currentMaxHP > maxHP){ currentMaxHP = maxHP; }
+
         hpSlider.value = currentHP;
+        hpSlider.maxValue = maxHP;
         currentMaxHpSlider.value = currentMaxHP;
-        
+        currentMaxHpSlider.maxValue = maxHP;
     }
 }
