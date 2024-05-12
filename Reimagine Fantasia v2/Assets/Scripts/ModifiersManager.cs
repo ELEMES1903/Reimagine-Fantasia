@@ -11,10 +11,10 @@ public class Modifier
 
 public class ModifiersManager : MonoBehaviour
 {
-    public void AddModifierToElement(string elementName, string modifierName, int modifierValue, List<Attributes> attributes)
+    public void AddModifierToElement(string elementName, string modifierName, int modifierValue, List<AttributeStat> attributes)
     {
         // Check if the element is an attribute
-        Attributes attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
+        AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
         if (attribute != null)
         {
             AddModifierToAttribute(attribute, modifierName, modifierValue);
@@ -22,7 +22,7 @@ public class ModifiersManager : MonoBehaviour
         else
         {
             // Check if the element is a skill
-            foreach (Attributes attr in attributes)
+            foreach (AttributeStat attr in attributes)
             {
                 Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
                 if (skill != null)
@@ -35,7 +35,7 @@ public class ModifiersManager : MonoBehaviour
         }
     }
 
-    private void AddModifierToAttribute(Attributes attribute, string modifierName, int modifierValue)
+    private void AddModifierToAttribute(AttributeStat attribute, string modifierName, int modifierValue)
     {
         // Find the Modifiers array for the attribute
         Modifier[] modifiers = attribute.modifiers;
@@ -75,10 +75,10 @@ public class ModifiersManager : MonoBehaviour
         Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to skill '" + skill.name + "'.");
     }
 
-    public void RemoveModifier(string elementName, string modifierName, List<Attributes> attributes)
+    public void RemoveModifier(string elementName, string modifierName, List<AttributeStat> attributes)
     {
         // Check if the element is an attribute
-        Attributes attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
+        AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
         if (attribute != null)
         {
             RemoveModifierFromAttribute(attribute, modifierName);
@@ -86,7 +86,7 @@ public class ModifiersManager : MonoBehaviour
         else
         {
             // Check if the element is a skill
-            foreach (Attributes attr in attributes)
+            foreach (AttributeStat attr in attributes)
             {
                 Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
                 if (skill != null)
@@ -99,7 +99,7 @@ public class ModifiersManager : MonoBehaviour
         }
     }
 
-    private void RemoveModifierFromAttribute(Attributes attribute, string modifierName)
+    private void RemoveModifierFromAttribute(AttributeStat attribute, string modifierName)
     {
         // Find the modifier in the Modifiers array for the attribute
         Modifier[] modifiers = attribute.modifiers;

@@ -18,28 +18,31 @@ public class Skills
 }
 
 [System.Serializable]
-public class Attributes
+public class AttributeStat
 {
     public string name;
     public TMP_InputField inputField;
     public int baseValue;
     public int modifiedValue;
+    public GameObject inputText;
+    public TMP_Text valueText;
     public Modifier[] modifiers;
     public Skills[] skills;
+
 }
 
 public class AttributeAndSkill : MonoBehaviour
 {
-
+    public string characterName;
     public int profeciency = 2;
-    public Attributes[] attributes;
+    public AttributeStat[] attributes;
     void Start()
     {
         AddModifier("Strength", "Bonus Damage", 10, true);
         AddModifier("Agility", "Bonus ", 2, true);
 
         // Initialize input field listeners
-        foreach (Attributes attribute in attributes)
+        foreach (AttributeStat attribute in attributes)
         {
             attribute.inputField.onEndEdit.AddListener(delegate { UpdateBaseValue(attribute); });
 
@@ -50,12 +53,32 @@ public class AttributeAndSkill : MonoBehaviour
                 skill.signatureToggle.onValueChanged.AddListener((bool value) => OnSignatureToggleChanged(skill, value));
             }
         }
+
+        UpdateText();
+        
+    }
+    void Update(){
+
+        foreach (AttributeStat attribute in attributes)
+        {
+            if(attribute.inputField.isFocused){
+
+                attribute.inputText.SetActive(true);
+                attribute.valueText.gameObject.SetActive(false);
+
+            } else {
+
+                attribute.inputText.SetActive(false);
+                attribute.valueText.gameObject.SetActive(true);
+
+            }
+        }
     }
 
     public void AddModifier(string arrayName, string modifierName, int modifierValue, bool isAdding)
     {
         // Search for the attribute or skill array with the same string as the parameter
-        foreach (Attributes attribute in attributes)
+        foreach (AttributeStat attribute in attributes)
         {
             // Check if the attribute name matches
             if (attribute.name == arrayName)
@@ -120,9 +143,9 @@ public class AttributeAndSkill : MonoBehaviour
     public void CalculateTotalValue(object obj)
     {
         // Check if the object is an Attributes
-        if (obj is Attributes)
+        if (obj is AttributeStat)
         {
-            Attributes attribute = (Attributes)obj;
+            AttributeStat attribute = (AttributeStat)obj;
 
             // Calculate sum of modifier values
             int totalModifierValue = attribute.modifiers.Sum(modifier => modifier.value);
@@ -155,15 +178,24 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValue = totalValue;  
             skill.modifiedValueText.text = skill.modifiedValue.ToString();
         }
+
+        UpdateText();
     }
 
     // Method to update base value when input field value changes
-    void UpdateBaseValue(Attributes attribute)
+    void UpdateBaseValue(AttributeStat attribute)
     {
         if (int.TryParse(attribute.inputField.text, out int newValue))
         {
             attribute.baseValue = newValue;
             CalculateTotalValue(attribute);
+        }
+    }
+
+    void UpdateText()
+    {
+        foreach (AttributeStat attribute in attributes){
+            attribute.valueText.text = attribute.modifiedValue.ToString();
         }
     }
 
