@@ -26,10 +26,10 @@ public class SaveSlot : MonoBehaviour
     public TMP_Text charText;
     public TMP_InputField charInputField;
     public string charName;
-
     public Toggle isAutoSaving;
-
     public TMP_Dropdown dropdown; // Reference to the TMP dropdown
+
+    public GameObject saveSettingsMenu;
 
     void OnApplicationQuit(){
         
@@ -44,8 +44,9 @@ public class SaveSlot : MonoBehaviour
     {
         LoadSlotData();
 
-        UpdateDropdownEntries();
-
+        // Set the placeholder text of the input field
+        charInputField.placeholder.GetComponent<TMP_Text>().text = "Your placeholder text here";
+        
         // Add listener to each slot button
         foreach (SlotElement slot in saveSlots)
         {
@@ -60,6 +61,8 @@ public class SaveSlot : MonoBehaviour
         UpdateSelection();
 
         UpdateDropdownEntries();
+
+
     }
 
     void Update()
@@ -143,7 +146,17 @@ public class SaveSlot : MonoBehaviour
     public void Save(){
 
         saveSystem.SaveData(selectedIndex);
-        saveSlots[selectedIndex].nameText.text = charText.text;
+
+        if(string.IsNullOrWhiteSpace(charName) || charName.Trim().Length == 0){
+
+            saveSlots[selectedIndex].nameText.text = " Unnamed Character";
+            charName = "Unnamed Character";
+
+            } else {
+
+            saveSlots[selectedIndex].nameText.text = charName;
+        }
+
 
          // Set the save time text
         DateTime currentTime = DateTime.Now;
@@ -151,6 +164,7 @@ public class SaveSlot : MonoBehaviour
     }
 
     public void Load(){
+
         saveSystem.LoadData(selectedIndex);
 
     }
@@ -159,7 +173,7 @@ public class SaveSlot : MonoBehaviour
 
         charName = charInputField.text;
         UpdateCharacterNameText();
-        
+
     }
 
     public void UpdateCharacterNameText(){
@@ -211,8 +225,23 @@ public class SaveSlot : MonoBehaviour
     // Method to save data into the selected save slot
     void SaveDataForSelectedSlot()
     {
-        saveSlots[selectedSlotIndex].nameText.text = charText.text; 
+
+        if(charText.text == "Enter Character Name..."){
+
+        } else {
+            saveSlots[selectedSlotIndex].nameText.text = charText.text; 
+        }
+        
         saveSystem.SaveData(selectedSlotIndex);
-        Debug.Log($"Data saved to slot {selectedSlotIndex}.");
+    }
+
+    public void OpenSaveSettings(){
+
+        saveSettingsMenu.SetActive(true);
+    }
+
+    public void CloseSaveSettings(){
+
+        saveSettingsMenu.SetActive(false);
     }
 }
