@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 public class SaveSlot : MonoBehaviour
 {
     [System.Serializable]
@@ -19,10 +20,32 @@ public class SaveSlot : MonoBehaviour
     public SaveSystem saveSystem;
     public AttributeAndSkill attributeAndSkill;
     public int selectedIndex = 0;
+    public int selectedSlotIndex = 0;
 
+    public GameObject charInputText;
+    public TMP_Text charText;
+    public TMP_InputField charInputField;
+    public string charName;
+
+    public Toggle isAutoSaving;
+
+    public TMP_Dropdown dropdown; // Reference to the TMP dropdown
+
+    void OnApplicationQuit(){
+        
+        if(isAutoSaving.isOn){
+            SaveDataForSelectedSlot();
+        }
+
+        SaveSlotData();
+    }
 
     void Start()
     {
+        LoadSlotData();
+
+        UpdateDropdownEntries();
+
         // Add listener to each slot button
         foreach (SlotElement slot in saveSlots)
         {
@@ -30,8 +53,13 @@ public class SaveSlot : MonoBehaviour
             slot.slotButton.onClick.AddListener(() => OnSlotButtonClick(slot)); // Pass slot directly
         }
 
+        charInputField.onEndEdit.AddListener(delegate { UpdateCharacterName(); });
+        dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
+
         // Highlight the initially selected slot
         UpdateSelection();
+
+        UpdateDropdownEntries();
     }
 
     void Update()
@@ -45,6 +73,31 @@ public class SaveSlot : MonoBehaviour
         {
             ChangeSelection(1);
         }
+
+        if(charInputField.isFocused){
+
+            charText.gameObject.SetActive(false);
+            charInputText.SetActive(true);
+
+        } else {
+
+            charText.gameObject.SetActive(true);
+            charInputText.SetActive(false);
+
+        }
+    }
+
+    // Method to update the names of dropdown entries
+    public void UpdateDropdownEntries()
+    {
+        List<string> dropdownOptions = new List<string>();
+        foreach (SlotElement slot in saveSlots)
+        {
+            string dropdownEntry = $"{slot.name}: {slot.nameText.text}"; // Format the dropdown entry
+            dropdownOptions.Add(dropdownEntry);
+        }
+        dropdown.ClearOptions(); // Clear existing options
+        dropdown.AddOptions(dropdownOptions); // Add updated options
     }
 
     void ChangeSelection(int direction)
@@ -62,7 +115,7 @@ public class SaveSlot : MonoBehaviour
         {
             bool isSelected = (i == selectedIndex);
             Color highlightColor = isSelected ? Color.yellow : Color.white;
-            saveSlots[i].nameText.color = highlightColor;
+            //saveSlots[i].nameText.color = highlightColor;
             saveSlots[i].slotButton.colors = GetButtonColors(highlightColor);
         }
     }
@@ -90,15 +143,76 @@ public class SaveSlot : MonoBehaviour
     public void Save(){
 
         saveSystem.SaveData(selectedIndex);
-        saveSlots[selectedIndex].nameText.text = attributeAndSkill.characterName;
+        saveSlots[selectedIndex].nameText.text = charText.text;
 
          // Set the save time text
         DateTime currentTime = DateTime.Now;
-        saveSlots[selectedIndex].saveTime.text = currentTime.ToString("MMM dd, HH:mm");
+        saveSlots[selectedIndex].saveTime.text = currentTime.ToString("MMM dd, HH:mm:ss");
     }
 
     public void Load(){
         saveSystem.LoadData(selectedIndex);
+
     }
 
+    void UpdateCharacterName(){
+
+        charName = charInputField.text;
+        UpdateCharacterNameText();
+        
+    }
+
+    public void UpdateCharacterNameText(){
+
+        charText.text = charName;
+
+    }
+
+    public void SaveSlotData()
+    {
+        for (int i = 0; i < saveSlots.Length; i++)
+        {
+            string nameKey = "SlotName_" + i;
+            string timeKey = "SlotTime_" + i;
+
+            PlayerPrefs.SetString(nameKey, saveSlots[i].nameText.text);
+            PlayerPrefs.SetString(timeKey, saveSlots[i].saveTime.text);
+        }
+
+        // Save PlayerPrefs data
+        PlayerPrefs.Save();
+    }
+
+    // Method to load the names and save times of all save slots
+    public void LoadSlotData()
+    {
+        for (int i = 0; i < saveSlots.Length; i++)
+        {
+            string nameKey = "SlotName_" + i;
+            string timeKey = "SlotTime_" + i;
+
+            if (PlayerPrefs.HasKey(nameKey))
+            {
+                string loadedName = PlayerPrefs.GetString(nameKey);
+                string loadedTime = PlayerPrefs.GetString(timeKey);
+
+                saveSlots[i].nameText.text = loadedName;
+                saveSlots[i].saveTime.text = loadedTime;
+            }
+        }
+    }
+
+    // Method called when the dropdown's value changes
+    void OnDropdownValueChanged(int index)
+    {
+        selectedSlotIndex = index;
+    }
+
+    // Method to save data into the selected save slot
+    void SaveDataForSelectedSlot()
+    {
+        saveSlots[selectedSlotIndex].nameText.text = charText.text; 
+        saveSystem.SaveData(selectedSlotIndex);
+        Debug.Log($"Data saved to slot {selectedSlotIndex}.");
+    }
 }

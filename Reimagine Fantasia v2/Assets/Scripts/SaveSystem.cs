@@ -7,6 +7,7 @@ public class SaveSystem : MonoBehaviour
     public HealthBar healthBar;
     public AttributeAndSkill attributeAndSkill;
     private string savePath;
+    
     private string slotNameSavePath;
 
     // Reference to the SaveSlotManager
@@ -23,7 +24,7 @@ public class SaveSystem : MonoBehaviour
     
     private void Awake()
     {
-        savePath = Path.Combine(Application.persistentDataPath, "healthData.json");
+        savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
         // Initialize save directory
         saveDirectory = Application.persistentDataPath; // or any other valid directory path
 
@@ -34,11 +35,10 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-
     // Method to save the health and attribute data to a JSON file
     public void SaveData(int slotIndex)
     {
-        string saveFileName = "healthData_" + slotIndex + fileExtension;
+        string saveFileName = "saveData" + slotIndex + fileExtension;
         string saveFilePath = Path.Combine(saveDirectory, saveFileName);
 
         SaveDataStructure data = new SaveDataStructure
@@ -50,7 +50,7 @@ public class SaveSystem : MonoBehaviour
                 currentHP = healthBar.currentHP
             },
 
-            attributeData = new AttributeData[attributeAndSkill.attributes.Length]
+            attributeData = new AttributeData[attributeAndSkill.attributes.Length],
         };
 
         for (int i = 0; i < attributeAndSkill.attributes.Length; i++)
@@ -71,7 +71,7 @@ public class SaveSystem : MonoBehaviour
     // Method to load the health and attribute data from a JSON file
     public void LoadData(int slotIndex)
     {
-        string saveFileName = "healthData_" + slotIndex + fileExtension;
+        string saveFileName = "saveData" + slotIndex + fileExtension;
         string saveFilePath = Path.Combine(saveDirectory, saveFileName);
 
         if (File.Exists(saveFilePath))
@@ -89,6 +89,8 @@ public class SaveSystem : MonoBehaviour
             {
                 attributeAndSkill.attributes[i].baseValue = data.attributeData[i].baseValue;
             }
+
+            saveSlot.charText.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             UpdateAll();
             healthBar.UpdateHealthBars();
@@ -121,6 +123,8 @@ public class SaveDataStructure
 {
     public HealthData healthData;
     public AttributeData[] attributeData;
+
+    public string characterName; // Include character name in the main save data
 }
 
 [System.Serializable]
@@ -137,4 +141,3 @@ public class AttributeData
     public string name;
     public int baseValue;
 }
-

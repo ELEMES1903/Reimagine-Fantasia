@@ -33,9 +33,9 @@ public class AttributeStat
 
 public class AttributeAndSkill : MonoBehaviour
 {
-    public string characterName;
     public int profeciency = 2;
     public AttributeStat[] attributes;
+
     void Start()
     {
         AddModifier("Strength", "Bonus Damage", 10, true);
