@@ -36,8 +36,6 @@ public class AttributeAndSkill : MonoBehaviour
 
     void Start()
     {
-        AddModifier("Strength", "Bonus Damage", 10, true);
-        AddModifier("Agility", "Bonus ", 2, true);
 
         // Initialize input field listeners
         foreach (AttributeStat attribute in attributes)

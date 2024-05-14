@@ -28,8 +28,6 @@ public class SaveSlot : MonoBehaviour
     public Toggle isAutoSaving;
     public TMP_Dropdown dropdown; // Reference to the TMP dropdown
 
-    public GameObject saveSettingsMenu;
-
     void OnApplicationQuit(){
         
         if(isAutoSaving.isOn){
@@ -48,7 +46,6 @@ public class SaveSlot : MonoBehaviour
         {
             int capturedSlotNumber = slot.slotNumber - 1;
             slot.slotButton.onClick.AddListener(() => OnSlotButtonClick(slot)); // Pass slot directly
-            slot.notesInputField.onEndEdit.AddListener(delegate { UpdateNotes(); });
         }
 
         dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
@@ -216,19 +213,4 @@ public class SaveSlot : MonoBehaviour
         saveSystem.SaveData(selectedSlotIndex);
     }
 
-    public void OpenSaveSettings(){
-
-        saveSettingsMenu.SetActive(true);
-    }
-
-    public void CloseSaveSettings(){
-
-        saveSettingsMenu.SetActive(false);
-    }
-
-    public void UpdateNotes(){
-
-
-
-    }
 }
