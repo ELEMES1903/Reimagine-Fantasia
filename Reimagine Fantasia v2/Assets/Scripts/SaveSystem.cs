@@ -130,9 +130,9 @@ public class SaveDataStructure
 [System.Serializable]
 public class HealthData
 {
-    public float maxHP;
-    public float currentMaxHP;
-    public float currentHP;
+    public int maxHP;
+    public int currentMaxHP;
+    public int currentHP;
 }
 
 [System.Serializable]

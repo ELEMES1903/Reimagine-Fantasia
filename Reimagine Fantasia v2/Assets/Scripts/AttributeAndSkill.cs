@@ -184,7 +184,6 @@ public class AttributeAndSkill : MonoBehaviour
     {
         if (value)
         {
-            skill.signatureToggle.isOn = false; 
             AddModifier(skill.name, "Proficient", profeciency, true);
         }
         else
@@ -197,7 +196,6 @@ public class AttributeAndSkill : MonoBehaviour
     {
         if (value)
         {
-            skill.proficientToggle.isOn = false; 
             AddModifier(skill.name, "Signature", profeciency*2, true);
         }
         else

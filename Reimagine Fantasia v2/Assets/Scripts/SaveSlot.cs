@@ -42,10 +42,7 @@ public class SaveSlot : MonoBehaviour
     void Start()
     {
         LoadSlotData();
-
-        // Set the placeholder text of the input field
-        charInputField.placeholder.GetComponent<TMP_Text>().text = "Your placeholder text here";
-        
+   
         // Add listener to each slot button
         foreach (SlotElement slot in saveSlots)
         {
@@ -163,11 +160,14 @@ public class SaveSlot : MonoBehaviour
         {
             string nameKey = "SlotName_" + i;
             string timeKey = "SlotTime_" + i;
+            string noteKey = "SlotNote_" + i;
 
             PlayerPrefs.SetString(nameKey, saveSlots[i].nameText.text);
             PlayerPrefs.SetString(timeKey, saveSlots[i].saveTime.text);
+            PlayerPrefs.SetString(noteKey, saveSlots[i].notesInputField.text);
         }
-
+        // Save the status of the isAutoSaving toggle
+        PlayerPrefs.SetInt("AutoSavingStatus", isAutoSaving.isOn ? 1 : 0);
         // Save PlayerPrefs data
         PlayerPrefs.Save();
     }
@@ -179,16 +179,22 @@ public class SaveSlot : MonoBehaviour
         {
             string nameKey = "SlotName_" + i;
             string timeKey = "SlotTime_" + i;
+            string noteKey = "SlotNote_" + i;
 
             if (PlayerPrefs.HasKey(nameKey))
             {
                 string loadedName = PlayerPrefs.GetString(nameKey);
                 string loadedTime = PlayerPrefs.GetString(timeKey);
+                string loadedNote = PlayerPrefs.GetString(noteKey);
 
                 saveSlots[i].nameText.text = loadedName;
                 saveSlots[i].saveTime.text = loadedTime;
+                saveSlots[i].notesInputField.text = loadedNote;
             }
         }
+
+         // Load the status of the isAutoSaving toggle
+        isAutoSaving.isOn = PlayerPrefs.GetInt("AutoSavingStatus", 1) == 1 ? true : false;
     }
 
     // Method called when the dropdown's value changes
