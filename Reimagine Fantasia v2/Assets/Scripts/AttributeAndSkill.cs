@@ -33,6 +33,7 @@ public class AttributeAndSkill : MonoBehaviour
 {
     public int profeciency = 2;
     public AttributeStat[] attributes;
+    public OtherStat otherStat;
 
     void Start()
     {
@@ -168,6 +169,7 @@ public class AttributeAndSkill : MonoBehaviour
         {
             attribute.baseValue = newValue;
             CalculateTotalValue(attribute);
+            otherStat.UpdateInstinctScore();
         }
     }
 
