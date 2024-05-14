@@ -24,8 +24,6 @@ public class AttributeStat
     public TMP_InputField inputField;
     public int baseValue;
     public int modifiedValue;
-    public GameObject inputText;
-    public TMP_Text valueText;
     public Modifier[] modifiers;
     public Skills[] skills;
 
@@ -56,23 +54,6 @@ public class AttributeAndSkill : MonoBehaviour
 
         UpdateText();
         
-    }
-    void Update(){
-
-        foreach (AttributeStat attribute in attributes)
-        {
-            if(attribute.inputField.isFocused){
-
-                attribute.inputText.SetActive(true);
-                attribute.valueText.gameObject.SetActive(false);
-
-            } else {
-
-                attribute.inputText.SetActive(false);
-                attribute.valueText.gameObject.SetActive(true);
-
-            }
-        }
     }
 
     public void AddModifier(string arrayName, string modifierName, int modifierValue, bool isAdding)
@@ -195,7 +176,7 @@ public class AttributeAndSkill : MonoBehaviour
     void UpdateText()
     {
         foreach (AttributeStat attribute in attributes){
-            attribute.valueText.text = attribute.modifiedValue.ToString();
+            attribute.inputField.text = attribute.baseValue.ToString() + " (" + attribute.modifiedValue.ToString() + ")";
         }
     }
 

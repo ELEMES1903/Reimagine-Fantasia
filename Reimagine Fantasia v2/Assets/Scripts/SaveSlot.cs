@@ -12,20 +12,19 @@ public class SaveSlot : MonoBehaviour
         public TMP_Text nameText;
         public int slotNumber;
         public Button slotButton;
-
         public TMP_Text saveTime;
+
+        public TMP_InputField notesInputField;
+
     }
 
     public SlotElement[] saveSlots;
     public SaveSystem saveSystem;
     public AttributeAndSkill attributeAndSkill;
-    public int selectedIndex = 0;
-    public int selectedSlotIndex = 0;
+    int selectedIndex = 0;
+    int selectedSlotIndex = 0;
 
-    public GameObject charInputText;
-    public TMP_Text charText;
     public TMP_InputField charInputField;
-    public string charName;
     public Toggle isAutoSaving;
     public TMP_Dropdown dropdown; // Reference to the TMP dropdown
 
@@ -52,9 +51,9 @@ public class SaveSlot : MonoBehaviour
         {
             int capturedSlotNumber = slot.slotNumber - 1;
             slot.slotButton.onClick.AddListener(() => OnSlotButtonClick(slot)); // Pass slot directly
+            slot.notesInputField.onEndEdit.AddListener(delegate { UpdateNotes(); });
         }
 
-        charInputField.onEndEdit.AddListener(delegate { UpdateCharacterName(); });
         dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
 
         // Highlight the initially selected slot
@@ -77,17 +76,6 @@ public class SaveSlot : MonoBehaviour
             ChangeSelection(1);
         }
 
-        if(charInputField.isFocused){
-
-            charText.gameObject.SetActive(false);
-            charInputText.SetActive(true);
-
-        } else {
-
-            charText.gameObject.SetActive(true);
-            charInputText.SetActive(false);
-
-        }
     }
 
     // Method to update the names of dropdown entries
@@ -147,16 +135,15 @@ public class SaveSlot : MonoBehaviour
 
         saveSystem.SaveData(selectedIndex);
 
-        if(string.IsNullOrWhiteSpace(charName) || charName.Trim().Length == 0){
+        if(string.IsNullOrWhiteSpace(charInputField.text) || charInputField.text.Trim().Length == 0){
 
             saveSlots[selectedIndex].nameText.text = " Unnamed Character";
-            charName = "Unnamed Character";
+            charInputField.text = "Unnamed Character";
 
             } else {
 
-            saveSlots[selectedIndex].nameText.text = charName;
+            saveSlots[selectedIndex].nameText.text = charInputField.text;
         }
-
 
          // Set the save time text
         DateTime currentTime = DateTime.Now;
@@ -169,18 +156,6 @@ public class SaveSlot : MonoBehaviour
 
     }
 
-    void UpdateCharacterName(){
-
-        charName = charInputField.text;
-        UpdateCharacterNameText();
-
-    }
-
-    public void UpdateCharacterNameText(){
-
-        charText.text = charName;
-
-    }
 
     public void SaveSlotData()
     {
@@ -226,10 +201,10 @@ public class SaveSlot : MonoBehaviour
     void SaveDataForSelectedSlot()
     {
 
-        if(charText.text == "Enter Character Name..."){
+        if(charInputField.text == "Enter Character Name..."){
 
         } else {
-            saveSlots[selectedSlotIndex].nameText.text = charText.text; 
+            saveSlots[selectedSlotIndex].nameText.text = charInputField.text; 
         }
         
         saveSystem.SaveData(selectedSlotIndex);
@@ -243,5 +218,11 @@ public class SaveSlot : MonoBehaviour
     public void CloseSaveSettings(){
 
         saveSettingsMenu.SetActive(false);
+    }
+
+    public void UpdateNotes(){
+
+
+
     }
 }

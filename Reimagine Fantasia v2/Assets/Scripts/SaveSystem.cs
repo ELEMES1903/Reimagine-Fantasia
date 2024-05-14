@@ -90,7 +90,7 @@ public class SaveSystem : MonoBehaviour
                 attributeAndSkill.attributes[i].baseValue = data.attributeData[i].baseValue;
             }
 
-            saveSlot.charText.text = saveSlot.saveSlots[slotIndex].nameText.text;
+            saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             UpdateAll();
             healthBar.UpdateHealthBars();

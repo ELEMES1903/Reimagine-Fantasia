@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class HPUIElement
 {
     public string name;
-    public TMP_InputField hitPointsInput;
-    public GameObject inputText;
-    public TMP_Text hitPointsText;
+    public TMP_InputField hpInputField;
     
 }
 
@@ -37,34 +35,16 @@ public class HealthBar : MonoBehaviour
         foreach (HPUIElement element in hpUI)
         {
             // Add listener for input field changes
-            element.hitPointsInput.onEndEdit.AddListener(delegate { OnHPInputValueChanged(element); });
+            element.hpInputField.onEndEdit.AddListener(delegate { OnHPInputValueChanged(element); });
         }
 
         // Update slider values
         UpdateHealthBars();
     }
 
-    void Update(){
-
-        foreach (HPUIElement element in hpUI)
-        {
-            if(element.hitPointsInput.isFocused){
-
-                element.hitPointsText.gameObject.SetActive(false);
-                element.inputText.SetActive(true);
-
-            } else {
-                element.hitPointsText.gameObject.SetActive(true);
-                element.inputText.SetActive(false);
-            }
-        }
-
-    }
-
-
     public void OnHPInputValueChanged(HPUIElement element)
     {
-        if (int.TryParse(element.hitPointsInput.text, out int newValue))
+        if (int.TryParse(element.hpInputField.text, out int newValue))
         {
             if(element.name == "HP"){ currentHP = newValue;}
             if(element.name == "Current Max HP"){ currentMaxHP = newValue;}
@@ -116,9 +96,9 @@ public class HealthBar : MonoBehaviour
 
         foreach (HPUIElement element in hpUI)
         {
-            if(element.name == "HP"){ element.hitPointsText.text = currentHP.ToString();}
-            if(element.name == "Current Max HP"){ element.hitPointsText.text = currentMaxHP.ToString();}
-            if(element.name == "Max HP"){ element.hitPointsText.text = maxHP.ToString();}
+            if(element.name == "HP"){ element.hpInputField.text = currentHP.ToString();}
+            if(element.name == "Current Max HP"){ element.hpInputField.text = currentMaxHP.ToString();}
+            if(element.name == "Max HP"){ element.hpInputField.text = maxHP.ToString();}
         }
 
         hpSlider.value = currentHP;
