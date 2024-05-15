@@ -6,6 +6,8 @@ public class SaveSystem : MonoBehaviour
 {
     public HealthBar healthBar;
     public AttributeAndSkill attributeAndSkill;
+    public OtherStat otherStat;
+
     private string savePath;
     
     private string slotNameSavePath;
@@ -51,6 +53,9 @@ public class SaveSystem : MonoBehaviour
             },
 
             attributeData = new AttributeData[attributeAndSkill.attributes.Length],
+            missScore = otherStat.missScore,
+            armorScore = otherStat.armorScore
+
         };
 
         for (int i = 0; i < attributeAndSkill.attributes.Length; i++)
@@ -84,6 +89,9 @@ public class SaveSystem : MonoBehaviour
             healthBar.currentMaxHP = data.healthData.currentMaxHP;
             healthBar.currentHP = data.healthData.currentHP;
 
+            otherStat.missScore = data.missScore;
+            otherStat.armorScore = data.armorScore;
+
             // Update the AttributeAndSkill script with the loaded attribute values
             for (int i = 0; i < data.attributeData.Length; i++)
             {
@@ -94,6 +102,7 @@ public class SaveSystem : MonoBehaviour
 
             UpdateAll();
             healthBar.UpdateHealthBars();
+            otherStat.UpdateInstinctScore();
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
         }
@@ -124,7 +133,9 @@ public class SaveDataStructure
     public HealthData healthData;
     public AttributeData[] attributeData;
 
-    public string characterName; // Include character name in the main save data
+    public int missScore;
+    public int armorScore;
+
 }
 
 [System.Serializable]
@@ -141,3 +152,4 @@ public class AttributeData
     public string name;
     public int baseValue;
 }
+

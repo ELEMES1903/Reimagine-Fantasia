@@ -11,14 +11,14 @@ public class OtherStat : MonoBehaviour
 {
 
     //Miss, Armor, and Protection Score
-     int baseMissScore;
+    int baseMissScore;
     public TMP_InputField baseMissScoreInput;
     public int instinctScore;
-     int missScore;
+    public int missScore;
     
-     int armorScore;
+    public int armorScore;
     public TMP_InputField armorScoreInput;
-     int protectionScore;
+    int protectionScore;
 
     public AttributeAndSkill attributeAndSkill;
 
