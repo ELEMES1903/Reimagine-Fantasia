@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,21 +11,34 @@ public class ActionEconomy : MonoBehaviour
     public Sprite emptyActionPointImage; // Image for empty action point
     public Sprite actionPointImage; // Image for filled action point
     public Sprite reactionPointImage; // Image for reaction point
+    private Sprite turnSprite;
 
     private int actionPointCount = 0; // Number of action points
 
+    public Button turnButton;
+    public Sprite endTurn;
+    public Sprite startTurn;
+
+
     void Start()
     {
+        turnButton.image.sprite = endTurn;
+        turnSprite  = actionPointImage;
+        
+        TurnEndUpdate();
+
         // Initialize action point buttons with empty action point image
         foreach (Button button in apButtons)
         {
-            button.image.sprite = emptyActionPointImage;
+            button.image.sprite = actionPointImage;
             button.onClick.AddListener(() => AdjustActionPoints(button));
         }
 
         // Add listeners to increase and decrease buttons
         increaseButton.onClick.AddListener(IncreaseActionPoints);
         decreaseButton.onClick.AddListener(DecreaseActionPoints);
+
+        turnButton.onClick.AddListener(TurnManager);
     }
 
     void IncreaseActionPoints()
@@ -63,7 +77,7 @@ public class ActionEconomy : MonoBehaviour
         int clickedIndex = System.Array.IndexOf(apButtons, clickedButton);
 
         // Check the sprite of the clicked button
-        if (clickedButton.image.sprite == actionPointImage)
+        if (clickedButton.image.sprite == turnSprite)
         {
             // Set all buttons to the right of the clicked button to emptyActionPointImage
             for (int i = clickedIndex + 1; i < apButtons.Length; i++)
@@ -78,10 +92,42 @@ public class ActionEconomy : MonoBehaviour
             // Set all buttons to the left of the clicked button to actionPointImage
             for (int i = clickedIndex - 1; i >= 0; i--)
             {   
-                apButtons[i].image.sprite = actionPointImage;
+                apButtons[i].image.sprite = turnSprite;
             }
 
-            clickedButton.image.sprite = actionPointImage;
+            clickedButton.image.sprite = turnSprite;
+        }
+    }
+
+    public void TurnManager(){
+
+        if(turnButton.image.sprite == endTurn){
+
+            turnButton.image.sprite = startTurn;
+            turnSprite = reactionPointImage;
+            TurnStartUpdate();
+
+        } else {
+
+            turnButton.image.sprite = endTurn;
+            turnSprite = actionPointImage;
+            TurnEndUpdate();
+        }
+    }
+    void TurnStartUpdate(){
+
+        foreach (Button button in apButtons)
+        {
+            if(button.image.sprite == actionPointImage){
+                button.image.sprite = turnSprite;
+            }
+        }
+    }
+
+    void TurnEndUpdate(){
+        foreach (Button button in apButtons)
+        {
+            button.image.sprite = turnSprite;
         }
     }
 }
