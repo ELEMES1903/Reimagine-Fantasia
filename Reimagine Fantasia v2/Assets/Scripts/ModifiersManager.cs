@@ -11,30 +11,58 @@ public class Modifier
 
 public class ModifiersManager : MonoBehaviour
 {
-    public void AddModifierToElement(string elementName, string modifierName, int modifierValue, List<AttributeStat> attributes)
+    public void AddModifierToElement(string elementName, string modifierName, int modifierValue, List<StatManager.Stat> stats, List<AttributeStat> attributes)
     {
-        // Check if the element is an attribute
-        AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
-        if (attribute != null)
+        // Check if the element is a stat
+        StatManager.Stat stat = stats.FirstOrDefault(s => s.name == elementName);
+        if (stat != null)
         {
-            AddModifierToAttribute(attribute, modifierName, modifierValue);
+            AddModifierToStat(stat, modifierName, modifierValue);
         }
         else
         {
-            // Check if the element is a skill
-            foreach (AttributeStat attr in attributes)
+            // Check if the element is an attribute
+            AttributeStat attribute = attributes.FirstOrDefault(a => a.name == elementName);
+            if (attribute != null)
             {
-                Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
-                if (skill != null)
+                AddModifierToAttribute(attribute, modifierName, modifierValue);
+            }
+            else
+            {
+                // Check if the element is a skill
+                foreach (AttributeStat attr in attributes)
                 {
-                    AddModifierToSkill(skill, modifierName, modifierValue);
-                    return;
+                    Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
+                    if (skill != null)
+                    {
+                        AddModifierToSkill(skill, modifierName, modifierValue);
+                        return;
+                    }
                 }
             }
             Debug.LogWarning("Element with name '" + elementName + "' not found.");
         }
     }
 
+    private void AddModifierToStat(StatManager.Stat stat, string modifierName, int modifierValue)
+    {
+        // Find the Modifiers array for the stat
+        Modifier[] modifiers = stat.modifiers;
+
+        // Create a new modifier
+        Modifier newModifier = new Modifier();
+        newModifier.name = modifierName;
+        newModifier.value = modifierValue;
+
+        // Add the new modifier to the Modifiers array
+        System.Array.Resize(ref modifiers, modifiers.Length + 1);
+        modifiers[modifiers.Length - 1] = newModifier;
+
+        // Assign the modified Modifiers array back to the stat
+        stat.modifiers = modifiers;
+
+        Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to stat '" + stat.name + "'.");
+    }
     private void AddModifierToAttribute(AttributeStat attribute, string modifierName, int modifierValue)
     {
         // Find the Modifiers array for the attribute
@@ -75,27 +103,56 @@ public class ModifiersManager : MonoBehaviour
         Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to skill '" + skill.name + "'.");
     }
 
-    public void RemoveModifier(string elementName, string modifierName, List<AttributeStat> attributes)
+    public void RemoveModifier(string elementName, string modifierName, List<StatManager.Stat> stats, List<AttributeStat> attributes)
     {
-        // Check if the element is an attribute
-        AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
-        if (attribute != null)
+        // Check if the element is a stat
+        StatManager.Stat stat = stats.FirstOrDefault(s => s.name == elementName);
+        if (stat != null)
         {
-            RemoveModifierFromAttribute(attribute, modifierName);
+            RemoveModifierFromStat(stat, modifierName);
         }
         else
         {
-            // Check if the element is a skill
-            foreach (AttributeStat attr in attributes)
+            // Check if the element is an attribute
+            AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
+            if (attribute != null)
             {
-                Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
-                if (skill != null)
-                {
-                    RemoveModifierFromSkill(skill, modifierName);
-                    return;
-                }
+                RemoveModifierFromAttribute(attribute, modifierName);
             }
-            Debug.LogWarning("Element with name '" + elementName + "' not found.");
+            else
+            {
+                // Check if the element is a skill
+                foreach (AttributeStat attr in attributes)
+                {
+                    Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
+                    if (skill != null)
+                    {
+                        RemoveModifierFromSkill(skill, modifierName);
+                        return;
+                    }
+                }
+                Debug.LogWarning("Element with name '" + elementName + "' not found.");
+            }
+        }
+    }
+    private void RemoveModifierFromStat(StatManager.Stat stat, string modifierName)
+    {
+        // Find the modifier in the Modifiers array for the stat
+        Modifier[] modifiers = stat.modifiers;
+        int index = System.Array.FindIndex(modifiers, mod => mod.name == modifierName);
+
+        if (index != -1)
+        {
+            // Remove the modifier from the Modifiers array
+            List<Modifier> modifierList = modifiers.ToList();
+            modifierList.RemoveAt(index);
+            stat.modifiers = modifierList.ToArray();
+
+            Debug.Log("Removed modifier '" + modifierName + "' from stat '" + stat.name + "'.");
+        }
+        else
+        {
+            Debug.LogWarning("Modifier '" + modifierName + "' not found in stat '" + stat.name + "'.");
         }
     }
 
