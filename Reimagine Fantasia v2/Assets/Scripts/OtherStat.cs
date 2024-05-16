@@ -44,10 +44,10 @@ public class OtherStat : MonoBehaviour
         if (attributeAndSkill != null && attributeAndSkill.attributes != null)
         {
             // Loop through each attribute
-            foreach (AttributeStat attribute in attributeAndSkill.attributes)
+            foreach (AttributeArray attribute in attributeAndSkill.attributes)
             {
                 // Loop through each skill in the current attribute
-                foreach (Skills skill in attribute.skills)
+                foreach (SkillArray skill in attribute.skills)
                 {
                     if (skill.name == "Instinct")
                     {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 [System.Serializable]
 public class Modifier
@@ -11,190 +12,162 @@ public class Modifier
 
 public class ModifiersManager : MonoBehaviour
 {
-    public void AddModifierToElement(string elementName, string modifierName, int modifierValue, List<StatManager.Stat> stats, List<AttributeStat> attributes)
+    public AttributeAndSkill attributeAndSkill;
+    public StatManager statManager;
+    
+
+    void Start(){
+
+        FindElement("Instinct", "crippled", -2);
+    }
+    public void FindElement(string elementName, string modifierName, int modifierValue)
     {
+        object cherry = null;
+
         // Check if the element is a stat
-        StatManager.Stat stat = stats.FirstOrDefault(s => s.name == elementName);
-        if (stat != null)
+        StatArray stats = statManager.stats.FirstOrDefault(s => s.name == elementName);
+        if (stats != null)
         {
-            AddModifierToStat(stat, modifierName, modifierValue);
+            cherry = stats;
         }
         else
         {
             // Check if the element is an attribute
-            AttributeStat attribute = attributes.FirstOrDefault(a => a.name == elementName);
+            AttributeArray attribute = attributeAndSkill.attributes.FirstOrDefault(a => a.name == elementName);
             if (attribute != null)
             {
-                AddModifierToAttribute(attribute, modifierName, modifierValue);
+                cherry = attribute;
             }
             else
             {
                 // Check if the element is a skill
-                foreach (AttributeStat attr in attributes)
+                foreach (AttributeArray attr in attributeAndSkill.attributes)
                 {
-                    Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
+                    SkillArray skill = attr.skills.FirstOrDefault(s => s.name == elementName);
+
                     if (skill != null)
                     {
-                        AddModifierToSkill(skill, modifierName, modifierValue);
-                        return;
+                        
+                        cherry = skill;
+                    } else {
+                        Debug.LogWarning("Element with name '" + elementName + "' not found.");
                     }
                 }
             }
-            Debug.LogWarning("Element with name '" + elementName + "' not found.");
         }
+
+        if(modifierValue == 0){
+            RemoveModifier(cherry, modifierName);
+        } else {
+            AddModifier(cherry, modifierName, modifierValue);
+        }
+        
     }
 
-    private void AddModifierToStat(StatManager.Stat stat, string modifierName, int modifierValue)
+    private void AddModifier(object cherry, string modifierName, int modifierValue)
     {
-        // Find the Modifiers array for the stat
-        Modifier[] modifiers = stat.modifiers;
-
-        // Create a new modifier
         Modifier newModifier = new Modifier();
         newModifier.name = modifierName;
         newModifier.value = modifierValue;
 
-        // Add the new modifier to the Modifiers array
-        System.Array.Resize(ref modifiers, modifiers.Length + 1);
-        modifiers[modifiers.Length - 1] = newModifier;
-
-        // Assign the modified Modifiers array back to the stat
-        stat.modifiers = modifiers;
-
-        Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to stat '" + stat.name + "'.");
-    }
-    private void AddModifierToAttribute(AttributeStat attribute, string modifierName, int modifierValue)
-    {
-        // Find the Modifiers array for the attribute
-        Modifier[] modifiers = attribute.modifiers;
-
-        // Create a new modifier
-        Modifier newModifier = new Modifier();
-        newModifier.name = modifierName;
-        newModifier.value = modifierValue;
-
-        // Add the new modifier to the Modifiers array
-        System.Array.Resize(ref modifiers, modifiers.Length + 1);
-        modifiers[modifiers.Length - 1] = newModifier;
-
-        // Assign the modified Modifiers array back to the attribute
-        attribute.modifiers = modifiers;
-
-        Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to attribute '" + attribute.name + "'.");
-    }
-
-    private void AddModifierToSkill(Skills skill, string modifierName, int modifierValue)
-    {
-        // Find the Modifiers array for the skill
-        Modifier[] modifiers = skill.modifiers;
-
-        // Create a new modifier
-        Modifier newModifier = new Modifier();
-        newModifier.name = modifierName;
-        newModifier.value = modifierValue;
-
-        // Add the new modifier to the Modifiers array
-        System.Array.Resize(ref modifiers, modifiers.Length + 1);
-        modifiers[modifiers.Length - 1] = newModifier;
-
-        // Assign the modified Modifiers array back to the skill
-        skill.modifiers = modifiers;
-
-        Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to skill '" + skill.name + "'.");
-    }
-
-    public void RemoveModifier(string elementName, string modifierName, List<StatManager.Stat> stats, List<AttributeStat> attributes)
-    {
-        // Check if the element is a stat
-        StatManager.Stat stat = stats.FirstOrDefault(s => s.name == elementName);
-        if (stat != null)
+        if (cherry is StatArray)
         {
-            RemoveModifierFromStat(stat, modifierName);
+            StatArray stats = (StatArray)cherry;
+            Modifier[] modifiers = stats.modifiers;
+            Array.Resize(ref modifiers, modifiers.Length + 1);
+            modifiers[modifiers.Length - 1] = newModifier;
+            stats.modifiers = modifiers;
+
+            Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to stat array '" + stats.name + "'.");
+        }
+        else if (cherry is AttributeArray)
+        {
+            AttributeArray attribute = (AttributeArray)cherry;
+            Modifier[] modifiers = attribute.modifiers;
+            Array.Resize(ref modifiers, modifiers.Length + 1);
+            modifiers[modifiers.Length - 1] = newModifier;
+            attribute.modifiers = modifiers;
+
+            Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to attribute array '" + attribute.name + "'.");
+        }
+        else if (cherry is SkillArray)
+        {
+            SkillArray skill = (SkillArray)cherry;
+            Modifier[] modifiers = skill.modifiers;
+            Array.Resize(ref modifiers, modifiers.Length + 1);
+            modifiers[modifiers.Length - 1] = newModifier;
+            skill.modifiers = modifiers;
+
+            Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to skill '" + skill.name + "'.");
         }
         else
         {
-            // Check if the element is an attribute
-            AttributeStat attribute = attributes.FirstOrDefault(attr => attr.name == elementName);
-            if (attribute != null)
+            Debug.LogWarning("Invalid element type.");
+        }
+    }
+
+    private void RemoveModifier(object cherry, string modifierName)
+    {
+        if (cherry is StatArray)
+        {
+            StatArray statArray = (StatArray)cherry;
+            Modifier[] modifiers = statArray.modifiers;
+            int index = Array.FindIndex(modifiers, mod => mod.name == modifierName);
+
+            if (index != -1)
             {
-                RemoveModifierFromAttribute(attribute, modifierName);
+                List<Modifier> modifierList = modifiers.ToList();
+                modifierList.RemoveAt(index);
+                statArray.modifiers = modifierList.ToArray();
+
+                Debug.Log("Removed modifier '" + modifierName + "' from stat array '" + statArray.name + "'.");
             }
             else
             {
-                // Check if the element is a skill
-                foreach (AttributeStat attr in attributes)
-                {
-                    Skills skill = attr.skills.FirstOrDefault(s => s.name == elementName);
-                    if (skill != null)
-                    {
-                        RemoveModifierFromSkill(skill, modifierName);
-                        return;
-                    }
-                }
-                Debug.LogWarning("Element with name '" + elementName + "' not found.");
+                Debug.LogWarning("Modifier '" + modifierName + "' not found in stat array '" + statArray.name + "'.");
             }
         }
-    }
-    private void RemoveModifierFromStat(StatManager.Stat stat, string modifierName)
-    {
-        // Find the modifier in the Modifiers array for the stat
-        Modifier[] modifiers = stat.modifiers;
-        int index = System.Array.FindIndex(modifiers, mod => mod.name == modifierName);
-
-        if (index != -1)
+        else if (cherry is AttributeArray)
         {
-            // Remove the modifier from the Modifiers array
-            List<Modifier> modifierList = modifiers.ToList();
-            modifierList.RemoveAt(index);
-            stat.modifiers = modifierList.ToArray();
+            AttributeArray attributeArray = (AttributeArray)cherry;
+            Modifier[] modifiers = attributeArray.modifiers;
+            int index = Array.FindIndex(modifiers, mod => mod.name == modifierName);
 
-            Debug.Log("Removed modifier '" + modifierName + "' from stat '" + stat.name + "'.");
+            if (index != -1)
+            {
+                List<Modifier> modifierList = modifiers.ToList();
+                modifierList.RemoveAt(index);
+                attributeArray.modifiers = modifierList.ToArray();
+
+                Debug.Log("Removed modifier '" + modifierName + "' from attribute array '" + attributeArray.name + "'.");
+            }
+            else
+            {
+                Debug.LogWarning("Modifier '" + modifierName + "' not found in attribute array '" + attributeArray.name + "'.");
+            }
+        }
+        else if (cherry is SkillArray)
+        {
+            SkillArray skillArray = (SkillArray)cherry;
+            Modifier[] modifiers = skillArray.modifiers;
+            int index = Array.FindIndex(modifiers, mod => mod.name == modifierName);
+
+            if (index != -1)
+            {
+                List<Modifier> modifierList = modifiers.ToList();
+                modifierList.RemoveAt(index);
+                skillArray.modifiers = modifierList.ToArray();
+
+                Debug.Log("Removed modifier '" + modifierName + "' from skill array '" + skillArray.name + "'.");
+            }
+            else
+            {
+                Debug.LogWarning("Modifier '" + modifierName + "' not found in skill array '" + skillArray.name + "'.");
+            }
         }
         else
         {
-            Debug.LogWarning("Modifier '" + modifierName + "' not found in stat '" + stat.name + "'.");
-        }
-    }
-
-    private void RemoveModifierFromAttribute(AttributeStat attribute, string modifierName)
-    {
-        // Find the modifier in the Modifiers array for the attribute
-        Modifier[] modifiers = attribute.modifiers;
-        int index = System.Array.FindIndex(modifiers, mod => mod.name == modifierName);
-
-        if (index != -1)
-        {
-            // Remove the modifier from the Modifiers array
-            List<Modifier> modifierList = modifiers.ToList();
-            modifierList.RemoveAt(index);
-            attribute.modifiers = modifierList.ToArray();
-
-            Debug.Log("Removed modifier '" + modifierName + "' from attribute '" + attribute.name + "'.");
-        }
-        else
-        {
-            Debug.LogWarning("Modifier '" + modifierName + "' not found in attribute '" + attribute.name + "'.");
-        }
-    }
-
-    private void RemoveModifierFromSkill(Skills skill, string modifierName)
-    {
-        // Find the modifier in the Modifiers array for the skill
-        Modifier[] modifiers = skill.modifiers;
-        int index = System.Array.FindIndex(modifiers, mod => mod.name == modifierName);
-
-        if (index != -1)
-        {
-            // Remove the modifier from the Modifiers array
-            List<Modifier> modifierList = modifiers.ToList();
-            modifierList.RemoveAt(index);
-            skill.modifiers = modifierList.ToArray();
-
-            Debug.Log("Removed modifier '" + modifierName + "' from skill '" + skill.name + "'.");
-        }
-        else
-        {
-            Debug.LogWarning("Modifier '" + modifierName + "' not found in skill '" + skill.name + "'.");
+            Debug.LogWarning("Invalid element type.");
         }
     }
 }

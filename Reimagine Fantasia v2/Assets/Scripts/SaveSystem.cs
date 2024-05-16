@@ -114,11 +114,11 @@ public class SaveSystem : MonoBehaviour
 
     public void UpdateAll()
     {
-        foreach (AttributeStat attribute in attributeAndSkill.attributes)
+        foreach (AttributeArray attribute in attributeAndSkill.attributes)
         {
             attributeAndSkill.CalculateTotalValue(attribute);
 
-            foreach (Skills skill in attribute.skills)
+            foreach (SkillArray skill in attribute.skills)
             {
                 attributeAndSkill.CalculateTotalValue(skill);
             }

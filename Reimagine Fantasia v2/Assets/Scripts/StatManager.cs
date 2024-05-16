@@ -4,16 +4,18 @@ using TMPro;
 using UnityEngine;
 
 [System.Serializable]
-    public class Stat
+    public class StatArray
     {
         public string name;
-        public TMP_InputField stat;
+        public TMP_InputField statInput;
         public Modifier[] modifiers;
     }
+
 public class StatManager : MonoBehaviour
 {
-    void Start(){
+    public StatArray[] stats;
 
+    void Start (){
 
         
     }

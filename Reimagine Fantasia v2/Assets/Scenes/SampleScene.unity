@@ -13633,6 +13633,7 @@ GameObject:
   - component: {fileID: 1145421951}
   - component: {fileID: 1145421952}
   - component: {fileID: 1145421953}
+  - component: {fileID: 1145421954}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -13673,7 +13674,9 @@ MonoBehaviour:
     inputField: {fileID: 977776452}
     baseValue: 0
     modifiedValue: 0
-    modifiers: []
+    modifiers:
+    - name: 
+      value: 0
     skills:
     - name: Agility
       baseValue: 0
@@ -13715,6 +13718,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e308204e1e305f64987c5caa9426d7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attributeAndSkill: {fileID: 1145421945}
+  statManager: {fileID: 1145421954}
 --- !u!114 &1145421947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13872,12 +13877,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conditions:
   - name: Weakened
+    conMaxDuration: 0
     conDuration: 2
+    modifierString: 
+    isActivated: {fileID: 0}
   - name: Dumb
+    conMaxDuration: 0
     conDuration: 2
+    modifierString: 
+    isActivated: {fileID: 0}
   conDropdown: {fileID: 650719773}
   conInput: {fileID: 2055068782}
-  conButton: {fileID: 2119218279}
+  addConButton: {fileID: 0}
+  removeConButton: {fileID: 0}
+  conditionList: {fileID: 0}
+--- !u!114 &1145421954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145421941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46160f97ef3ef614597347d8fa0d7da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: []
 --- !u!1 &1161932336
 GameObject:
   m_ObjectHideFlags: 0

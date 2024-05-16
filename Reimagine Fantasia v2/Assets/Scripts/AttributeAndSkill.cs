@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Skills
+public class SkillArray
 {
     public string name;
     public int baseValue;
@@ -18,33 +18,33 @@ public class Skills
 }
 
 [System.Serializable]
-public class AttributeStat
+public class AttributeArray
 {
     public string name;
     public TMP_InputField inputField;
     public int baseValue;
     public int modifiedValue;
     public Modifier[] modifiers;
-    public Skills[] skills;
+    public SkillArray[] skills;
 
 }
 
 public class AttributeAndSkill : MonoBehaviour
 {
     public int profeciency = 2;
-    public AttributeStat[] attributes;
+    public AttributeArray[] attributes;
     public OtherStat otherStat;
 
     void Start()
     {
 
         // Initialize input field listeners
-        foreach (AttributeStat attribute in attributes)
+        foreach (AttributeArray attribute in attributes)
         {
             attribute.inputField.onEndEdit.AddListener(delegate { UpdateBaseValue(attribute); });
 
             // Add listener for proficientToggle changes
-            foreach (Skills skill in attribute.skills)
+            foreach (SkillArray skill in attribute.skills)
             {
                 skill.proficientToggle.onValueChanged.AddListener((bool value) => OnProficientToggleChanged(skill, value));
                 skill.signatureToggle.onValueChanged.AddListener((bool value) => OnSignatureToggleChanged(skill, value));
@@ -58,7 +58,7 @@ public class AttributeAndSkill : MonoBehaviour
     public void AddModifier(string arrayName, string modifierName, int modifierValue, bool isAdding)
     {
         // Search for the attribute or skill array with the same string as the parameter
-        foreach (AttributeStat attribute in attributes)
+        foreach (AttributeArray attribute in attributes)
         {
             // Check if the attribute name matches
             if (attribute.name == arrayName)
@@ -69,7 +69,7 @@ public class AttributeAndSkill : MonoBehaviour
             }
 
             // Check if any skill array name matches
-            foreach (Skills skill in attribute.skills)
+            foreach (SkillArray skill in attribute.skills)
             {
                 if (skill.name == arrayName)
                 {
@@ -123,9 +123,9 @@ public class AttributeAndSkill : MonoBehaviour
     public void CalculateTotalValue(object obj)
     {
         // Check if the object is an Attributes
-        if (obj is AttributeStat)
+        if (obj is AttributeArray)
         {
-            AttributeStat attribute = (AttributeStat)obj;
+            AttributeArray attribute = (AttributeArray)obj;
 
             // Calculate sum of modifier values
             int totalModifierValue = attribute.modifiers.Sum(modifier => modifier.value);
@@ -136,7 +136,7 @@ public class AttributeAndSkill : MonoBehaviour
             // Set the totalValue to a new property in Attributes
             attribute.modifiedValue = totalValue;
 
-            foreach (Skills skills in attribute.skills){
+            foreach (SkillArray skills in attribute.skills){
 
                 skills.baseValue = attribute.modifiedValue;
                 CalculateTotalValue(skills);
@@ -145,9 +145,9 @@ public class AttributeAndSkill : MonoBehaviour
             
         }
         // Check if the object is a Skills
-        else if (obj is Skills)
+        else if (obj is SkillArray)
         {
-            Skills skill = (Skills)obj;
+            SkillArray skill = (SkillArray)obj;
 
             // Calculate sum of modifier values
             int totalModifierValue = skill.modifiers.Sum(modifier => modifier.value);
@@ -163,7 +163,7 @@ public class AttributeAndSkill : MonoBehaviour
     }
 
     // Method to update base value when input field value changes
-    void UpdateBaseValue(AttributeStat attribute)
+    void UpdateBaseValue(AttributeArray attribute)
     {
         if (int.TryParse(attribute.inputField.text, out int newValue))
         {
@@ -175,12 +175,12 @@ public class AttributeAndSkill : MonoBehaviour
 
     void UpdateText()
     {
-        foreach (AttributeStat attribute in attributes){
+        foreach (AttributeArray attribute in attributes){
             attribute.inputField.text = attribute.baseValue.ToString() + " (" + attribute.modifiedValue.ToString() + ")";
         }
     }
 
-    void OnProficientToggleChanged(Skills skill, bool value)
+    void OnProficientToggleChanged(SkillArray skill, bool value)
     {
         if (value)
         {
@@ -192,7 +192,7 @@ public class AttributeAndSkill : MonoBehaviour
         }
     }
 
-    void OnSignatureToggleChanged(Skills skill, bool value)
+    void OnSignatureToggleChanged(SkillArray skill, bool value)
     {
         if (value)
         {
