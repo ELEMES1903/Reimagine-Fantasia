@@ -1,41 +1,46 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Condition
+public class ConditionArray
 {
     public string name;
     public int conMaxDuration;
     public int conDuration;
-    public string modifierString;
-    public Toggle isActivated;
+    public string affectingStatName;
+    public int modifier;
+    public string conEffectInText;
+    public bool isActive;
 }
 
 public class Conditions : MonoBehaviour
 {
-    public Condition[] conditions;
-    
-    public TMP_Dropdown conDropdown;
-    
-    //public TMP_Dropdown durationDropdown;
-    public TMP_InputField conInput;
-    public Button addConButton;
-    public Button removeConButton;
+    public ConditionArray[] conditions;
+    public ModifiersManager modifiersManager;
 
+
+    public TMP_InputField conInput;
+    public Button applyButton;
+    public Button decreaseConDuration;
     public TMP_Text conditionList;
+
     private List<string> allDropdownOptions; // All options in the dropdown
+    public TMP_Dropdown conDropdown;
+    public TMP_Dropdown durationDropdown;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        // Condition Options Dropdown Set Up
         allDropdownOptions = new List<string>();
 
-        // Populate dropdown options with condition names
         List<string> dropdownOptions = new List<string>();
-        foreach (Condition condition in conditions)
+        foreach (ConditionArray condition in conditions)
         {
             dropdownOptions.Add(condition.name);
             allDropdownOptions.Add(condition.name); 
@@ -43,20 +48,24 @@ public class Conditions : MonoBehaviour
         conDropdown.ClearOptions();
         conDropdown.AddOptions(dropdownOptions);
 
+
+        // Condition Duration Option Dropdown Set Up
+        List<string> durationDropdownOptions = new List<string>();
+        durationDropdownOptions.Add("Add");
+        durationDropdownOptions.Add("Set to 1 Turn");
+        durationDropdownOptions.Add("Set to 2 Turn");
+        durationDropdownOptions.Add("Set to 3 Turn");
+        durationDropdownOptions.Add("Set to 4 Turn");
+        durationDropdownOptions.Add("Remove");
+        
+        durationDropdown.ClearOptions();
+        durationDropdown.AddOptions(durationDropdownOptions);
+
+        // UI Listener Set Up
         conInput.onValueChanged.AddListener(OnInputValueChanged);
-        addConButton.onClick.AddListener(AddCondition);
-        //removeConButton.onClick.AddListener(RemoveCondition);
-    }
-
-    void Update()
-    {
-        foreach(Condition condition in conditions){
-
-            if(condition.isActivated.isOn){
-
-
-            }
-        }
+        applyButton.onClick.AddListener(AddRemoveCondition);
+        decreaseConDuration.onClick.AddListener(DecreaseConDuration);
+        
     }
 
     // Listener for conInput's onValueChanged event
@@ -74,43 +83,49 @@ public class Conditions : MonoBehaviour
         List<string> filteredOptions = new List<string>();
         foreach (string option in allDropdownOptions)
         {
-            if (option.ToLower().Contains(newValue.ToLower())) // Case-insensitive check
+            if (option.ToLower().Contains(newValue.ToLower()))
             {
                 filteredOptions.Add(option);
             }
         }
         conDropdown.ClearOptions();
         conDropdown.AddOptions(filteredOptions);
-    }
+    }   
 
-    // Listener for conButton's onClick event
-    void AddCondition()
+    void AddRemoveCondition()
     {
         // Get the selected condition name from the dropdown
         string selectedConditionName = conDropdown.options[conDropdown.value].text;
-        //string durationValue = durationDropdown.options[durationDropdown.value].text;
 
         // Find the condition with the selected name
-        Condition selectedCondition = Array.Find(conditions, condition => condition.name == selectedConditionName);
-
-        //int duration = int.Parse(durationValue);
+        ConditionArray con = Array.Find(conditions, condition => condition.name == selectedConditionName);
         
         // If the condition is found, invoke its Execute method using reflection
-        if (selectedCondition != null)
+        if (con != null)
         {
-            selectedCondition.isActivated.isOn = true;
-            selectedCondition.conDuration = selectedCondition.conMaxDuration;
-            //selectedCondition.conDuration = duration;
+            
+            if(durationDropdown.value == 0){
+                
+                // If dropdown set to "Normal", set conDuration to conMaxDuration
+                con.conDuration = con.conMaxDuration;
+                con.isActive = true;
 
-            System.Reflection.MethodInfo method = typeof(Conditions).GetMethod(selectedConditionName);
-            if (method != null)
-            {
-                method.Invoke(this, null);
+                // Add condition to the designated element to affect it
+                modifiersManager.FindElement(con.affectingStatName, con.name, con.modifier);
+
+            } else if(durationDropdown.value == 5){
+
+                // If dropdown set to "Remove", find the condition and remove it from the array
+                modifiersManager.FindElement(con.affectingStatName, con.name, 0);
+                con.isActive = false;
+
+            } else {
+
+                //If dropdown set to "Set to X turn", set conDuration to X
+                con.conDuration = durationDropdown.value;
             }
-            else
-            {
-                Debug.LogWarning($"Method {selectedConditionName} not found.");
-            }
+
+            ConditionListUpdate();
         }
         else
         {
@@ -118,4 +133,35 @@ public class Conditions : MonoBehaviour
         }
     }
 
+    public void DecreaseConDuration()
+    {
+        foreach (ConditionArray condition in conditions){
+
+            if(condition.isActive == true){
+            
+                condition.conDuration -= 1;
+
+                if(condition.conDuration == 0){
+
+                    condition.conDuration = condition.conMaxDuration;
+                    condition.isActive = false;
+                    modifiersManager.FindElement(condition.affectingStatName, condition.name, 0);
+                }
+            }
+            ConditionListUpdate();
+        }
+    }
+
+    public void ConditionListUpdate()
+    {
+        conditionList.text = "";
+
+        foreach (ConditionArray condition in conditions){
+
+            if(condition.isActive == true){
+
+                conditionList.text += $"\n<b>- <color=#FF6666>{condition.name}</color> for <color=#FF6666>{condition.conDuration}</color> turns.</b>\n     ({condition.conEffectInText})";
+            }
+        }
+    }
 }

@@ -8,18 +8,28 @@ public class Modifier
 {
     public string name;
     public int value;
+    
 }
 
 public class ModifiersManager : MonoBehaviour
 {
     public AttributeAndSkill attributeAndSkill;
     public StatManager statManager;
-    
 
     void Start(){
 
-        FindElement("Instinct", "crippled", -2);
+        FindElement("Miss Score", "crippled", -2);
     }
+
+    void Update()
+    {
+        // Check if the space bar is pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            FindElement("Miss Score", "crippled", -2);
+        }
+    }
+
     public void FindElement(string elementName, string modifierName, int modifierValue)
     {
         object cherry = null;
@@ -74,6 +84,14 @@ public class ModifiersManager : MonoBehaviour
         {
             StatArray stats = (StatArray)cherry;
             Modifier[] modifiers = stats.modifiers;
+
+            // Check if a modifier with the same name already exists
+            if (modifiers.Any(mod => mod.name == modifierName))
+            {
+                Debug.LogWarning("Modifier '" + modifierName + "' already exists in skill array '" + stats.name + "'.");
+                return;
+            }
+
             Array.Resize(ref modifiers, modifiers.Length + 1);
             modifiers[modifiers.Length - 1] = newModifier;
             stats.modifiers = modifiers;
@@ -84,6 +102,14 @@ public class ModifiersManager : MonoBehaviour
         {
             AttributeArray attribute = (AttributeArray)cherry;
             Modifier[] modifiers = attribute.modifiers;
+
+            // Check if a modifier with the same name already exists
+            if (modifiers.Any(mod => mod.name == modifierName))
+            {
+                Debug.LogWarning("Modifier '" + modifierName + "' already exists in skill array '" + attribute.name + "'.");
+                return;
+            }
+
             Array.Resize(ref modifiers, modifiers.Length + 1);
             modifiers[modifiers.Length - 1] = newModifier;
             attribute.modifiers = modifiers;
@@ -94,6 +120,14 @@ public class ModifiersManager : MonoBehaviour
         {
             SkillArray skill = (SkillArray)cherry;
             Modifier[] modifiers = skill.modifiers;
+
+            // Check if a modifier with the same name already exists
+            if (modifiers.Any(mod => mod.name == modifierName))
+            {
+                Debug.LogWarning("Modifier '" + modifierName + "' already exists in skill array '" + skill.name + "'.");
+                return;
+            }
+            
             Array.Resize(ref modifiers, modifiers.Length + 1);
             modifiers[modifiers.Length - 1] = newModifier;
             skill.modifiers = modifiers;
