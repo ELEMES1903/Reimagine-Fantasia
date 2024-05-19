@@ -1,86 +1,96 @@
-using System.Buffers.Text;
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System.Linq;
-using UnityEngine.UI;
 
+[System.Serializable]
+public class StatArray
+{
+    public string name;
+    public Modifier[] modifiers;
+}
 
 public class OtherStat : MonoBehaviour
 {
+    public StatArray[] stats;
 
-    //Miss, Armor, and Protection Score
-    int baseMissScore;
     public TMP_InputField baseMissScoreInput;
+    public TMP_InputField armorScoreInput;
+    public TMP_InputField freeMovementInput;
+
+    public int baseMissScore = 3;
     public int instinctScore;
     public int missScore;
-    
     public int armorScore;
-    public TMP_InputField armorScoreInput;
-    int protectionScore;
-
+    public int protectionScore;
+    public int freeMovement;
     public AttributeAndSkill attributeAndSkill;
 
-    // Start is called before the first frame update
-    void Start()
-    {   
+    private void Start()
+    {
         baseMissScoreInput.characterLimit = 2;
         armorScoreInput.characterLimit = 2;
 
-        baseMissScore = 3;
         baseMissScoreInput.onEndEdit.AddListener(delegate { UpdateMissScore(); });
         armorScoreInput.onEndEdit.AddListener(delegate { UpdateProtectionScore(); });
-    }
+        freeMovementInput.onEndEdit.AddListener(delegate { UpdateFreeMovement(); });
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
-
-    public void UpdateInstinctScore()
+    public void UpdateAll()
     {
-        // Check if attributeAndSkill is not null and it has attributes
-        if (attributeAndSkill != null && attributeAndSkill.attributes != null)
-        {
-            // Loop through each attribute
-            foreach (AttributeArray attribute in attributeAndSkill.attributes)
-            {
-                // Loop through each skill in the current attribute
-                foreach (SkillArray skill in attribute.skills)
-                {
-                    if (skill.name == "Instinct")
-                    {
-                        instinctScore = skill.modifiedValue;
-                    } else
-                    {
-                        instinctScore = 0;
-                    }
-                }
-            }
-        }
         UpdateMissScore();
         UpdateProtectionScore();
-    } 
+        UpdateFreeMovement();
+    }
+    public void CalculateInstinctScore()
+    {
+        instinctScore = attributeAndSkill?.attributes
+            .SelectMany(attribute => attribute.skills)
+            .Where(skill => skill.name == "Instinct")
+            .Sum(skill => skill.modifiedValue) ?? 0;
+    }
 
-    public void UpdateMissScore(){
+    private void UpdateMissScore()
+    {
+        CalculateInstinctScore();
 
         if (int.TryParse(baseMissScoreInput.text, out int newValue))
         {
             baseMissScore = newValue;
         }
-        missScore = baseMissScore + instinctScore;
+
+        int totalValue = GetTotalModifierValue("Miss Score");
+        missScore = baseMissScore + instinctScore + totalValue;
         baseMissScoreInput.text = $"{missScore}";
     }
 
-    public void UpdateProtectionScore()
+    private void UpdateProtectionScore()
     {
         if (int.TryParse(armorScoreInput.text, out int newValue))
         {
             armorScore = newValue;
         }
-        protectionScore = armorScore + missScore;
+
+        int totalValue = GetTotalModifierValue("Armor Score");
+        protectionScore = armorScore + missScore + totalValue;
         armorScoreInput.text = $"{armorScore} ({protectionScore})";
+    }
+
+    private void UpdateFreeMovement()
+    {
+        if (int.TryParse(freeMovementInput.text, out int newValue))
+        {
+            freeMovement = newValue;
+        }
+
+        int totalValue = GetTotalModifierValue("Free Movement");
+        freeMovement = freeMovement + totalValue;
+        freeMovementInput.text = $"{freeMovement} meters";
+    }
+
+    private int GetTotalModifierValue(string name)
+    {
+        StatArray stat = stats.FirstOrDefault(s => s.name == name);
+        return stat?.modifiers.Sum(modifier => modifier.value) ?? 0;
     }
 }

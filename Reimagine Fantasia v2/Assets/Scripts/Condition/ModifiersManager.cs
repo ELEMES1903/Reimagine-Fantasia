@@ -14,8 +14,8 @@ public class Modifier
 public class ModifiersManager : MonoBehaviour
 {
     public AttributeAndSkill attributeAndSkill;
-    public StatManager statManager;
-
+    public OtherStat otherStat;
+    
     void Update(){
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -29,7 +29,7 @@ public class ModifiersManager : MonoBehaviour
         object cherry = null;
 
         // Check if the element is a stat
-        StatArray stats = statManager.stats.FirstOrDefault(s => s.name == elementName);
+        StatArray stats = otherStat.stats.FirstOrDefault(s => s.name == elementName);
         if (stats != null)
         {
             cherry = stats;
@@ -137,6 +137,7 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
+        otherStat.UpdateAll();
     }
 
     private void RemoveModifier(object cherry, string modifierName)
@@ -220,11 +221,12 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
+        otherStat.UpdateAll();
     }
 
     public void RemoveAllModifiers()
     {
-        foreach (StatArray stat in statManager.stats)
+        foreach (StatArray stat in otherStat.stats)
         {
             stat.modifiers = new Modifier[0];
         }
@@ -241,4 +243,6 @@ public class ModifiersManager : MonoBehaviour
 
         Debug.Log("All modifiers have been removed from attributes, skills, and stats.");
     }
+
+    
 }

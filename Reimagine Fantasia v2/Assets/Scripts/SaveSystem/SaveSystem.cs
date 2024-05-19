@@ -16,7 +16,6 @@ public class SaveSystem : MonoBehaviour
     public Stress stress;
     public CustomResource customResource;
     public Conditions conditions;
-    public StatManager statManager;
     public ModifiersManager modifiersManager;
 
     private string savePath;
@@ -73,13 +72,14 @@ public class SaveSystem : MonoBehaviour
                 modifiers = s.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray()
             }).ToArray(),
 
-            statData = statManager.stats.Select(stat => new StatData
+            statData = otherStat.stats.Select(stat => new StatData
             {
                 modifiers = stat.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray()
             }).ToArray(),
 
             missScore = otherStat.missScore,
             armorScore = otherStat.armorScore,
+            freeMovement = otherStat.freeMovement,
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -136,6 +136,7 @@ public class SaveSystem : MonoBehaviour
 
             otherStat.missScore = data.missScore;
             otherStat.armorScore = data.armorScore;
+            otherStat.freeMovement = data.freeMovement;
 
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
@@ -165,7 +166,7 @@ public class SaveSystem : MonoBehaviour
 
             foreach (var stat in data.statData)
             {
-                var statArray = statManager.stats.FirstOrDefault(s => s.name == stat.name);
+                var statArray = otherStat.stats.FirstOrDefault(s => s.name == stat.name);
                 if (statArray != null)
                 {
                     statArray.modifiers = stat.modifiers.Select(m => new Modifier { name = m.name, value = m.value }).ToArray();
@@ -181,7 +182,7 @@ public class SaveSystem : MonoBehaviour
             customResource.UpdateMinMax(customResource.customSlider1, false);
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
-            otherStat.UpdateInstinctScore();
+            otherStat.CalculateInstinctScore();
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
         }
@@ -229,6 +230,7 @@ public class SaveDataStructure
     public string maxValue;
     public string minValue;
     public string resourceName;
+    public int freeMovement;
 }
 
 [System.Serializable]

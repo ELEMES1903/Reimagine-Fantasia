@@ -93,7 +93,7 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValueText.text = skill.modifiedValue.ToString();
         }
         UpdateText();
-        otherStat.UpdateInstinctScore();
+        otherStat.CalculateInstinctScore();
     }
 
     public void UpdateAll(){
