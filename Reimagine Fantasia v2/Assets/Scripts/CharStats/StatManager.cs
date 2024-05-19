@@ -7,7 +7,7 @@ using UnityEngine;
     public class StatArray
     {
         public string name;
-        public TMP_InputField statInput;
+        //public TMP_InputField statInput;
         public Modifier[] modifiers;
     }
 

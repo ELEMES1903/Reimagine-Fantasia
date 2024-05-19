@@ -10,9 +10,9 @@ public class Stress : MonoBehaviour
     public int currentEnergy;
 
     int totalStress;
-    int heavyStress;
-    int normalStress;
-    int lightStress;
+    public int heavyStress;
+    public int normalStress;
+    public int lightStress;
 
     public int weakened;
 
@@ -113,7 +113,7 @@ public class Stress : MonoBehaviour
         CalculateStressAndEnergy();
     }
 
-    private void CalculateStressAndEnergy()
+    public void CalculateStressAndEnergy()
     {
         totalStress = heavyStress + normalStress + lightStress;
         if(totalStress > 16){ totalStress = 16;}

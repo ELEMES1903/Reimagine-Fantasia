@@ -133,6 +133,12 @@ public class AttributeAndSkill : MonoBehaviour
         if (skill.proficientToggle.isOn)
         {
             modifiersManager.FindElement(skill.name, "Proficient", profeciency);
+
+            if(skill.signatureToggle.isOn)
+            {
+                skill.signatureToggle.isOn = false;
+                modifiersManager.FindElement(skill.name, "Signature", 0);
+            }
         }
         else
         {
@@ -145,6 +151,12 @@ public class AttributeAndSkill : MonoBehaviour
         if (skill.signatureToggle.isOn)
         {
             modifiersManager.FindElement(skill.name, "Signature", profeciency*2);
+
+            if(skill.signatureToggle.isOn)
+            {
+                skill.proficientToggle.isOn = false;
+                modifiersManager.FindElement(skill.name, "Proficient", 0);
+            }
         }
         else
         {

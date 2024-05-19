@@ -23,7 +23,6 @@ public class Conditions : MonoBehaviour
     public ModifiersManager modifiersManager;
     public Stress stress;
 
-
     public TMP_InputField conInput;
     public Button applyButton;
     public TMP_Text conditionList;
@@ -32,7 +31,6 @@ public class Conditions : MonoBehaviour
     public TMP_Dropdown conDropdown;
     public TMP_Dropdown durationDropdown;
     
-
     // Start is called before the first frame update
     void Start()
     {

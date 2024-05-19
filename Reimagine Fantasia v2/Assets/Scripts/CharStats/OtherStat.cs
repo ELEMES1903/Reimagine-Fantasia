@@ -41,8 +41,6 @@ public class OtherStat : MonoBehaviour
 
     public void UpdateInstinctScore()
     {
-        Debug.Log("hi");
-        
         // Check if attributeAndSkill is not null and it has attributes
         if (attributeAndSkill != null && attributeAndSkill.attributes != null)
         {

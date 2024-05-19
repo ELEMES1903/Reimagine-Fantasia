@@ -16,6 +16,14 @@ public class ModifiersManager : MonoBehaviour
     public AttributeAndSkill attributeAndSkill;
     public StatManager statManager;
 
+    void Update(){
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            FindElement("Instinct", "crippled", -2);
+        }
+    }
+
     public void FindElement(string elementName, string modifierName, int modifierValue)
     {
         object cherry = null;
@@ -82,6 +90,7 @@ public class ModifiersManager : MonoBehaviour
             Array.Resize(ref modifiers, modifiers.Length + 1);
             modifiers[modifiers.Length - 1] = newModifier;
             stats.modifiers = modifiers;
+            attributeAndSkill.CalculateTotalValue(stats);
 
             Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to stat array '" + stats.name + "'.");
         }
@@ -120,6 +129,7 @@ public class ModifiersManager : MonoBehaviour
             Array.Resize(ref modifiers, modifiers.Length + 1);
             modifiers[modifiers.Length - 1] = newModifier;
             skill.modifiers = modifiers;
+            attributeAndSkill.CalculateTotalValue(skill);
 
             Debug.Log("Added modifier '" + modifierName + "' with value " + modifierValue + " to skill '" + skill.name + "'.");
         }
@@ -142,6 +152,7 @@ public class ModifiersManager : MonoBehaviour
                 List<Modifier> modifierList = modifiers.ToList();
                 modifierList.RemoveAt(index);
                 statArray.modifiers = modifierList.ToArray();
+                attributeAndSkill.CalculateTotalValue(statArray);
 
                 Debug.Log("Removed modifier '" + modifierName + "' from stat array '" + statArray.name + "'.");
             }
@@ -166,6 +177,7 @@ public class ModifiersManager : MonoBehaviour
                 List<Modifier> modifierList = modifiers.ToList();
                 modifierList.RemoveAt(index);
                 attributeArray.modifiers = modifierList.ToArray();
+                attributeAndSkill.CalculateTotalValue(attributeArray);
 
                 Debug.Log("Removed modifier '" + modifierName + "' from attribute array '" + attributeArray.name + "'.");
             }
@@ -190,6 +202,7 @@ public class ModifiersManager : MonoBehaviour
                 List<Modifier> modifierList = modifiers.ToList();
                 modifierList.RemoveAt(index);
                 skillArray.modifiers = modifierList.ToArray();
+                attributeAndSkill.CalculateTotalValue(skillArray);
 
                 Debug.Log("Removed modifier '" + modifierName + "' from skill array '" + skillArray.name + "'.");
             }
@@ -207,5 +220,25 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
+    }
+
+    public void RemoveAllModifiers()
+    {
+        foreach (StatArray stat in statManager.stats)
+        {
+            stat.modifiers = new Modifier[0];
+        }
+
+        foreach (AttributeArray attribute in attributeAndSkill.attributes)
+        {
+            attribute.modifiers = new Modifier[0];
+
+            foreach (SkillArray skill in attribute.skills)
+            {
+                skill.modifiers = new Modifier[0];
+            }
+        }
+
+        Debug.Log("All modifiers have been removed from attributes, skills, and stats.");
     }
 }
