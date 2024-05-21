@@ -13,15 +13,13 @@ public class Modifier
 
 public class ModifiersManager : MonoBehaviour
 {
-    public AttributeAndSkill attributeAndSkill;
-    public OtherStat otherStat;
+    private AttributeAndSkill attributeAndSkill;
+    private OtherStat otherStat;
     
-    void Update(){
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            FindElement("Instinct", "crippled", -2);
-        }
+    void Start()
+    {
+        attributeAndSkill = GetComponent<AttributeAndSkill>();
+        otherStat = GetComponent<OtherStat>();
     }
 
     public void FindElement(string elementName, string modifierName, int modifierValue)

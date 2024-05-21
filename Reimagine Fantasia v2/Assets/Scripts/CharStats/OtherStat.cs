@@ -26,6 +26,17 @@ public class OtherStat : MonoBehaviour
     public int freeMovement;
     public AttributeAndSkill attributeAndSkill;
 
+    private void Awake()
+    {
+        // Get references in Awake to ensure they are ready before Start is called
+        attributeAndSkill = GetComponent<AttributeAndSkill>();
+
+        if (attributeAndSkill == null)
+        {
+            Debug.LogError("AttributeAndSkill component is missing on the GameObject.");
+        }
+    }
+
     private void Start()
     {
         baseMissScoreInput.characterLimit = 2;
@@ -34,7 +45,8 @@ public class OtherStat : MonoBehaviour
         baseMissScoreInput.onEndEdit.AddListener(delegate { UpdateMissScore(); });
         armorScoreInput.onEndEdit.AddListener(delegate { UpdateProtectionScore(); });
         freeMovementInput.onEndEdit.AddListener(delegate { UpdateFreeMovement(); });
-
+        
+        UpdateAll();
     }
     public void UpdateAll()
     {
@@ -44,10 +56,16 @@ public class OtherStat : MonoBehaviour
     }
     public void CalculateInstinctScore()
     {
-        instinctScore = attributeAndSkill?.attributes
-            .SelectMany(attribute => attribute.skills)
-            .Where(skill => skill.name == "Instinct")
-            .Sum(skill => skill.modifiedValue) ?? 0;
+        foreach (AttributeArray attributes in attributeAndSkill.attributes)
+        {
+            foreach (SkillArray skill in attributes.skills)
+            {
+                if (skill.name == "Instinct")
+                {
+                    instinctScore = skill.modifiedValue;
+                }
+            }
+        }
     }
 
     private void UpdateMissScore()

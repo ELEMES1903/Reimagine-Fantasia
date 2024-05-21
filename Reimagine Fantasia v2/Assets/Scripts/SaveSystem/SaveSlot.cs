@@ -20,8 +20,8 @@ public class SaveSlot : MonoBehaviour
     }
 
     public SlotElement[] saveSlots;
-    public SaveSystem saveSystem;
-    public AttributeAndSkill attributeAndSkill;
+    private SaveSystem saveSystem;
+    private AttributeAndSkill attributeAndSkill;
     int selectedIndex = 0;
     int selectedSlotIndex = 0;
 
@@ -40,6 +40,9 @@ public class SaveSlot : MonoBehaviour
 
     void Start()
     {
+        attributeAndSkill = GetComponent<AttributeAndSkill>();
+        saveSystem = GetComponent<SaveSystem>();
+
         LoadSlotData();
    
         // Add listener to each slot button

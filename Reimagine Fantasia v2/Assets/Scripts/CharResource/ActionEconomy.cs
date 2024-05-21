@@ -108,7 +108,7 @@ public class ActionEconomy : MonoBehaviour
         if(turnButton.image.sprite == endTurn)
         {
             turnButton.image.sprite = startTurn;
-            turnButtonText.text = "End Turn";
+            turnButtonText.text = "Start Turn";
             turnSprite = reactionPointImage;
             conditions.DecreaseConDuration();
             TurnStartUpdate();
@@ -116,7 +116,7 @@ public class ActionEconomy : MonoBehaviour
         } else {
 
             turnButton.image.sprite = endTurn;
-            turnButtonText.text = "Start Turn";
+            turnButtonText.text = "End Turn";
             turnSprite = actionPointImage;
             TurnEndUpdate();
         }

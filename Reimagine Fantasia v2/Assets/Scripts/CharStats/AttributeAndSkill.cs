@@ -13,8 +13,8 @@ public class SkillArray
     public int modifiedValue;
     public TMP_Text modifiedValueText;
     public Modifier[] modifiers;
-    public Toggle proficientToggle; // Toggle for proficient
-    public Toggle signatureToggle; // Toggle for signature
+    public Toggle proficientToggle;
+    public Toggle signatureToggle;
 }
 
 [System.Serializable]
@@ -31,13 +31,18 @@ public class AttributeArray
 
 public class AttributeAndSkill : MonoBehaviour
 {
-    public int profeciency = 2;
+    public int profeciency = 1;
     public AttributeArray[] attributes;
-    public OtherStat otherStat;
-    public ModifiersManager modifiersManager;
+    private OtherStat otherStat;
+    private ModifiersManager modifiersManager;
+
+    public TMP_Dropdown levelDropdown;
 
     void Start()
     {
+        otherStat = GetComponent<OtherStat>();
+        modifiersManager = GetComponent<ModifiersManager>();
+
         // Initialize input field listeners
         foreach (AttributeArray attribute in attributes)
         {
@@ -51,11 +56,17 @@ public class AttributeAndSkill : MonoBehaviour
                 skill.signatureToggle.onValueChanged.AddListener((bool value) => OnSignatureToggleChanged(skill));
             }
         }
-        UpdateText();
+
+        levelDropdown.onValueChanged.AddListener(delegate { levelChange();});
+        
+        UpdateAll();
+        levelChange();
     }
 
     public void CalculateTotalValue(object obj)
     {
+        string modifierToText;
+
         // Check if the object is an Attributes
         if (obj is AttributeArray)
         {
@@ -64,19 +75,28 @@ public class AttributeAndSkill : MonoBehaviour
             // Calculate sum of modifier values
             int totalModifierValue = attribute.modifiers.Sum(modifier => modifier.value);
 
-            // Calculate total value (base value + sum of modifier values)
-            int totalValue = attribute.baseValue + totalModifierValue;
+            attribute.modifiedValue = attribute.baseValue + totalModifierValue;
 
-            // Set the totalValue to a new property in Attributes
-            attribute.modifiedValue = totalValue;
+            if(totalModifierValue > 0)
+            {
+                modifierToText = " ( +" + totalModifierValue.ToString("") + " )";
+            }
+            else if(totalModifierValue == 0)
+            {
+                modifierToText = "";
+            }
+            else
+            {
+                modifierToText = " ( " + totalModifierValue.ToString("") + " )";
+            }
+
+            attribute.inputField.text = attribute.baseValue.ToString() + modifierToText;
 
             foreach (SkillArray skills in attribute.skills)
             {
                 skills.baseValue = attribute.modifiedValue;
                 CalculateTotalValue(skills);
-                skills.modifiedValueText.text = skills.modifiedValue.ToString();
             }
-            
         }
         // Check if the object is a Skills
         else if (obj is SkillArray)
@@ -86,27 +106,31 @@ public class AttributeAndSkill : MonoBehaviour
             // Calculate sum of modifier values
             int totalModifierValue = skill.modifiers.Sum(modifier => modifier.value);
 
-            // Calculate total value (modified value + sum of modifier values)
-            int totalValue = skill.baseValue + totalModifierValue;
+            if(totalModifierValue > 0)
+            {
+                modifierToText = " ( +" + totalModifierValue.ToString("") + " )";
+            }
+            else if(totalModifierValue == 0)
+            {
+                modifierToText = "";
+            }
+            else
+            {
+                modifierToText = " ( " + totalModifierValue.ToString("") + " )";
+            }
 
-            skill.modifiedValue = totalValue;  
-            skill.modifiedValueText.text = skill.modifiedValue.ToString();
+            skill.modifiedValue = skill.baseValue + totalModifierValue; 
+
+            skill.modifiedValueText.text = skill.baseValue.ToString() + modifierToText;
         }
-        UpdateText();
         otherStat.CalculateInstinctScore();
     }
 
-    public void UpdateAll(){
-
-
+    public void UpdateAll()
+    {
         foreach(AttributeArray attribute in attributes)
         {
             CalculateTotalValue(attribute);
-
-            foreach(SkillArray skill in attribute.skills)
-            {
-                CalculateTotalValue(attribute.skills);
-            }
         }
     }
 
@@ -120,16 +144,10 @@ public class AttributeAndSkill : MonoBehaviour
         }
     }
 
-    void UpdateText()
-    {
-        foreach (AttributeArray attribute in attributes)
-        {
-            attribute.inputField.text = attribute.baseValue.ToString() + " (" + attribute.modifiedValue.ToString() + ")";
-        }
-    }
-
     void OnProficientToggleChanged(SkillArray skill)
     {
+        modifiersManager.FindElement(skill.name, "Proficient", 0);
+
         if (skill.proficientToggle.isOn)
         {
             modifiersManager.FindElement(skill.name, "Proficient", profeciency);
@@ -140,14 +158,12 @@ public class AttributeAndSkill : MonoBehaviour
                 modifiersManager.FindElement(skill.name, "Signature", 0);
             }
         }
-        else
-        {
-            modifiersManager.FindElement(skill.name, "Proficient", 0);
-        }
     }
 
     void OnSignatureToggleChanged(SkillArray skill)
     {
+        modifiersManager.FindElement(skill.name, "Signature", 0);
+
         if (skill.signatureToggle.isOn)
         {
             modifiersManager.FindElement(skill.name, "Signature", profeciency*2);
@@ -158,9 +174,23 @@ public class AttributeAndSkill : MonoBehaviour
                 modifiersManager.FindElement(skill.name, "Proficient", 0);
             }
         }
-        else
+    }
+
+    public void levelChange()
+    {
+        int level = levelDropdown.value + 1 ;
+
+        if(level < 6){ profeciency = 1;}
+        else if(level < 10 && level > 5){profeciency = 2;}
+        else{profeciency = 3;}
+
+        foreach(AttributeArray attributes in attributes)
         {
-            modifiersManager.FindElement(skill.name, "Signature", 0);
+            foreach(SkillArray skills in attributes.skills)
+            {
+                OnProficientToggleChanged(skills);
+                OnSignatureToggleChanged(skills);
+            }
         }
     }
 }

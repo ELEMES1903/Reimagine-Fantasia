@@ -10,13 +10,13 @@ using System.Collections.Generic;
 
 public class SaveSystem : MonoBehaviour
 {
-    public HealthBar healthBar;
-    public AttributeAndSkill attributeAndSkill;
-    public OtherStat otherStat;
-    public Stress stress;
-    public CustomResource customResource;
-    public Conditions conditions;
-    public ModifiersManager modifiersManager;
+    private HealthBar healthBar;
+    private AttributeAndSkill attributeAndSkill;
+    private OtherStat otherStat;
+    private Stress stress;
+    private CustomResource customResource;
+    private Conditions conditions;
+    private ModifiersManager modifiersManager;
 
     private string savePath;
     
@@ -45,6 +45,16 @@ public class SaveSystem : MonoBehaviour
         {
             Directory.CreateDirectory(saveDirectory);
         }
+    }
+    void Start()
+    {
+        attributeAndSkill = GetComponent<AttributeAndSkill>();
+        otherStat = GetComponent<OtherStat>();
+        healthBar = GetComponent<HealthBar>();
+        stress = GetComponent<Stress>();
+        customResource = GetComponent<CustomResource>();
+        conditions = GetComponent<Conditions>();
+        modifiersManager = GetComponent<ModifiersManager>();
     }
 
     // Method to save the health and attribute data to a JSON file
@@ -173,11 +183,9 @@ public class SaveSystem : MonoBehaviour
                 }
             }
 
-
-
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
-            UpdateAll();
+            attributeAndSkill.UpdateAll();
             customResource.UpdateMinMax(customResource.customSlider1, true);
             customResource.UpdateMinMax(customResource.customSlider1, false);
             stress.CalculateStressAndEnergy();
@@ -191,20 +199,8 @@ public class SaveSystem : MonoBehaviour
             Debug.LogWarning("No save data found in slot " + slotIndex + ".");
         }
     }
-
-    public void UpdateAll()
-    {
-        foreach (AttributeArray attribute in attributeAndSkill.attributes)
-        {
-            attributeAndSkill.CalculateTotalValue(attribute);
-
-            foreach (SkillArray skill in attribute.skills)
-            {
-                attributeAndSkill.CalculateTotalValue(skill);
-            }
-        }
-    }
 }
+
 [System.Serializable]
 public class ModifierData
 {

@@ -12,24 +12,30 @@ public class HPUIElement
 }
 public class HealthBar : MonoBehaviour
 {
+    public HPUIElement[] hpUI;
+
+    // HP Bar UI components
     public Slider hpSlider;
     public Slider currentMaxHpSlider;
     public Gradient gradient;   
-    public HPUIElement[] hpUI;
     public Image fill;
 
+    // Integers
     public int maxHP;
     public int currentMaxHP;
     public int currentHP;
     public int shield;
+
+    // UI Components
     public TMP_InputField hpInput;
     public TMP_InputField currentMaxHpInput;
     public TMP_InputField maxHpInput;
     public TMP_Text allHpText;
-
     public TMP_InputField hpChangeField;
     public TMP_Dropdown hpChangeDropdown;
-    
+    public Button hpChangeApply;
+    public Button increaseHp;
+    public Button decreaseHP;
     void Start()
     {
         // Initialize values
@@ -39,7 +45,9 @@ public class HealthBar : MonoBehaviour
 
         fill.color = gradient.Evaluate(1f);
 
-        hpChangeField.onEndEdit.AddListener(delegate { HpChangeCalc(); });
+        hpChangeApply.onClick.AddListener(delegate { ApplyHpChange(); });
+        increaseHp.onClick.AddListener(delegate { ChangeHpBy1(true); });
+        decreaseHP.onClick.AddListener(delegate { ChangeHpBy1(false); });
 
         foreach (HPUIElement element in hpUI)
         {
@@ -75,57 +83,87 @@ public class HealthBar : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        //shield takes damage if there is a shield
-        if(shield > 0)
+        //If there is shield
+        if (shield > 0)
         {
+            //shield takes damage first
             shield -= damage;
-
-            //calculate left over damage
-            if(shield < 0){
-                int leftOverDmg = Mathf.Abs(shield);
+            //if there is still more damage shield cant take
+            if (shield < 0)
+            {
+                //find the amount of left over damage
+                int leftOverDmg = -shield;
                 shield = 0;
-                //HP takes leftover damage if there is HP, if not, current max HP takes leftover damage
-                if(currentHP > 0)
-                {
-                    currentHP -= leftOverDmg;
-                    currentHP = Mathf.Max(currentHP, 0);
-                } else
-                {
-                    currentMaxHP -= leftOverDmg;
-                    currentMaxHP = Mathf.Max(currentMaxHP, 0);
-                }
+                //apply leftover damage to Hp
+                ApplyDamageToHP(leftOverDmg);
             }
-        } else {
-            //HP takes  damage if there is HP, if not, current max HP takes damage
-            if(currentHP > 0)
-            {
-                currentHP -= damage;
-                currentHP = Mathf.Max(currentHP, 0);
-            } else 
-            {
-                currentMaxHP -= damage;
-                currentMaxHP = Mathf.Max(currentMaxHP, 0);
-            }
+        }
+        else
+        {
+            ApplyDamageToHP(damage);
         }
         UpdateHealthBars();
     }
 
-    public void HpHeal(int heal)
+    private void ApplyDamageToHP(int damage)
     {
-        currentHP += heal;
-        currentHP = Mathf.Min(currentHP, currentMaxHP);
-        
+        if (currentHP > 0)
+        {
+            currentHP -= damage;
+            if (currentHP < 0)
+            {
+                int leftOverDmg = -currentHP;
+                currentHP = 0;
+                ApplyDamageToMaxHP(leftOverDmg);
+            }
+        }
+        else
+        {
+            ApplyDamageToMaxHP(damage);
+        }
+    }
+
+    private void ApplyDamageToMaxHP(int damage)
+    {
+        currentMaxHP -= damage;
+        currentMaxHP = Mathf.Clamp(currentMaxHP, 0, maxHP);
+    }
+
+    public void HpHeal(int healAmount)
+    {
+        currentHP += healAmount;
+        currentHP = Mathf.Clamp(currentHP, 0, currentMaxHP);
         UpdateHealthBars();
     }
 
-    public void CurrentMaxHpHeal(int heal)
+    public void CurrentMaxHpHeal(int healAmount)
     {
-        currentMaxHP += heal;
-        currentMaxHP = Mathf.Min(currentMaxHP, maxHP);
-        
+        currentMaxHP += healAmount;
+        currentMaxHP = Mathf.Clamp(currentMaxHP, 0, maxHP);
         UpdateHealthBars();
     }
 
+    public void ChangeHpBy1(bool isAdding)
+    {
+        if(isAdding)
+        {
+            HpHeal(1);
+        }
+        else
+        {
+            
+            TakeDamage(1);
+        }
+    }
+
+    public void GainShield(int shieldAmount)
+    {
+        if(shield < shieldAmount)
+        {
+            shield = shieldAmount;
+        }
+        UpdateHealthBars();
+    }
 
     public void UpdateHealthBars()
     {
@@ -149,7 +187,7 @@ public class HealthBar : MonoBehaviour
         allHpText.text = $"( <b><color=#00FFFF>{shield}</color></b> )  <b><color=#FF6666>{currentHP}</color></b> / <b><color=#FF6666>{currentMaxHP}</color></b> / <b><color=#FF6666>{maxHP}</color></b>";
     }
 
-    public void HpChangeCalc()
+    public void ApplyHpChange()
     {
         if (int.TryParse(hpChangeField.text, out int newValue))
         {
@@ -168,7 +206,7 @@ public class HealthBar : MonoBehaviour
             }
             if(hpChangeDropdown.value == 3)
             {
-                shield += newValue;
+                GainShield(newValue);
             }
         }
     }

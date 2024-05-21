@@ -20,8 +20,8 @@ public class ConditionArray
 public class Conditions : MonoBehaviour
 {
     public ConditionArray[] conditions;
-    public ModifiersManager modifiersManager;
-    public Stress stress;
+    private ModifiersManager modifiersManager;
+    private Stress stress;
 
     public TMP_InputField conInput;
     public Button applyButton;
@@ -34,6 +34,9 @@ public class Conditions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        modifiersManager = GetComponent<ModifiersManager>();
+        stress = GetComponent<Stress>();
+
         // Condition Options Dropdown Set Up
         allDropdownOptions = new List<string>();
         List<string> dropdownOptions = new List<string>();

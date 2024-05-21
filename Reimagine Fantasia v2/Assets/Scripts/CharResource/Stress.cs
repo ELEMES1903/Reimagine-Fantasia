@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class Stress : MonoBehaviour
 {
+    private ModifiersManager modifiersManager;
+    private AttributeAndSkill attributeAndSkill;
+    private Conditions conditions;
+
     public Slider energySlider;
     public int maxEnergy;
     public int currentEnergy;
@@ -13,24 +17,18 @@ public class Stress : MonoBehaviour
     public int heavyStress;
     public int normalStress;
     public int lightStress;
-
     public int weakened;
 
     bool isWeakened;
     bool isEnergetic;
-    bool isNormal;
+    public bool isNormal;
     bool isTired;
     bool isExhausted;
 
     public TMP_Dropdown stressManagerDropdown;
     public Button applyStressActionButton;
-
     public TMP_Text stressAmountText;
     
-    public ModifiersManager modifiersManager;
-    public AttributeAndSkill attributeAndSkill;
-    public Conditions conditions;
-
     private enum StressType
     {
         Heavy,
@@ -40,6 +38,10 @@ public class Stress : MonoBehaviour
 
     void Start()
     {
+        modifiersManager = GetComponent<ModifiersManager>();
+        attributeAndSkill = GetComponent<AttributeAndSkill>();
+        conditions = GetComponent<Conditions>();
+
         maxEnergy = 10;
         currentEnergy = maxEnergy;
         energySlider.maxValue = maxEnergy;
