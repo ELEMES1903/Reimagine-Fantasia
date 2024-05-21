@@ -1,66 +1,80 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using System.Collections.Generic;
 
-public class CustomResource : MonoBehaviour
-{
-    [System.Serializable]
-    public class CustomSlider
+
+[System.Serializable]
+    public class CustomResourceArray
     {
         public Slider slider;
         public TMP_Text text;
-        public TMP_InputField maxValueInput;
-        public TMP_InputField minValueInput;
+        public TMP_InputField sliderUpdateInput;
+        public TMP_Dropdown sliderUpdateOptions;
         public float currentValue;
+        public float maxValue;
+        public float minValue;
         public TMP_InputField resourceName;
     }
-
-    public CustomSlider customSlider1;
-    //public CustomSlider customSlider2;
+public class CustomResource : MonoBehaviour
+{
+    public CustomResourceArray[] customResource;
 
     void Start()
     {
-        customSlider1.maxValueInput.onEndEdit.AddListener(delegate { UpdateMinMax(customSlider1, true); });
-        customSlider1.minValueInput.onEndEdit.AddListener(delegate { UpdateMinMax(customSlider1, false); });
-
-        //customSlider2.maxValueInput.onEndEdit.AddListener(delegate { UpdateMinMax(customSlider2, true); });
-        //customSlider2.minValueInput.onEndEdit.AddListener(delegate { UpdateMinMax(customSlider2, false); });
-
-        customSlider1.slider.onValueChanged.AddListener(value => UpdateSlider(customSlider1, value));
-        //customSlider2.slider.onValueChanged.AddListener(value => UpdateSlider(customSlider2, value));
-
-        customSlider1.currentValue = 0;
-        customSlider1.minValueInput.text = "0";
-        customSlider1.maxValueInput.text = "10";
-    }
-
-    public void UpdateSlider(CustomSlider customSlider, float value)
-    {
-        customSlider.currentValue = value;
-        UpdateCustomText(customSlider);
-    }
-
-    public void UpdateMinMax(CustomSlider customSlider, bool isMax)
-    {
-        TMP_InputField inputField = isMax ? customSlider.maxValueInput : customSlider.minValueInput;
-
-        if (int.TryParse(inputField.text, out int newValue))
+        foreach (CustomResourceArray resource in customResource)
         {
-            if (isMax)
+            resource.sliderUpdateInput.onEndEdit.AddListener((string newValue) => UpdateSliderRange(resource, newValue));
+            resource.currentValue = 0;
+
+            // Create a list of custom entries
+            List<string> options = new List<string>();
+            options.Add("Take Damage");
+            options.Add("Heal HP");
+            options.Add("Heal Current Max HP");
+            options.Add("Gain Shield");
+            
+            resource.sliderUpdateOptions.ClearOptions(); // Clear existing options
+            // Add the custom entries to the dropdown
+            resource.sliderUpdateOptions.AddOptions(options);
+        } 
+    }
+
+    public void UpdateSliderRange(CustomResourceArray resource, string newValue)
+    {
+        resource.currentValue = int.Parse(newValue);
+        Debug.Log(newValue);
+        UpdateCustomText(resource);
+    }
+
+     public void UpdateMinMax(CustomResourceArray resource)
+    {
+
+        if (int.TryParse(resource.sliderUpdateInput.text, out int newValue))
+        {
+            if(resource.sliderUpdateOptions.value == 0)
             {
-                customSlider.slider.maxValue = newValue;
+                resource.maxValue = newValue;
+            } 
+            else if(resource.sliderUpdateOptions.value == 1)
+            {
+                resource.minValue = newValue;
             }
             else
             {
-                customSlider.slider.minValue = newValue;
+                resource.currentValue = newValue;
             }
         }
 
-        UpdateCustomText(customSlider);
+        UpdateCustomText(resource);
     }
 
-    void UpdateCustomText(CustomSlider customSlider)
+    void UpdateCustomText(CustomResourceArray resource)
     {
-        customSlider.text.text = $"{customSlider.currentValue} / {customSlider.slider.maxValue}";
+        resource.slider.maxValue = resource.maxValue;
+        resource.slider.minValue = resource.minValue;
+        resource.slider.value = resource.currentValue;
+        resource.text.text = $"{resource.currentValue} / {resource.maxValue}";
     }
 }

@@ -67,6 +67,7 @@ public class SaveSystem : MonoBehaviour
         {
             attributeData = new AttributeData[attributeAndSkill.attributes.Length],
             conditionData = new ConditionData[conditions.conditions.Length],
+            customResourceData = new CustomResourceData[customResource.customResource.Length],
 
             healthData = new HealthData
             {
@@ -95,11 +96,19 @@ public class SaveSystem : MonoBehaviour
             normalStress = stress.normalStress,
             lightStress = stress.lightStress,
 
-            currentValue = customResource.customSlider1.currentValue,
-            maxValue = customResource.customSlider1.maxValueInput.text,
-            minValue = customResource.customSlider1.minValueInput.text,
-            resourceName = customResource.customSlider1.resourceName.text,
+            
         };
+
+        for (int i = 0; i < customResource.customResource.Length; i++)
+        {
+            data.customResourceData[i] = new CustomResourceData
+            {
+                currentValue = customResource.customResource[i].currentValue,
+                maxValue = customResource.customResource[i].maxValue,
+                minValue = customResource.customResource[i].minValue,
+                resourceName = customResource.customResource[i].resourceName.text,
+            };
+        }
 
         for (int i = 0; i < conditions.conditions.Length; i++)
         {
@@ -152,10 +161,14 @@ public class SaveSystem : MonoBehaviour
             stress.normalStress = data.normalStress;
             stress.lightStress = data.lightStress;
 
-            customResource.customSlider1.currentValue = data.currentValue;
-            customResource.customSlider1.maxValueInput.text = data.maxValue;
-            customResource.customSlider1.minValueInput.text = data.minValue;
-            customResource.customSlider1.resourceName.text = data.resourceName;
+            // Update the AttributeAndSkill script with the loaded attribute values
+            for (int i = 0; i < data.customResourceData.Length; i++)
+            {
+                customResource.customResource[i].currentValue = data.customResourceData[i].currentValue;
+                customResource.customResource[i].maxValue = data.customResourceData[i].maxValue;
+                customResource.customResource[i].minValue = data.customResourceData[i].minValue;
+                customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
+            }
 
             // Update the AttributeAndSkill script with the loaded attribute values
             for (int i = 0; i < data.attributeData.Length; i++)
@@ -186,11 +199,8 @@ public class SaveSystem : MonoBehaviour
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             attributeAndSkill.UpdateAll();
-            customResource.UpdateMinMax(customResource.customSlider1, true);
-            customResource.UpdateMinMax(customResource.customSlider1, false);
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
-            otherStat.CalculateInstinctScore();
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
         }
@@ -216,16 +226,13 @@ public class SaveDataStructure
     public ConditionData[] conditionData;
     public SkillData[] skillData;
     public StatData[] statData;
+    public CustomResourceData[] customResourceData;
 
     public int missScore;
     public int armorScore;
     public int heavyStress;
     public int normalStress;
     public int lightStress;
-    public float currentValue;
-    public string maxValue;
-    public string minValue;
-    public string resourceName;
     public int freeMovement;
 }
 
@@ -235,6 +242,15 @@ public class HealthData
     public int maxHP;
     public int currentMaxHP;
     public int currentHP;
+}
+
+[System.Serializable]
+public class CustomResourceData
+{
+    public float currentValue;
+    public float maxValue;
+    public float minValue;
+    public string resourceName;
 }
 
 [System.Serializable]

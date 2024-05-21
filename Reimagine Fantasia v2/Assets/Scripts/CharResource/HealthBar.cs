@@ -36,6 +36,7 @@ public class HealthBar : MonoBehaviour
     public Button hpChangeApply;
     public Button increaseHp;
     public Button decreaseHP;
+    public Toggle isCurrentMaxHp;
     void Start()
     {
         // Initialize values
@@ -147,11 +148,17 @@ public class HealthBar : MonoBehaviour
     {
         if(isAdding)
         {
-            HpHeal(1);
+            if(isCurrentMaxHp.isOn)
+            {
+                CurrentMaxHpHeal(1);
+            }
+            else
+            {
+                HpHeal(1);
+            }
         }
         else
         {
-            
             TakeDamage(1);
         }
     }

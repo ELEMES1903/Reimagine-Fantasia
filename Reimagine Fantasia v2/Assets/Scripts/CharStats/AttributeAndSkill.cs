@@ -35,8 +35,8 @@ public class AttributeAndSkill : MonoBehaviour
     public AttributeArray[] attributes;
     private OtherStat otherStat;
     private ModifiersManager modifiersManager;
-
     public TMP_Dropdown levelDropdown;
+    public TMP_Text profeciencyValue;
 
     void Start()
     {
@@ -73,21 +73,21 @@ public class AttributeAndSkill : MonoBehaviour
             AttributeArray attribute = (AttributeArray)obj;
 
             // Calculate sum of modifier values
-            int totalModifierValue = attribute.modifiers.Sum(modifier => modifier.value);
+            int totalAttributeModifierValue = attribute.modifiers.Sum(modifier => modifier.value);
 
-            attribute.modifiedValue = attribute.baseValue + totalModifierValue;
+            attribute.modifiedValue = attribute.baseValue + totalAttributeModifierValue;
 
-            if(totalModifierValue > 0)
+            if(totalAttributeModifierValue > 0)
             {
-                modifierToText = " ( +" + totalModifierValue.ToString("") + " )";
+                modifierToText = " ( +" + totalAttributeModifierValue.ToString("") + " )";
             }
-            else if(totalModifierValue == 0)
+            else if(totalAttributeModifierValue == 0)
             {
                 modifierToText = "";
             }
             else
             {
-                modifierToText = " ( " + totalModifierValue.ToString("") + " )";
+                modifierToText = " ( " + totalAttributeModifierValue.ToString("") + " )";
             }
 
             attribute.inputField.text = attribute.baseValue.ToString() + modifierToText;
@@ -103,27 +103,42 @@ public class AttributeAndSkill : MonoBehaviour
         {
             SkillArray skill = (SkillArray)obj;
 
-            // Calculate sum of modifier values
-            int totalModifierValue = skill.modifiers.Sum(modifier => modifier.value);
-
-            if(totalModifierValue > 0)
+            int profeciencyBonus;
+            if(skill.proficientToggle.isOn)
             {
-                modifierToText = " ( +" + totalModifierValue.ToString("") + " )";
+                profeciencyBonus = profeciency;
             }
-            else if(totalModifierValue == 0)
+            else if (skill.signatureToggle.isOn)
+            {
+                profeciencyBonus = profeciency*2;
+            }
+            else
+            {
+                profeciencyBonus = 0;
+            }
+
+            // Calculate sum of modifier values
+            int totalSkillModifierValue =  skill.modifiers.Sum(modifier => modifier.value);
+
+            if(totalSkillModifierValue > 0)
+            {
+                modifierToText = " ( +" + totalSkillModifierValue.ToString("") + " )";
+            }
+            else if(totalSkillModifierValue == 0)
             {
                 modifierToText = "";
             }
             else
             {
-                modifierToText = " ( " + totalModifierValue.ToString("") + " )";
+                modifierToText = " ( " + totalSkillModifierValue.ToString("") + " )";
             }
 
-            skill.modifiedValue = skill.baseValue + totalModifierValue; 
-
+            skill.modifiedValue = skill.baseValue + totalSkillModifierValue; 
+            skill.baseValue += profeciencyBonus;
             skill.modifiedValueText.text = skill.baseValue.ToString() + modifierToText;
+            skill.baseValue -= profeciencyBonus;
         }
-        otherStat.CalculateInstinctScore();
+        otherStat.UpdateAll();
     }
 
     public void UpdateAll()
@@ -146,34 +161,26 @@ public class AttributeAndSkill : MonoBehaviour
 
     void OnProficientToggleChanged(SkillArray skill)
     {
-        modifiersManager.FindElement(skill.name, "Proficient", 0);
-
         if (skill.proficientToggle.isOn)
         {
-            modifiersManager.FindElement(skill.name, "Proficient", profeciency);
-
             if(skill.signatureToggle.isOn)
             {
                 skill.signatureToggle.isOn = false;
-                modifiersManager.FindElement(skill.name, "Signature", 0);
             }
         }
+        CalculateTotalValue(skill);
     }
 
     void OnSignatureToggleChanged(SkillArray skill)
     {
-        modifiersManager.FindElement(skill.name, "Signature", 0);
-
         if (skill.signatureToggle.isOn)
         {
-            modifiersManager.FindElement(skill.name, "Signature", profeciency*2);
-
             if(skill.signatureToggle.isOn)
             {
                 skill.proficientToggle.isOn = false;
-                modifiersManager.FindElement(skill.name, "Proficient", 0);
             }
         }
+        CalculateTotalValue(skill);
     }
 
     public void levelChange()
@@ -184,13 +191,6 @@ public class AttributeAndSkill : MonoBehaviour
         else if(level < 10 && level > 5){profeciency = 2;}
         else{profeciency = 3;}
 
-        foreach(AttributeArray attributes in attributes)
-        {
-            foreach(SkillArray skills in attributes.skills)
-            {
-                OnProficientToggleChanged(skills);
-                OnSignatureToggleChanged(skills);
-            }
-        }
+        profeciencyValue.text = "+" + profeciency.ToString();
     }
 }

@@ -17,19 +17,23 @@ public class OtherStat : MonoBehaviour
     public TMP_InputField baseMissScoreInput;
     public TMP_InputField armorScoreInput;
     public TMP_InputField freeMovementInput;
+    public TMP_InputField initiativeInput;
 
     public int baseMissScore = 3;
-    public int instinctScore;
     public int missScore;
     public int armorScore;
     public int protectionScore;
     public int freeMovement;
-    public AttributeAndSkill attributeAndSkill;
+    public int initiative;
+    private AttributeAndSkill attributeAndSkill;
+    private ModifiersManager modifiersManager;
+    //public TMP_Text missScoreText;
 
     private void Awake()
     {
         // Get references in Awake to ensure they are ready before Start is called
         attributeAndSkill = GetComponent<AttributeAndSkill>();
+        modifiersManager = GetComponent<ModifiersManager>();
 
         if (attributeAndSkill == null)
         {
@@ -45,8 +49,14 @@ public class OtherStat : MonoBehaviour
         baseMissScoreInput.onEndEdit.AddListener(delegate { UpdateMissScore(); });
         armorScoreInput.onEndEdit.AddListener(delegate { UpdateProtectionScore(); });
         freeMovementInput.onEndEdit.AddListener(delegate { UpdateFreeMovement(); });
+        freeMovementInput.onEndEdit.AddListener(delegate { UpdateInitiative(); });
         
         UpdateAll();
+    }
+
+    void Update()
+    {
+
     }
     public void UpdateAll()
     {
@@ -54,27 +64,28 @@ public class OtherStat : MonoBehaviour
         UpdateProtectionScore();
         UpdateFreeMovement();
     }
-    public void CalculateInstinctScore()
+    public int GetSkillScore(string skillName)
     {
-        foreach (AttributeArray attributes in attributeAndSkill.attributes)
+        foreach(AttributeArray attributes in attributeAndSkill.attributes)
         {
             foreach (SkillArray skill in attributes.skills)
             {
-                if (skill.name == "Instinct")
+                if(skill.name == skillName)
                 {
-                    instinctScore = skill.modifiedValue;
+                    return skill.baseValue;
                 }
             }
         }
+        return 0;
     }
 
     private void UpdateMissScore()
     {
-        CalculateInstinctScore();
+        int instinctScore = GetSkillScore("Instinct");
 
         if (int.TryParse(baseMissScoreInput.text, out int newValue))
         {
-            baseMissScore = newValue;
+            if(missScore  == newValue){ }else{baseMissScore = newValue;}
         }
 
         int totalValue = GetTotalModifierValue("Miss Score");
@@ -86,26 +97,46 @@ public class OtherStat : MonoBehaviour
     {
         if (int.TryParse(armorScoreInput.text, out int newValue))
         {
-            armorScore = newValue;
+            if(protectionScore  == newValue){ }else{armorScore = newValue;}
         }
 
         int totalValue = GetTotalModifierValue("Armor Score");
-        protectionScore = armorScore + missScore + totalValue;
-        armorScoreInput.text = $"{armorScore} ({protectionScore})";
+
+        protectionScore = missScore + armorScore + totalValue;
+        armorScoreInput.text = $"{protectionScore}";
     }
 
     private void UpdateFreeMovement()
     {
+        int agilityScore = GetSkillScore("Agility") / 2;
+        
         if (int.TryParse(freeMovementInput.text, out int newValue))
         {
-            freeMovement = newValue;
+            if(freeMovement  == newValue){ }else{freeMovement = newValue;}
         }
 
         int totalValue = GetTotalModifierValue("Free Movement");
-        freeMovement = freeMovement + totalValue;
+        
+        freeMovement = freeMovement + totalValue + agilityScore;
         freeMovementInput.text = $"{freeMovement} meters";
     }
 
+    private void UpdateInitiative()
+    {
+        int intuitionScore = GetSkillScore("Inuition");
+        int instinctScore = GetSkillScore("Instinct");
+
+        if (int.TryParse(armorScoreInput.text, out int newValue))
+        {
+            if(initiative == newValue){ }else{initiative = newValue;}
+        }
+
+        int totalValue = GetTotalModifierValue("Initiative");
+
+        initiative = instinctScore + intuitionScore*2 + totalValue;
+        armorScoreInput.text = $"{protectionScore}";
+    }
+    
     private int GetTotalModifierValue(string name)
     {
         StatArray stat = stats.FirstOrDefault(s => s.name == name);

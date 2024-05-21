@@ -16,7 +16,7 @@ public class ModifiersManager : MonoBehaviour
     private AttributeAndSkill attributeAndSkill;
     private OtherStat otherStat;
     
-    void Start()
+    void Awake()
     {
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         otherStat = GetComponent<OtherStat>();
@@ -52,7 +52,7 @@ public class ModifiersManager : MonoBehaviour
                         cherry = skill;
                     } else
                     {
-                        Debug.LogWarning("Element with name '" + elementName + "' not found.");
+                        //Debug.LogWarning("Element with name '" + elementName + "' not found.");
                     }
                 }
             }
@@ -135,7 +135,6 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
-        otherStat.UpdateAll();
     }
 
     private void RemoveModifier(object cherry, string modifierName)
@@ -207,7 +206,7 @@ public class ModifiersManager : MonoBehaviour
             }
             else
             {
-                if(modifierName == "Energetic" || modifierName == "Tired")
+                if(modifierName == "Energetic" || modifierName == "Tired" ||modifierName == "Proficient" || modifierName == "Signature")
                 {
 
                 } else {
@@ -219,7 +218,6 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
-        otherStat.UpdateAll();
     }
 
     public void RemoveAllModifiers()
