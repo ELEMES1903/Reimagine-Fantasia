@@ -1,0 +1,2450 @@
+fileFormatVersion: 2
+guid: 74b28ccb1f86de84bbf6b83130160a97
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pinguim-penguin_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a200c87135b9298469ab5df2f839584b
+      internalID: 444423072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49081e3a5b990c64398d59711c54c1da
+      internalID: 1312548951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76250087dd6b2a349889569ef9e06115
+      internalID: -302253724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b08aad3fd41617949a4c749035753232
+      internalID: -830194300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f02b401f56313c46907929d7f3ef8b5
+      internalID: -269860820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f156d1637fed234084386e3e0876f53
+      internalID: -2097318739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_6
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2730
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aeeaa4d99f46964ba67a3292306691a
+      internalID: 1540325807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a4300f57a092bf4a92067b91dae27ab
+      internalID: -1785577422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_8
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e5bf57382ff0b84993a04d6952b423e
+      internalID: 1377092274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_9
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d05d4248c139a44f85fe1561b75ad48
+      internalID: 876695750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_10
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 917556ab0ec6d7f4b91a71955ff7240d
+      internalID: -1769380537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_11
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db2ff97403918a241b54da8f895be1bb
+      internalID: -84936116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_12
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 143ae85874bc011478f33b30ab65d182
+      internalID: -1513908741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_13
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2535
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8901bed3c2c34049a1b4b7802c6ffdd
+      internalID: -178853137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2247965473779224d8ac50f1d7d7b830
+      internalID: 511836073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_15
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9599f912695a3dc4ab9024084c9dd4a1
+      internalID: 2041678509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_16
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d98683e8bc3c2742b61259035c13046
+      internalID: -1368399250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_17
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddbbd492e01abb941a436a5d29ee1ede
+      internalID: 1169497584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_18
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58a0aa127d20b3240b353c9754357439
+      internalID: 275007251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_19
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daaa2dfe72bb7a94096adfd5b2070eef
+      internalID: -1969819035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_20
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2340
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8fa52b5fc473c54a9011e3582aefa68
+      internalID: 1460542079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df43c3cf5811f39408da3f583fd2b709
+      internalID: -1453269937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_22
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d5fe77f3dd6d5f4f90cef5b1ca6bda9
+      internalID: -1295335117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_23
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b80b8834f03b84fabe94afaec063df
+      internalID: 1635389761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_24
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eec66d9a1f2ab5a4dbe8f5b5ace79cb9
+      internalID: 1145500676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_25
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7e6db99234ed4f4da517c2513961686
+      internalID: -535616533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_26
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42ac7dee92c2e8541a933220b255975e
+      internalID: -1405930061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_27
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2145
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55719f9fe6094fb449b19d6ef5f03fdc
+      internalID: 795040932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d82a5b186ae8d4459052ae41645f391
+      internalID: -747554738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_29
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92451da8d4908d147a448d8518089b71
+      internalID: -1980229678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_30
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e32e07f6fab4ffd469e6e42eb1cf471b
+      internalID: 60804892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_31
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5278b6e8b6723e94586c1411100dae23
+      internalID: 6765274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_32
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fa8a3b0bb3b3a341b46863ca5cff154
+      internalID: -29978500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_33
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92522ffc3ade7fc409dc3461c6c9bc43
+      internalID: 220993594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_34
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1950
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d074a1a5049dee34eb6bce786138d54a
+      internalID: -1650671367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39dca0c25245567478153918c2138326
+      internalID: -1427558171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_36
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbde923fea259be42ab9883d42bc955b
+      internalID: -1913517125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_37
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3a33bffbf3d41e479bc7bf66e1a1415
+      internalID: 1117043695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_38
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ef8fbdd0ab8f174a94eaa6c64537068
+      internalID: -427845714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_39
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f37a5926999b6540b5ebf7b4e195446
+      internalID: 1514323793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_40
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cf83ff1e36eaaa459eef4d742d368d2
+      internalID: -2062370481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_41
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1755
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e2f601726a352047b422053a70fce7d
+      internalID: -635315477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aea039a18db8cb54bb8023d0f8955519
+      internalID: 1629586618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_43
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e3152f83b3967e4d8eae5c2706e4077
+      internalID: -605653899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_44
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54b92b7a034d14e4ebccadbc1403178c
+      internalID: -1689694042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_45
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6f0221d0614df741a241eaeca804056
+      internalID: 421511240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_46
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b001d0a38cd89904cb3af1c48d295833
+      internalID: 919937443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_47
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85f90b4111a45d144b0182493d5a941b
+      internalID: -828318530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_48
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1560
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cd19c82421b08c4e944a278f4f2021d
+      internalID: 1389133909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_49
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26e3f781fadd16f40b72246adf3381f9
+      internalID: -373606000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_50
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21cac2c38c4cc6748aa6f1d20940c728
+      internalID: 2125950074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_51
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0f633f48d99e6441b7b41fee8dc1ae5
+      internalID: -2038278641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_52
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfce973e8d45da94a9bb6dd26322b473
+      internalID: 671994653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_53
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7a9656cdd9df5b47b5f617de545d475
+      internalID: 556455002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_54
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: badf82f7f70956b4da59bfbd4fb5a10e
+      internalID: -1858369555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_55
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1365
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd752b754eddada469e63de74be7321d
+      internalID: 359827415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82e97b7125978344a33f9b4d17f094a
+      internalID: 2042925147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_57
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9634d17979616a241ad6819ebf966dd5
+      internalID: 915038404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_58
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4335c84154046254b9c0ec94ca023c91
+      internalID: -165915310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_59
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98945e259fa9aae458ac98a36127dee5
+      internalID: -2063315629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_60
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 008ad4a877d0c1740b9d51385c3489ba
+      internalID: -617629510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_61
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc1153d843edc05478e6cb25e26471fa
+      internalID: -1826116307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_62
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1170
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d471f44a42bcb64297dff7d4d674f1d
+      internalID: 1159944576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_63
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54df2bfab3462364b9247b7dde8ca33d
+      internalID: -460986056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_64
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89626b51f682daa47a0776fc9c7014ba
+      internalID: -1943311979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_65
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9bd335f315f2fb46a5239dca6aafa2a
+      internalID: 1158714683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_66
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 656a56b2a66ab2c46ad5c79c7d04aded
+      internalID: 383455181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_67
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6280542e4a45768408e3bc396d06f11c
+      internalID: 945601676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_68
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b438a304bb73694896b8aae610c2455
+      internalID: 837755871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_69
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 975
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da34f5486602db34bb64233f6a01d456
+      internalID: -1994457634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41f847d162a575c4783e3ee3f2c30f15
+      internalID: 13942198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_71
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a4d2f5aa962d0248b87abbee11a2e2d
+      internalID: -1394681038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_72
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce8e28d98f339974e9598601ba52b703
+      internalID: 1740140809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_73
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1806f2e14854124db4207fbb57b7ff0
+      internalID: -1104879452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_74
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3daf96f2c2f225141b6be328333b838c
+      internalID: 529306789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_75
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 344f02d6d0207f7488c601c1cec81793
+      internalID: 1680701326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_76
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 780
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f7c0217931f9384aa79681e7968c9e9
+      internalID: 398549068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_77
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 558e5e18d2c549d469285e58eaff191b
+      internalID: -1547379396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_78
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41918178e21e62640b7cabf2c5d20f93
+      internalID: 318000694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_79
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 939478165e88bac46bc3d20f38ea2874
+      internalID: -256181187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_80
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04fe35cb0820d164db280ae31ec097da
+      internalID: 1927125048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_81
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e1c770d0d48e8f4388ae81d25b855a8
+      internalID: 886649261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_82
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b9e6a9d11921e64890a6722bc2d3966
+      internalID: 498183059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_83
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 585
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a7f9bf00e1b90d4080840a72a7568f2
+      internalID: -1693328228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_84
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6384e2561b134b4f829af008aefa5b7
+      internalID: 1371543531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_85
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0828af2bbe65cc4c9aafe6c93ef1a6e
+      internalID: -2024106494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_86
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd1351b17ed377c49a2bd6be205316a0
+      internalID: 79131692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_87
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 534ffd8eac29d4646a99970b3140ca52
+      internalID: -456742570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_88
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebf241faf9f7e874ca9384de3fd249f5
+      internalID: -1342933178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_89
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb934d28d70b2aa4998e0513978d9ed9
+      internalID: 1836499117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_90
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 390
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a71d35034b18478469bac8c71813ace0
+      internalID: -2040678151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_91
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 807d1b69e6aee644884b2d0c0ed2df22
+      internalID: 1972952302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_92
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e80dae85bb070148917d5963344ed3f
+      internalID: 1069853535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_93
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96ae74e89d2fa254192c8e3ab9e0cae7
+      internalID: 1728622770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_94
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f2f94bcecfca0c4ca46beaa8996e040
+      internalID: 837834962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_95
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1876793697c6b347b380ec354b69b8a
+      internalID: -816800063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_96
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59a5e252553de81498b0de2cd8f2dc83
+      internalID: 1830528980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_97
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 195
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 122c03761e141d640b4b2fcc491f6cf6
+      internalID: 1132451944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_98
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98a70103178f56b4489d682c04ed064f
+      internalID: -254173264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_99
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6ab0ac5a37bcf9468b43460d22ab422
+      internalID: 1091679690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_100
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f833e08f6427e24fb09e2585800167e
+      internalID: 181383363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_101
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46b428f559baa8940bc716ee2748ef01
+      internalID: 1048378987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_102
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b69d8f74ed37eb44c813d56104f04603
+      internalID: 603657085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_103
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27511289581b2e4458bf597ed9e76f61
+      internalID: -22488877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinguim-penguin_104
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 200
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d31d7cfb19572a64b8283ec06423d855
+      internalID: -1509911999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      pinguim-penguin_0: 444423072
+      pinguim-penguin_1: 1312548951
+      pinguim-penguin_10: -1769380537
+      pinguim-penguin_100: 181383363
+      pinguim-penguin_101: 1048378987
+      pinguim-penguin_102: 603657085
+      pinguim-penguin_103: -22488877
+      pinguim-penguin_104: -1509911999
+      pinguim-penguin_11: -84936116
+      pinguim-penguin_12: -1513908741
+      pinguim-penguin_13: -178853137
+      pinguim-penguin_14: 511836073
+      pinguim-penguin_15: 2041678509
+      pinguim-penguin_16: -1368399250
+      pinguim-penguin_17: 1169497584
+      pinguim-penguin_18: 275007251
+      pinguim-penguin_19: -1969819035
+      pinguim-penguin_2: -302253724
+      pinguim-penguin_20: 1460542079
+      pinguim-penguin_21: -1453269937
+      pinguim-penguin_22: -1295335117
+      pinguim-penguin_23: 1635389761
+      pinguim-penguin_24: 1145500676
+      pinguim-penguin_25: -535616533
+      pinguim-penguin_26: -1405930061
+      pinguim-penguin_27: 795040932
+      pinguim-penguin_28: -747554738
+      pinguim-penguin_29: -1980229678
+      pinguim-penguin_3: -830194300
+      pinguim-penguin_30: 60804892
+      pinguim-penguin_31: 6765274
+      pinguim-penguin_32: -29978500
+      pinguim-penguin_33: 220993594
+      pinguim-penguin_34: -1650671367
+      pinguim-penguin_35: -1427558171
+      pinguim-penguin_36: -1913517125
+      pinguim-penguin_37: 1117043695
+      pinguim-penguin_38: -427845714
+      pinguim-penguin_39: 1514323793
+      pinguim-penguin_4: -269860820
+      pinguim-penguin_40: -2062370481
+      pinguim-penguin_41: -635315477
+      pinguim-penguin_42: 1629586618
+      pinguim-penguin_43: -605653899
+      pinguim-penguin_44: -1689694042
+      pinguim-penguin_45: 421511240
+      pinguim-penguin_46: 919937443
+      pinguim-penguin_47: -828318530
+      pinguim-penguin_48: 1389133909
+      pinguim-penguin_49: -373606000
+      pinguim-penguin_5: -2097318739
+      pinguim-penguin_50: 2125950074
+      pinguim-penguin_51: -2038278641
+      pinguim-penguin_52: 671994653
+      pinguim-penguin_53: 556455002
+      pinguim-penguin_54: -1858369555
+      pinguim-penguin_55: 359827415
+      pinguim-penguin_56: 2042925147
+      pinguim-penguin_57: 915038404
+      pinguim-penguin_58: -165915310
+      pinguim-penguin_59: -2063315629
+      pinguim-penguin_6: 1540325807
+      pinguim-penguin_60: -617629510
+      pinguim-penguin_61: -1826116307
+      pinguim-penguin_62: 1159944576
+      pinguim-penguin_63: -460986056
+      pinguim-penguin_64: -1943311979
+      pinguim-penguin_65: 1158714683
+      pinguim-penguin_66: 383455181
+      pinguim-penguin_67: 945601676
+      pinguim-penguin_68: 837755871
+      pinguim-penguin_69: -1994457634
+      pinguim-penguin_7: -1785577422
+      pinguim-penguin_70: 13942198
+      pinguim-penguin_71: -1394681038
+      pinguim-penguin_72: 1740140809
+      pinguim-penguin_73: -1104879452
+      pinguim-penguin_74: 529306789
+      pinguim-penguin_75: 1680701326
+      pinguim-penguin_76: 398549068
+      pinguim-penguin_77: -1547379396
+      pinguim-penguin_78: 318000694
+      pinguim-penguin_79: -256181187
+      pinguim-penguin_8: 1377092274
+      pinguim-penguin_80: 1927125048
+      pinguim-penguin_81: 886649261
+      pinguim-penguin_82: 498183059
+      pinguim-penguin_83: -1693328228
+      pinguim-penguin_84: 1371543531
+      pinguim-penguin_85: -2024106494
+      pinguim-penguin_86: 79131692
+      pinguim-penguin_87: -456742570
+      pinguim-penguin_88: -1342933178
+      pinguim-penguin_89: 1836499117
+      pinguim-penguin_9: 876695750
+      pinguim-penguin_90: -2040678151
+      pinguim-penguin_91: 1972952302
+      pinguim-penguin_92: 1069853535
+      pinguim-penguin_93: 1728622770
+      pinguim-penguin_94: 837834962
+      pinguim-penguin_95: -816800063
+      pinguim-penguin_96: 1830528980
+      pinguim-penguin_97: 1132451944
+      pinguim-penguin_98: -254173264
+      pinguim-penguin_99: 1091679690
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

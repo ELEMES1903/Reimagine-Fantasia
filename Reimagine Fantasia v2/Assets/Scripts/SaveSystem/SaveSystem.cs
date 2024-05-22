@@ -90,6 +90,8 @@ public class SaveSystem : MonoBehaviour
             missScore = otherStat.missScore,
             armorScore = otherStat.armorScore,
             freeMovement = otherStat.freeMovement,
+            initiative = otherStat.initiative,
+            critGap = otherStat.critGap,
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -150,6 +152,8 @@ public class SaveSystem : MonoBehaviour
             otherStat.missScore = data.missScore;
             otherStat.armorScore = data.armorScore;
             otherStat.freeMovement = data.freeMovement;
+            otherStat.initiative = data.initiative;
+            otherStat.critGap = data.critGap;
 
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
@@ -188,7 +192,7 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].minValue = data.customResourceData[i].minValue;
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
             }
-            
+
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             customResource.UpdateCustomText();
@@ -224,10 +228,13 @@ public class SaveDataStructure
 
     public int missScore;
     public int armorScore;
+    public int freeMovement;
+    public int initiative;
+    public int critGap;
+
     public int heavyStress;
     public int normalStress;
     public int lightStress;
-    public int freeMovement;
 }
 
 [System.Serializable]

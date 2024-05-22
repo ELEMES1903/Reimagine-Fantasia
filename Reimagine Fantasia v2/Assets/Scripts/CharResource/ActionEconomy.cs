@@ -26,14 +26,14 @@ public class ActionEconomy : MonoBehaviour
     void Start()
     {
         turnButton.image.sprite = endTurn;
-        turnSprite  = actionPointImage;
-        
+        turnSprite = actionPointImage;
+
         TurnEndUpdate();
 
         // Initialize action point buttons with empty action point image
         foreach (Button button in apButtons)
         {
-            button.image.sprite = actionPointImage;
+            button.image.sprite = emptyActionPointImage;
             button.onClick.AddListener(() => AdjustActionPoints(button));
         }
 
@@ -51,8 +51,8 @@ public class ActionEconomy : MonoBehaviour
         {
             if (apButtons[i].image.sprite == emptyActionPointImage)
             {
-                // Set the image to action point image and break the loop
-                apButtons[i].image.sprite = actionPointImage;
+                // Set the image to the current turn sprite and break the loop
+                apButtons[i].image.sprite = turnSprite;
                 actionPointCount++;
                 break;
             }
@@ -61,10 +61,10 @@ public class ActionEconomy : MonoBehaviour
 
     void DecreaseActionPoints()
     {
-        // Find the rightmost action point button with action point image
+        // Find the rightmost action point button with the current turn sprite
         for (int i = apButtons.Length - 1; i >= 0; i--)
         {
-            if (apButtons[i].image.sprite == actionPointImage)
+            if (apButtons[i].image.sprite == turnSprite)
             {
                 // Set the image to empty action point image and break the loop
                 apButtons[i].image.sprite = emptyActionPointImage;
@@ -77,13 +77,13 @@ public class ActionEconomy : MonoBehaviour
     void AdjustActionPoints(Button clickedButton)
     {
         // Find the index of the clicked button
-        int clickedIndex = System.Array.IndexOf(apButtons, clickedButton);
+        int clickedIndex = Array.IndexOf(apButtons, clickedButton);
 
         // Check the sprite of the clicked button
         if (clickedButton.image.sprite == turnSprite)
         {
             // Set all buttons to the right of the clicked button to emptyActionPointImage
-            for (int i = clickedIndex + 1; i < apButtons.Length; i++)
+            for (int i = clickedIndex; i < apButtons.Length; i++)
             {
                 apButtons[i].image.sprite = emptyActionPointImage;
             }
@@ -92,40 +92,39 @@ public class ActionEconomy : MonoBehaviour
         }
         else if (clickedButton.image.sprite == emptyActionPointImage)
         {
-            // Set all buttons to the left of the clicked button to actionPointImage
-            for (int i = clickedIndex - 1; i >= 0; i--)
-            {   
+            // Set all buttons to the left of the clicked button to the current turn sprite
+            for (int i = 0; i <= clickedIndex; i++)
+            {
                 apButtons[i].image.sprite = turnSprite;
             }
-
-            clickedButton.image.sprite = turnSprite;
         }
     }
 
     public void TurnManager()
     {
         TMP_Text turnButtonText = turnButton.GetComponentInChildren<TMP_Text>();
-        if(turnButton.image.sprite == endTurn)
+        if (turnButton.image.sprite == endTurn)
         {
             turnButton.image.sprite = startTurn;
             turnButtonText.text = "Start Turn";
             turnSprite = reactionPointImage;
             conditions.DecreaseConDuration();
             TurnStartUpdate();
-
-        } else {
-
+        }
+        else
+        {
             turnButton.image.sprite = endTurn;
             turnButtonText.text = "End Turn";
             turnSprite = actionPointImage;
             TurnEndUpdate();
         }
     }
+
     void TurnStartUpdate()
     {
         for (int i = 0; i < apButtons.Length - stress.weakened; i++)
         {
-            if (apButtons[i].image.sprite == actionPointImage)
+            if (apButtons[i].image.sprite == actionPointImage || apButtons[i].image.sprite == reactionPointImage)
             {
                 apButtons[i].image.sprite = turnSprite;
             }
