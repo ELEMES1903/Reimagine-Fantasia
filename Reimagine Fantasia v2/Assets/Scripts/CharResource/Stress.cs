@@ -43,12 +43,12 @@ public class Stress : MonoBehaviour
         conditions = GetComponent<Conditions>();
 
         maxEnergy = 10;
-        currentEnergy = maxEnergy;
+        currentEnergy = 10;
         energySlider.maxValue = maxEnergy;
         energySlider.minValue = -6;
 
         lightStress = 0;
-        normalStress = 0;
+        normalStress = 4;
         heavyStress = 0;
         weakened = 0;
 

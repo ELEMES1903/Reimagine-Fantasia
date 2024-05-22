@@ -25,15 +25,15 @@ public class CustomResource : MonoBehaviour
     {
         foreach (CustomResourceArray resource in customResource)
         {
-            resource.sliderUpdateInput.onEndEdit.AddListener((string newValue) => UpdateSliderRange(resource, newValue));
+            resource.sliderUpdateInput.onEndEdit.AddListener((string newValue) => UpdateSliderRange(resource));
+            resource.slider.onValueChanged.AddListener((float newValue) => UpdateSliderValue(resource, newValue));
             resource.currentValue = 0;
 
             // Create a list of custom entries
             List<string> options = new List<string>();
-            options.Add("Take Damage");
-            options.Add("Heal HP");
-            options.Add("Heal Current Max HP");
-            options.Add("Gain Shield");
+            options.Add("Set Max");
+            options.Add("Set Min");
+            options.Add("Set CUrrent");
             
             resource.sliderUpdateOptions.ClearOptions(); // Clear existing options
             // Add the custom entries to the dropdown
@@ -41,14 +41,12 @@ public class CustomResource : MonoBehaviour
         } 
     }
 
-    public void UpdateSliderRange(CustomResourceArray resource, string newValue)
+    void UpdateSliderValue(CustomResourceArray resource, float newValue)
     {
-        resource.currentValue = int.Parse(newValue);
-        Debug.Log(newValue);
-        UpdateCustomText(resource);
+        resource.currentValue = newValue;
+        UpdateCustomText(); 
     }
-
-     public void UpdateMinMax(CustomResourceArray resource)
+     public void UpdateSliderRange(CustomResourceArray resource)
     {
 
         if (int.TryParse(resource.sliderUpdateInput.text, out int newValue))
@@ -67,14 +65,17 @@ public class CustomResource : MonoBehaviour
             }
         }
 
-        UpdateCustomText(resource);
+        UpdateCustomText();
     }
 
-    void UpdateCustomText(CustomResourceArray resource)
+    public void UpdateCustomText()
     {
-        resource.slider.maxValue = resource.maxValue;
-        resource.slider.minValue = resource.minValue;
-        resource.slider.value = resource.currentValue;
-        resource.text.text = $"{resource.currentValue} / {resource.maxValue}";
+        foreach(CustomResourceArray resource in customResource)
+        {
+            resource.slider.maxValue = resource.maxValue;
+            resource.slider.minValue = resource.minValue;
+            resource.slider.value = resource.currentValue;
+            resource.text.text = $"{resource.currentValue} / {resource.maxValue}";
+        }
     }
 }

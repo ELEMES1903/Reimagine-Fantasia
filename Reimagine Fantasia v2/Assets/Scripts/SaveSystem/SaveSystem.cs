@@ -67,7 +67,6 @@ public class SaveSystem : MonoBehaviour
         {
             attributeData = new AttributeData[attributeAndSkill.attributes.Length],
             conditionData = new ConditionData[conditions.conditions.Length],
-            customResourceData = new CustomResourceData[customResource.customResource.Length],
 
             healthData = new HealthData
             {
@@ -96,19 +95,14 @@ public class SaveSystem : MonoBehaviour
             normalStress = stress.normalStress,
             lightStress = stress.lightStress,
 
-            
-        };
-
-        for (int i = 0; i < customResource.customResource.Length; i++)
-        {
-            data.customResourceData[i] = new CustomResourceData
+            customResourceData = customResource.customResource.Select(cr => new CustomResourceData
             {
-                currentValue = customResource.customResource[i].currentValue,
-                maxValue = customResource.customResource[i].maxValue,
-                minValue = customResource.customResource[i].minValue,
-                resourceName = customResource.customResource[i].resourceName.text,
-            };
-        }
+                currentValue = cr.currentValue,
+                maxValue = cr.maxValue,
+                minValue = cr.minValue,
+                resourceName = cr.resourceName.text
+            }).ToArray()
+        };
 
         for (int i = 0; i < conditions.conditions.Length; i++)
         {
@@ -162,15 +156,6 @@ public class SaveSystem : MonoBehaviour
             stress.lightStress = data.lightStress;
 
             // Update the AttributeAndSkill script with the loaded attribute values
-            for (int i = 0; i < data.customResourceData.Length; i++)
-            {
-                customResource.customResource[i].currentValue = data.customResourceData[i].currentValue;
-                customResource.customResource[i].maxValue = data.customResourceData[i].maxValue;
-                customResource.customResource[i].minValue = data.customResourceData[i].minValue;
-                customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
-            }
-
-            // Update the AttributeAndSkill script with the loaded attribute values
             for (int i = 0; i < data.attributeData.Length; i++)
             {
                 attributeAndSkill.attributes[i].baseValue = data.attributeData[i].baseValue;
@@ -196,8 +181,17 @@ public class SaveSystem : MonoBehaviour
                 }
             }
 
+            for (int i = 0; i < data.customResourceData.Length; i++)
+            {
+                customResource.customResource[i].currentValue = data.customResourceData[i].currentValue;
+                customResource.customResource[i].maxValue = data.customResourceData[i].maxValue;
+                customResource.customResource[i].minValue = data.customResourceData[i].minValue;
+                customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
+            }
+            
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
+            customResource.UpdateCustomText();
             attributeAndSkill.UpdateAll();
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
@@ -226,7 +220,7 @@ public class SaveDataStructure
     public ConditionData[] conditionData;
     public SkillData[] skillData;
     public StatData[] statData;
-    public CustomResourceData[] customResourceData;
+    public CustomResourceData[] customResourceData; // Add this field
 
     public int missScore;
     public int armorScore;
@@ -237,20 +231,20 @@ public class SaveDataStructure
 }
 
 [System.Serializable]
-public class HealthData
-{
-    public int maxHP;
-    public int currentMaxHP;
-    public int currentHP;
-}
-
-[System.Serializable]
 public class CustomResourceData
 {
     public float currentValue;
     public float maxValue;
     public float minValue;
     public string resourceName;
+}
+
+[System.Serializable]
+public class HealthData
+{
+    public int maxHP;
+    public int currentMaxHP;
+    public int currentHP;
 }
 
 [System.Serializable]
