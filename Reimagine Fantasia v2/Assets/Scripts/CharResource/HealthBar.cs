@@ -174,8 +174,8 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateHealthBars()
     {
-        if(currentHP > currentMaxHP){ currentHP = currentMaxHP; }
-        if(currentMaxHP > maxHP){ currentMaxHP = maxHP; }
+        currentMaxHP = Mathf.Clamp(currentMaxHP, 0, maxHP);
+        currentHP = Mathf.Clamp(currentHP, 0, currentMaxHP);
 
         foreach (HPUIElement element in hpUI)
         {
@@ -185,9 +185,7 @@ public class HealthBar : MonoBehaviour
         }
 
         hpSlider.value = currentHP;
-        hpSlider.maxValue = maxHP;
         currentMaxHpSlider.value = currentMaxHP;
-        currentMaxHpSlider.maxValue = maxHP;
 
         fill.color = gradient.Evaluate(hpSlider.normalizedValue);
 

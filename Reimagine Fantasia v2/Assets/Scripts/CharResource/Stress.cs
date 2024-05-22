@@ -8,12 +8,15 @@ public class Stress : MonoBehaviour
     private ModifiersManager modifiersManager;
     private AttributeAndSkill attributeAndSkill;
     private Conditions conditions;
+    private Maintenence maintenence;
 
-    public Slider energySlider;
-    public int maxEnergy;
+    public Slider currentEnergySlider;
+    public Slider currentMaxEnergySlider;
+    int maxEnergy;
     public int currentEnergy;
-
+    public int currentMaxEnergy;   
     int totalStress;
+ 
     public int heavyStress;
     public int normalStress;
     public int lightStress;
@@ -21,14 +24,15 @@ public class Stress : MonoBehaviour
 
     bool isWeakened;
     bool isEnergetic;
-    public bool isNormal;
+    bool isNormal;
     bool isTired;
     bool isExhausted;
 
     public TMP_Dropdown stressManagerDropdown;
     public Button applyStressActionButton;
     public TMP_Text stressAmountText;
-    
+    public Button gainEnergy;
+    public Button loseEnergy;      
     private enum StressType
     {
         Heavy,
@@ -41,18 +45,26 @@ public class Stress : MonoBehaviour
         modifiersManager = GetComponent<ModifiersManager>();
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         conditions = GetComponent<Conditions>();
+        maintenence = GetComponent<Maintenence>();
 
         maxEnergy = 10;
+        currentMaxEnergy = 10;
         currentEnergy = 10;
-        energySlider.maxValue = maxEnergy;
-        energySlider.minValue = -6;
+
+        currentEnergySlider.maxValue = currentEnergy;
+        currentEnergySlider.minValue = -6;
+
+        currentMaxEnergySlider.maxValue = currentMaxEnergy;
+        currentMaxEnergySlider.minValue = -6;
 
         lightStress = 0;
         normalStress = 4;
         heavyStress = 0;
         weakened = 0;
 
-
+        loseEnergy.onClick.AddListener(delegate {GainLoseEnergy(false);});
+        gainEnergy.onClick.AddListener(delegate {GainLoseEnergy(true);});
+        
         // Initialize stress actions
         List<string> stressActions = new List<string>
         {
@@ -63,7 +75,6 @@ public class Stress : MonoBehaviour
             "Remove Normal Stress",
             "Remove Light Stress"
         };
-
         stressManagerDropdown.ClearOptions();
         stressManagerDropdown.AddOptions(stressActions);
 
@@ -115,18 +126,38 @@ public class Stress : MonoBehaviour
         CalculateStressAndEnergy();
     }
 
+    public void GainLoseEnergy(bool isGaining)
+    {
+        if (isGaining)
+        {
+            currentEnergy ++;
+            currentEnergy = Mathf.Clamp(currentEnergy, -6, currentMaxEnergy);
+        }
+        else
+        {
+            currentEnergy --;
+            currentEnergy = Mathf.Clamp(currentEnergy, -6, currentMaxEnergy);
+        }
+        CalculateStressAndEnergy();
+    }
+
     public void CalculateStressAndEnergy()
     {
         totalStress = heavyStress + normalStress + lightStress;
-        if(totalStress > 16){ totalStress = 16;}
+        totalStress = Mathf.Clamp(totalStress, 0, 16);
 
-        currentEnergy = Mathf.Clamp(maxEnergy - totalStress, -6, maxEnergy);
+        currentMaxEnergy = 10 - totalStress;
+        currentMaxEnergy = Mathf.Clamp(currentMaxEnergy, -6, 10);
+
+        currentEnergy = Mathf.Clamp(currentEnergy, -6, currentMaxEnergy);
+
+        currentEnergySlider.value = currentEnergy;
+        currentMaxEnergySlider.value = currentMaxEnergy;
         
-        stressAmountText.text = $"Energy: {currentEnergy}\n\nHeavy: {heavyStress}\nNormal: {normalStress}\nLight: {lightStress}";
-
         applyEnergyLevelEffects();
         conditions.ConditionListUpdate();
-        energySlider.value = currentEnergy;
+
+        stressAmountText.text = $"<b>Energy: {currentEnergy} / 10</b>\nHeavy: {heavyStress}, Normal: {normalStress}, Light: {lightStress}";
     }
 
     public void DisplayCurrentStatus()

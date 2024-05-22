@@ -191,6 +191,6 @@ public class AttributeAndSkill : MonoBehaviour
         else if(level < 10 && level > 5){profeciency = 2;}
         else{profeciency = 3;}
 
-        profeciencyValue.text = "+" + profeciency.ToString();
+        profeciencyValue.text = "Profeciency Bonus (+" + profeciency.ToString() + ")";
     }
 }
