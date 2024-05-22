@@ -12,7 +12,6 @@ public class Stress : MonoBehaviour
 
     public Slider currentEnergySlider;
     public Slider currentMaxEnergySlider;
-    int maxEnergy;
     public int currentEnergy;
     public int currentMaxEnergy;   
     int totalStress;
@@ -24,7 +23,6 @@ public class Stress : MonoBehaviour
 
     bool isWeakened;
     bool isEnergetic;
-    bool isNormal;
     bool isTired;
     bool isExhausted;
 
@@ -47,7 +45,6 @@ public class Stress : MonoBehaviour
         conditions = GetComponent<Conditions>();
         maintenence = GetComponent<Maintenence>();
 
-        maxEnergy = 10;
         currentMaxEnergy = 10;
         currentEnergy = 10;
 
@@ -64,7 +61,7 @@ public class Stress : MonoBehaviour
 
         loseEnergy.onClick.AddListener(delegate {GainLoseEnergy(false);});
         gainEnergy.onClick.AddListener(delegate {GainLoseEnergy(true);});
-        
+
         // Initialize stress actions
         List<string> stressActions = new List<string>
         {
@@ -171,7 +168,6 @@ public class Stress : MonoBehaviour
     private void applyEnergyLevelEffects()
     {
         isEnergetic = false;
-        isNormal = false;
         isTired = false;
         isExhausted = false;
         isWeakened = false;
@@ -191,13 +187,11 @@ public class Stress : MonoBehaviour
 
             if(currentEnergy <= 8 && currentEnergy >= 4)
             {
-                isNormal = true;
                 attributeAndSkill.UpdateAll();
                 //add disadvantage logic here
             }
             else
             {
-                isNormal = false;
                 attributeAndSkill.UpdateAll();
             }
 

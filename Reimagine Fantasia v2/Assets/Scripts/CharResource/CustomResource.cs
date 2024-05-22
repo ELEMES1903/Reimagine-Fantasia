@@ -10,34 +10,46 @@ using System.Collections.Generic;
     {
         public Slider slider;
         public TMP_Text text;
-        public TMP_InputField sliderUpdateInput;
-        public TMP_Dropdown sliderUpdateOptions;
         public float currentValue;
         public float maxValue;
         public float minValue;
         public TMP_InputField resourceName;
+        public int resourceNumber;
     }
 public class CustomResource : MonoBehaviour
 {
-    public CustomResourceArray[] customResource;
 
+    public CustomResourceArray[] customResource;
+    public TMP_Dropdown selectResource;
+    public TMP_Dropdown resourceUpdateOptions;
+    public TMP_InputField resourceUpdateInput;
+    public Button applyResourceChange;
     void Start()
     {
+        resourceUpdateInput.characterLimit = 4;
+        applyResourceChange.onClick.AddListener(delegate{UpdateResource();});
+
+        // Create a list of custom entries
+        List<string> options = new List<string>();
+        options.Add("Set Max");
+        options.Add("Set Min");
+        options.Add("Set CUrrent");
+        resourceUpdateOptions.ClearOptions(); // Clear existing options
+        resourceUpdateOptions.AddOptions(options); // Add the custom entries to the dropdown
+
+        // Create a list of custom entries
+        List<string> resources = new List<string>();
+        resources.Add("1");
+        resources.Add("2");
+        resources.Add("3");
+        resources.Add("4");
+        selectResource.ClearOptions(); // Clear existing options
+        selectResource.AddOptions(resources); // Add the custom entries to the dropdown
+
         foreach (CustomResourceArray resource in customResource)
         {
-            resource.sliderUpdateInput.onEndEdit.AddListener((string newValue) => UpdateSliderRange(resource));
             resource.slider.onValueChanged.AddListener((float newValue) => UpdateSliderValue(resource, newValue));
             resource.currentValue = 0;
-
-            // Create a list of custom entries
-            List<string> options = new List<string>();
-            options.Add("Set Max");
-            options.Add("Set Min");
-            options.Add("Set CUrrent");
-            
-            resource.sliderUpdateOptions.ClearOptions(); // Clear existing options
-            // Add the custom entries to the dropdown
-            resource.sliderUpdateOptions.AddOptions(options);
         } 
     }
 
@@ -46,25 +58,29 @@ public class CustomResource : MonoBehaviour
         resource.currentValue = newValue;
         UpdateCustomText(); 
     }
-     public void UpdateSliderRange(CustomResourceArray resource)
+    public void UpdateResource()
     {
-
-        if (int.TryParse(resource.sliderUpdateInput.text, out int newValue))
+        foreach(CustomResourceArray resource in customResource)
         {
-            if(resource.sliderUpdateOptions.value == 0)
+            if(selectResource.value + 1 == resource.resourceNumber)
             {
-                resource.maxValue = newValue;
-            } 
-            else if(resource.sliderUpdateOptions.value == 1)
-            {
-                resource.minValue = newValue;
-            }
-            else
-            {
-                resource.currentValue = newValue;
+                if (int.TryParse(resourceUpdateInput.text, out int newValue))
+                {
+                    if(resourceUpdateOptions.value == 0)
+                    {
+                        resource.maxValue = newValue;
+                    }
+                    else if(resourceUpdateOptions.value == 1)
+                    {
+                        resource.minValue = newValue;
+                    }
+                    else if (resourceUpdateOptions.value == 2)
+                    {
+                        resource.currentValue = newValue;
+                    }
+                }
             }
         }
-
         UpdateCustomText();
     }
 

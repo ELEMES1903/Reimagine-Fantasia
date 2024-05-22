@@ -18,6 +18,7 @@ public class OtherStat : MonoBehaviour
     public TMP_InputField armorScoreInput;
     public TMP_InputField freeMovementInput;
     public TMP_InputField initiativeInput;
+    public TMP_InputField critGapInput;
 
     public int baseMissScore = 3;
     public int missScore;
@@ -25,6 +26,8 @@ public class OtherStat : MonoBehaviour
     public int protectionScore;
     public int freeMovement;
     public int initiative;
+    public int critGap;
+    public int baseCritGap;
     private AttributeAndSkill attributeAndSkill;
     private ModifiersManager modifiersManager;
     //public TMP_Text missScoreText;
@@ -48,8 +51,9 @@ public class OtherStat : MonoBehaviour
 
         baseMissScoreInput.onEndEdit.AddListener(delegate { UpdateMissScore(); });
         armorScoreInput.onEndEdit.AddListener(delegate { UpdateProtectionScore(); });
+        critGapInput.onEndEdit.AddListener(delegate { UpdateCritGap(); });
         freeMovementInput.onEndEdit.AddListener(delegate { UpdateFreeMovement(); });
-        freeMovementInput.onEndEdit.AddListener(delegate { UpdateInitiative(); });
+        initiativeInput.onEndEdit.AddListener(delegate { UpdateInitiative(); });
         
         UpdateAll();
     }
@@ -78,7 +82,6 @@ public class OtherStat : MonoBehaviour
         }
         return 0;
     }
-
     private void UpdateMissScore()
     {
         int instinctScore = GetSkillScore("Instinct");
@@ -92,7 +95,6 @@ public class OtherStat : MonoBehaviour
         missScore = baseMissScore + instinctScore + totalValue;
         baseMissScoreInput.text = $"{missScore}";
     }
-
     private void UpdateProtectionScore()
     {
         if (int.TryParse(armorScoreInput.text, out int newValue))
@@ -105,7 +107,6 @@ public class OtherStat : MonoBehaviour
         protectionScore = missScore + armorScore + totalValue;
         armorScoreInput.text = $"{protectionScore}";
     }
-
     private void UpdateFreeMovement()
     {
         int agilityScore = GetSkillScore("Agility") / 2;
@@ -120,7 +121,6 @@ public class OtherStat : MonoBehaviour
         freeMovement = freeMovement + totalValue + agilityScore;
         freeMovementInput.text = $"{freeMovement} meters";
     }
-
     private void UpdateInitiative()
     {
         int intuitionScore = GetSkillScore("Inuition");
@@ -136,7 +136,18 @@ public class OtherStat : MonoBehaviour
         initiative = instinctScore + intuitionScore*2 + totalValue;
         armorScoreInput.text = $"{protectionScore}";
     }
-    
+    private void UpdateCritGap()
+    {
+        
+        if (int.TryParse(critGapInput.text, out int newValue))
+        {
+            if(baseCritGap == newValue){ }else{baseCritGap = newValue;}
+        }
+
+        int totalValue = GetTotalModifierValue("Crit Gap");
+        critGap = baseCritGap + totalValue;
+        critGapInput.text = $"{critGap}";
+    }
     private int GetTotalModifierValue(string name)
     {
         StatArray stat = stats.FirstOrDefault(s => s.name == name);
