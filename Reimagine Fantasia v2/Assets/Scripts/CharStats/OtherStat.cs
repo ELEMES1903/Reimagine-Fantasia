@@ -85,14 +85,14 @@ public class OtherStat : MonoBehaviour
     private void UpdateMissScore()
     {
         int instinctScore = GetSkillScore("Instinct");
-
+        int agilityScore = GetSkillScore("Agility");
         if (int.TryParse(baseMissScoreInput.text, out int newValue))
         {
             if(missScore  == newValue){ }else{baseMissScore = newValue;}
         }
 
         int totalValue = GetTotalModifierValue("Miss Score");
-        missScore = baseMissScore + instinctScore + totalValue;
+        missScore = baseMissScore + instinctScore + agilityScore + totalValue;
         baseMissScoreInput.text = $"{missScore}";
     }
     private void UpdateProtectionScore()

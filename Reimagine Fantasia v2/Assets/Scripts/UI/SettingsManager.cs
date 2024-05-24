@@ -7,11 +7,19 @@ using UnityEngine.UIElements;
 
 public class SettingsManager : MonoBehaviour
 {
+    [Header("Settings")]
     public GameObject saveSettings;
-    public GameObject statSettings;
     public GameObject Settings;
     Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
+
+    [Header("Health")]
+    public GameObject healthTab;
+    public GameObject healthSettings;
+
+    [Header("Attribute")]
+    public GameObject attributeTab;
+    public GameObject profeciencySettings;
 
     void Start()
     {
@@ -57,41 +65,21 @@ public class SettingsManager : MonoBehaviour
     }
 
     //SETTINGS 
-    public void OpenSettings()
-    {
-    Settings.SetActive(true);
-    }
-
-    public void CloseSettings()
-    {
-        Settings.SetActive(false);
-    }
+    public void OpenSettings() { Settings.SetActive(true); }
+    public void CloseSettings() { Settings.SetActive(false); }
 
     //SAVE 
-    public void OpenSaveSettings()
-    {
-    saveSettings.SetActive(true);
-    }
-
-    public void CloseSaveSettings()
-    {
-        saveSettings.SetActive(false);
-    }
-
-    //STAT 
-    public void OpenStatSettings()
-    {
-        statSettings.SetActive(true);
-    }
-
-    public void CloseStatSettings()
-    {
-        statSettings.SetActive(false);
-    }
+    public void OpenSaveSettings() { saveSettings.SetActive(true); }
+    public void CloseSaveSettings() { saveSettings.SetActive(false); }
 
     // Method to open the Player's Handbook Link
-    public void OpenWebsite(string url)
-    {
-        Application.OpenURL(url);
-    }
+    public void OpenWebsite(string url) { Application.OpenURL(url); }
+
+    //HEALTH
+    public void OpenHealthSettings() { healthSettings.SetActive(true); healthTab.SetActive(false); }
+    public void CloseHealthSettings() { healthSettings.SetActive(false); healthTab.SetActive(true); }
+
+    //PROFECIENCY
+    public void OpenProfeciencySettings() { profeciencySettings.SetActive(true); attributeTab.SetActive(false); }
+    public void CloseProfeciencySettings() { profeciencySettings.SetActive(false); attributeTab.SetActive(true); }
 }

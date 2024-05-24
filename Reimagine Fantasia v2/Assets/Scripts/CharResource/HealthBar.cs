@@ -37,6 +37,7 @@ public class HealthBar : MonoBehaviour
     public Button increaseHp;
     public Button decreaseHP;
     public Toggle isCurrentMaxHp;
+
     void Start()
     {
         // Initialize values
@@ -128,6 +129,7 @@ public class HealthBar : MonoBehaviour
     {
         currentMaxHP -= damage;
         currentMaxHP = Mathf.Clamp(currentMaxHP, 0, maxHP);
+        UpdateHealthBars();
     }
 
     public void HpHeal(int healAmount)
@@ -159,7 +161,14 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            TakeDamage(1);
+            if(isCurrentMaxHp.isOn)
+            {
+                ApplyDamageToMaxHP(1);
+            }
+            else
+            {
+                TakeDamage(1);
+            }
         }
     }
 

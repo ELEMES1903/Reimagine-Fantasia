@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System.Collections.Generic;
-
+using System;
 
 
 public class SaveSystem : MonoBehaviour
@@ -33,6 +33,24 @@ public class SaveSystem : MonoBehaviour
 
     // Directory path for save files
     private string saveDirectory;
+
+    public Image portraitImage; // Reference to the UI Image component
+
+    // Method to convert Texture2D to base64 string
+    private string TextureToBase64(Texture2D texture)
+    {
+        byte[] imageData = texture.EncodeToPNG();
+        return Convert.ToBase64String(imageData);
+    }
+
+    // Method to convert base64 string to Texture2D
+    private Texture2D Base64ToTexture(string base64)
+    {
+        byte[] imageData = Convert.FromBase64String(base64);
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(imageData);
+        return texture;
+    }
     
     private void Awake()
     {
@@ -97,6 +115,8 @@ public class SaveSystem : MonoBehaviour
             normalStress = stress.normalStress,
             lightStress = stress.lightStress,
 
+            portraitImageBase64 = TextureToBase64(portraitImage.sprite.texture),
+
             customResourceData = customResource.customResource.Select(cr => new CustomResourceData
             {
                 currentValue = cr.currentValue,
@@ -104,6 +124,7 @@ public class SaveSystem : MonoBehaviour
                 minValue = cr.minValue,
                 resourceName = cr.resourceName.text
             }).ToArray()
+            
         };
 
         for (int i = 0; i < conditions.conditions.Length; i++)
@@ -193,6 +214,12 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
             }
 
+            if (!string.IsNullOrEmpty(data.portraitImageBase64))
+            {
+                Texture2D texture = Base64ToTexture(data.portraitImageBase64);
+                portraitImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
+
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             customResource.UpdateCustomText();
@@ -235,6 +262,8 @@ public class SaveDataStructure
     public int heavyStress;
     public int normalStress;
     public int lightStress;
+
+    public string portraitImageBase64; // Add this field    
 }
 
 [System.Serializable]
