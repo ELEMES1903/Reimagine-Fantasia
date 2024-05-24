@@ -17,9 +17,9 @@ public class SaveSystem : MonoBehaviour
     private CustomResource customResource;
     private Conditions conditions;
     private ModifiersManager modifiersManager;
+    private LoadImageFromURL loadImageFromURL;
 
     private string savePath;
-    
     private string slotNameSavePath;
 
     // Reference to the SaveSlotManager
@@ -34,24 +34,6 @@ public class SaveSystem : MonoBehaviour
     // Directory path for save files
     private string saveDirectory;
 
-    public Image portraitImage; // Reference to the UI Image component
-
-    // Method to convert Texture2D to base64 string
-    private string TextureToBase64(Texture2D texture)
-    {
-        byte[] imageData = texture.EncodeToPNG();
-        return Convert.ToBase64String(imageData);
-    }
-
-    // Method to convert base64 string to Texture2D
-    private Texture2D Base64ToTexture(string base64)
-    {
-        byte[] imageData = Convert.FromBase64String(base64);
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(imageData);
-        return texture;
-    }
-    
     private void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, "saveData.json");
@@ -63,6 +45,7 @@ public class SaveSystem : MonoBehaviour
         {
             Directory.CreateDirectory(saveDirectory);
         }
+        
     }
     void Start()
     {
@@ -73,6 +56,7 @@ public class SaveSystem : MonoBehaviour
         customResource = GetComponent<CustomResource>();
         conditions = GetComponent<Conditions>();
         modifiersManager = GetComponent<ModifiersManager>();
+        loadImageFromURL = GetComponent<LoadImageFromURL>();
     }
 
     // Method to save the health and attribute data to a JSON file
@@ -105,6 +89,14 @@ public class SaveSystem : MonoBehaviour
                 modifiers = stat.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray()
             }).ToArray(),
 
+            customResourceData = customResource.customResource.Select(cr => new CustomResourceData
+            {
+                currentValue = cr.currentValue,
+                maxValue = cr.maxValue,
+                minValue = cr.minValue,
+                resourceName = cr.resourceName.text
+            }).ToArray(),
+
             missScore = otherStat.missScore,
             armorScore = otherStat.armorScore,
             freeMovement = otherStat.freeMovement,
@@ -115,16 +107,8 @@ public class SaveSystem : MonoBehaviour
             normalStress = stress.normalStress,
             lightStress = stress.lightStress,
 
-            portraitImageBase64 = TextureToBase64(portraitImage.sprite.texture),
+            imageURL = loadImageFromURL.portraitImage,
 
-            customResourceData = customResource.customResource.Select(cr => new CustomResourceData
-            {
-                currentValue = cr.currentValue,
-                maxValue = cr.maxValue,
-                minValue = cr.minValue,
-                resourceName = cr.resourceName.text
-            }).ToArray()
-            
         };
 
         for (int i = 0; i < conditions.conditions.Length; i++)
@@ -150,6 +134,7 @@ public class SaveSystem : MonoBehaviour
         File.WriteAllText(saveFilePath, jsonData);
 
         Debug.Log("Data saved to slot " + slotIndex + ".");
+        
     }
 
     // Method to load the health and attribute data from a JSON file
@@ -179,6 +164,9 @@ public class SaveSystem : MonoBehaviour
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
             stress.lightStress = data.lightStress;
+
+            loadImageFromURL.portraitImage = data.imageURL;
+            StartCoroutine(loadImageFromURL.LoadImage(loadImageFromURL.portraitImage));
 
             // Update the AttributeAndSkill script with the loaded attribute values
             for (int i = 0; i < data.attributeData.Length; i++)
@@ -214,12 +202,6 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
             }
 
-            if (!string.IsNullOrEmpty(data.portraitImageBase64))
-            {
-                Texture2D texture = Base64ToTexture(data.portraitImageBase64);
-                portraitImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            }
-
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             customResource.UpdateCustomText();
@@ -251,7 +233,7 @@ public class SaveDataStructure
     public ConditionData[] conditionData;
     public SkillData[] skillData;
     public StatData[] statData;
-    public CustomResourceData[] customResourceData; // Add this field
+    public CustomResourceData[] customResourceData;
 
     public int missScore;
     public int armorScore;
@@ -263,7 +245,8 @@ public class SaveDataStructure
     public int normalStress;
     public int lightStress;
 
-    public string portraitImageBase64; // Add this field    
+    public string imageURL;
+   
 }
 
 [System.Serializable]
