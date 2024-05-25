@@ -6,14 +6,19 @@ using TMPro;
 
 public class LoadImageFromURL : MonoBehaviour
 {
-    public RawImage targetRawImage; // Reference to the UI RawImage component
-    public TMP_InputField urlInputField; // Reference to the UI InputField for typing the URL
-    public Button uploadButton; // Reference to the UI Button to trigger the upload
+    public RawImage miniPortrait;
+    public RawImage bigPortrait;
 
+    public Sprite unknownPortrait;
+    public TMP_InputField urlInputField;
+    public Button uploadButton;
     public string portraitImage;
+
+    private SaveSlot saveSlot;
 
     void Start()
     {
+        saveSlot = GetComponent<SaveSlot>();
         // Add listener to the button to trigger the image loading
         uploadButton.onClick.AddListener(delegate {SaveImage(urlInputField.text);} );
     }
@@ -27,6 +32,9 @@ public class LoadImageFromURL : MonoBehaviour
     {
         if (string.IsNullOrEmpty(imageURL))
         {
+            //int selectedIndex = saveSlot.SelectedIndex;
+            //saveSlot.saveSlots[selectedIndex].slotPortrait.texture = unknownPortrait.texture;
+            
             Debug.LogError("URL is empty or null");
             yield break;
         }
@@ -41,7 +49,11 @@ public class LoadImageFromURL : MonoBehaviour
         else
         {
             Texture2D texture = DownloadHandlerTexture.GetContent(request);
-            targetRawImage.texture = texture;
+            miniPortrait.texture = texture;
+            bigPortrait.texture = texture;
+
+            int selectedIndex = saveSlot.SelectedIndex; // Assuming SelectedIndex is the index of the selected slot
+            saveSlot.saveSlots[selectedIndex].slotPortrait.texture = texture;
         }
     }
 }

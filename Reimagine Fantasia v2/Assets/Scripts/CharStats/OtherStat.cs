@@ -8,6 +8,7 @@ public class StatArray
 {
     public string name;
     public Modifier[] modifiers;
+    public TMP_InputField inputField;
 }
 
 public class OtherStat : MonoBehaviour

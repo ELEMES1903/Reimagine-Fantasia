@@ -18,6 +18,7 @@ public class SaveSystem : MonoBehaviour
     private Conditions conditions;
     private ModifiersManager modifiersManager;
     private LoadImageFromURL loadImageFromURL;
+    private SaveSlot saveSlotScript;
 
     private string savePath;
     private string slotNameSavePath;
@@ -57,6 +58,7 @@ public class SaveSystem : MonoBehaviour
         conditions = GetComponent<Conditions>();
         modifiersManager = GetComponent<ModifiersManager>();
         loadImageFromURL = GetComponent<LoadImageFromURL>();
+        saveSlotScript = GetComponent<SaveSlot>();
     }
 
     // Method to save the health and attribute data to a JSON file
@@ -106,8 +108,6 @@ public class SaveSystem : MonoBehaviour
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
             lightStress = stress.lightStress,
-
-            imageURL = loadImageFromURL.portraitImage,
 
         };
 
@@ -164,9 +164,11 @@ public class SaveSystem : MonoBehaviour
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
             stress.lightStress = data.lightStress;
-
-            loadImageFromURL.portraitImage = data.imageURL;
-            StartCoroutine(loadImageFromURL.LoadImage(loadImageFromURL.portraitImage));
+            
+            
+            int selectedIndex = saveSlot.SelectedIndex; // Assuming SelectedIndex is the index of the selected slot
+            loadImageFromURL.miniPortrait.texture = saveSlotScript.saveSlots[selectedIndex].slotPortrait.texture;
+            loadImageFromURL.bigPortrait.texture = saveSlotScript.saveSlots[selectedIndex].slotPortrait.texture;
 
             // Update the AttributeAndSkill script with the loaded attribute values
             for (int i = 0; i < data.attributeData.Length; i++)
@@ -243,10 +245,7 @@ public class SaveDataStructure
 
     public int heavyStress;
     public int normalStress;
-    public int lightStress;
-
-    public string imageURL;
-   
+    public int lightStress;   
 }
 
 [System.Serializable]

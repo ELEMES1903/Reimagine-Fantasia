@@ -23,39 +23,80 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
+        // Get the available screen resolutions
         resolutions = Screen.resolutions;
 
+        // Clear any existing options in the dropdown
         resolutionDropdown.ClearOptions();
 
+        // Create a list of resolution strings
         List<string> options = new List<string>();
 
-        int currentResolutionIndex = 0;
-        for (int i = 0; i < resolutions.Length; i++)
+        // Add each unique resolution (without refresh rate variations) to the options list
+        foreach (Resolution resolution in resolutions)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height;
-            options.Add(option);
-
-            if(resolutions[i].width == Screen.currentResolution.width && 
-            resolutions[i].height == Screen.currentResolution.height)
+            string option = resolution.width + " x " + resolution.height + " " + resolution.refreshRateRatio + "Hz";
+            if (!options.Contains(option))
             {
-                currentResolutionIndex = i;
+                options.Add(option);
             }
         }
+
+        // Add the resolution options to the dropdown
         resolutionDropdown.AddOptions(options);
+
+        // Set the current resolution as the default selected option
+        int currentResolutionIndex = GetCurrentResolutionIndex();
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+    }
 
+    private int GetCurrentResolutionIndex()
+    {
+        Resolution currentResolution = Screen.currentResolution;
+
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            if (resolutions[i].width == currentResolution.width && resolutions[i].height == currentResolution.height)
+            {
+                return i;
+            }
+        }
+
+        return 0; // Default to the first resolution if current resolution is not found
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+
+        // Adjust the game window size to match the resolution
+        if (!Screen.fullScreen)
+        {
+            int windowWidth = resolution.width;
+            int windowHeight = resolution.height;
+            AdjustScreenSize(resolution.width, resolution.height);
+        }
     }
 
-    public void SetFullScreen(bool isFullScreen)
+    void AdjustScreenSize(int width, int height)
     {
-        Screen.fullScreen = isFullScreen;
+        // Adjust the size of the game window based on resolution
+        float aspectRatio = (float)width / height;
+        int targetWidth = width;
+        int targetHeight = height;
+
+        // You can adjust these values according to your needs
+        int padding = 50; // Padding for the window borders
+        if (Screen.fullScreen)
+        {
+            // If fullscreen, adjust the window size to match the screen resolution
+            targetWidth += padding;
+            targetHeight += padding;
+        }
+
+        Screen.SetResolution(targetWidth, targetHeight, Screen.fullScreen);
     }
 
     public void Quit()

@@ -1,8 +1,9 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class SaveSlot : MonoBehaviour
 {
@@ -14,24 +15,24 @@ public class SaveSlot : MonoBehaviour
         public int slotNumber;
         public Button slotButton;
         public TMP_Text saveTime;
-
+        public RawImage slotPortrait;
         public TMP_InputField notesInputField;
-
     }
 
     public SlotElement[] saveSlots;
     private SaveSystem saveSystem;
     private AttributeAndSkill attributeAndSkill;
+    private LoadImageFromURL loadImageFromURL;
     int selectedIndex = 0;
     int selectedSlotIndex = 0;
 
     public TMP_InputField charInputField;
     public Toggle isAutoSaving;
-    public TMP_Dropdown dropdown; // Reference to the TMP dropdown
+    public TMP_Dropdown dropdown;
 
     void OnApplicationQuit()
     {
-        if(isAutoSaving.isOn)
+        if (isAutoSaving.isOn)
         {
             SaveDataForSelectedSlot();
         }
@@ -42,6 +43,7 @@ public class SaveSlot : MonoBehaviour
     {
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         saveSystem = GetComponent<SaveSystem>();
+        loadImageFromURL = GetComponent<LoadImageFromURL>();    
 
         LoadSlotData();
    
@@ -69,7 +71,6 @@ public class SaveSlot : MonoBehaviour
         {
             ChangeSelection(1);
         }
-
     }
 
     // Method to update the names of dropdown entries
@@ -100,7 +101,6 @@ public class SaveSlot : MonoBehaviour
         {
             bool isSelected = (i == selectedIndex);
             Color highlightColor = isSelected ? Color.yellow : Color.white;
-            //saveSlots[i].nameText.color = highlightColor;
             saveSlots[i].slotButton.colors = GetButtonColors(highlightColor);
         }
     }
@@ -124,15 +124,16 @@ public class SaveSlot : MonoBehaviour
         return colors;
     }
 
-    public void Save(){
-
+    public void Save()
+    {
         saveSystem.SaveData(selectedIndex);
 
-        if(string.IsNullOrWhiteSpace(charInputField.text) || charInputField.text.Trim().Length == 0)
+        if (string.IsNullOrWhiteSpace(charInputField.text) || charInputField.text.Trim().Length == 0)
         {
-            saveSlots[selectedIndex].nameText.text = " Unnamed Character";
+            saveSlots[selectedIndex].nameText.text = "Unnamed Character";
             charInputField.text = "Unnamed Character";
-        } else 
+        }
+        else
         {
             saveSlots[selectedIndex].nameText.text = charInputField.text;
         }
@@ -153,10 +154,17 @@ public class SaveSlot : MonoBehaviour
             string nameKey = "SlotName_" + i;
             string timeKey = "SlotTime_" + i;
             string noteKey = "SlotNote_" + i;
+            string portraitKey = "SlotPortrait_" + i;
 
             PlayerPrefs.SetString(nameKey, saveSlots[i].nameText.text);
             PlayerPrefs.SetString(timeKey, saveSlots[i].saveTime.text);
             PlayerPrefs.SetString(noteKey, saveSlots[i].notesInputField.text);
+
+            if (saveSlots[i].slotPortrait.texture != null)
+            {
+                string base64Portrait = TextureHelper.TextureToBase64(saveSlots[i].slotPortrait.texture as Texture2D);
+                PlayerPrefs.SetString(portraitKey, base64Portrait);
+            }
         }
         // Save the status of the isAutoSaving toggle
         PlayerPrefs.SetInt("AutoSavingStatus", isAutoSaving.isOn ? 1 : 0);
@@ -172,20 +180,28 @@ public class SaveSlot : MonoBehaviour
             string nameKey = "SlotName_" + i;
             string timeKey = "SlotTime_" + i;
             string noteKey = "SlotNote_" + i;
+            string portraitKey = "SlotPortrait_" + i;
 
             if (PlayerPrefs.HasKey(nameKey))
             {
                 string loadedName = PlayerPrefs.GetString(nameKey);
                 string loadedTime = PlayerPrefs.GetString(timeKey);
                 string loadedNote = PlayerPrefs.GetString(noteKey);
+                string loadedPortrait = PlayerPrefs.GetString(portraitKey);
 
                 saveSlots[i].nameText.text = loadedName;
                 saveSlots[i].saveTime.text = loadedTime;
                 saveSlots[i].notesInputField.text = loadedNote;
+
+                if (!string.IsNullOrEmpty(loadedPortrait))
+                {
+                    Texture2D texture = TextureHelper.Base64ToTexture(loadedPortrait);
+                    saveSlots[i].slotPortrait.texture = texture;
+                }
             }
         }
         // Load the status of the isAutoSaving toggle
-        isAutoSaving.isOn = PlayerPrefs.GetInt("AutoSavingStatus", 1) == 1 ? true : false;
+        isAutoSaving.isOn = PlayerPrefs.GetInt("AutoSavingStatus", 1) == 1;
     }
 
     // Method called when the dropdown's value changes
@@ -197,11 +213,43 @@ public class SaveSlot : MonoBehaviour
     // Method to save data into the selected save slot
     void SaveDataForSelectedSlot()
     {
-        if(charInputField.text == "Enter Character Name...")
+        if (charInputField.text == "Enter Character Name...")
         {
-        } else {
-            saveSlots[selectedSlotIndex].nameText.text = charInputField.text; 
+        }
+        else
+        {
+            saveSlots[selectedSlotIndex].nameText.text = charInputField.text;
         }
         saveSystem.SaveData(selectedSlotIndex);
+    }
+
+    public int SelectedIndex
+    {
+        get { return selectedIndex; }
+    }
+}
+
+public static class TextureHelper
+{
+    public static string TextureToBase64(Texture2D texture, bool useJpeg = false)
+    {
+        byte[] textureBytes;
+        if (useJpeg)
+        {
+            textureBytes = texture.EncodeToJPG();
+        }
+        else
+        {
+            textureBytes = texture.EncodeToPNG();
+        }
+        return Convert.ToBase64String(textureBytes);
+    }
+
+    public static Texture2D Base64ToTexture(string base64)
+    {
+        byte[] textureBytes = Convert.FromBase64String(base64);
+        Texture2D texture = new Texture2D(2, 2); // The size will be updated when loading the image
+        texture.LoadImage(textureBytes);
+        return texture;
     }
 }
