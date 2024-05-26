@@ -17,6 +17,7 @@ public class SaveSlot : MonoBehaviour
         public TMP_Text saveTime;
         public RawImage slotPortrait;
         public TMP_InputField notesInputField;
+        public Button deleteSlotSave;
     }
 
     public SlotElement[] saveSlots;
@@ -28,13 +29,14 @@ public class SaveSlot : MonoBehaviour
 
     public TMP_InputField charInputField;
     public Toggle isAutoSaving;
-    public TMP_Dropdown dropdown;
+    //public Button enableDeleteButtons;
 
     void OnApplicationQuit()
     {
         if (isAutoSaving.isOn)
         {
-            SaveDataForSelectedSlot();
+            saveSystem.SaveData(selectedIndex);
+            Save();
         }
         SaveSlotData();
     }
@@ -52,12 +54,10 @@ public class SaveSlot : MonoBehaviour
         {
             int capturedSlotNumber = slot.slotNumber - 1;
             slot.slotButton.onClick.AddListener(() => OnSlotButtonClick(slot)); // Pass slot directly
+            slot.deleteSlotSave.onClick.AddListener(() => DeleteSlot(slot.slotNumber));
         }
-        dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
-
         // Highlight the initially selected slot
         UpdateSelection();
-        UpdateDropdownEntries();
     }
 
     void Update()
@@ -71,19 +71,6 @@ public class SaveSlot : MonoBehaviour
         {
             ChangeSelection(1);
         }
-    }
-
-    // Method to update the names of dropdown entries
-    public void UpdateDropdownEntries()
-    {
-        List<string> dropdownOptions = new List<string>();
-        foreach (SlotElement slot in saveSlots)
-        {
-            string dropdownEntry = $"{slot.name}: {slot.nameText.text}"; // Format the dropdown entry
-            dropdownOptions.Add(dropdownEntry);
-        }
-        dropdown.ClearOptions(); // Clear existing options
-        dropdown.AddOptions(dropdownOptions); // Add updated options
     }
 
     void ChangeSelection(int direction)
@@ -160,11 +147,6 @@ public class SaveSlot : MonoBehaviour
             PlayerPrefs.SetString(timeKey, saveSlots[i].saveTime.text);
             PlayerPrefs.SetString(noteKey, saveSlots[i].notesInputField.text);
 
-            if (saveSlots[i].slotPortrait.texture != null)
-            {
-                string base64Portrait = TextureHelper.TextureToBase64(saveSlots[i].slotPortrait.texture as Texture2D);
-                PlayerPrefs.SetString(portraitKey, base64Portrait);
-            }
         }
         // Save the status of the isAutoSaving toggle
         PlayerPrefs.SetInt("AutoSavingStatus", isAutoSaving.isOn ? 1 : 0);
@@ -210,17 +192,22 @@ public class SaveSlot : MonoBehaviour
         selectedSlotIndex = index;
     }
 
-    // Method to save data into the selected save slot
-    void SaveDataForSelectedSlot()
+    public void DeleteSlot(int slotNumber)
     {
-        if (charInputField.text == "Enter Character Name...")
-        {
-        }
-        else
-        {
-            saveSlots[selectedSlotIndex].nameText.text = charInputField.text;
-        }
-        saveSystem.SaveData(selectedSlotIndex);
+        saveSystem.DeleteData(slotNumber);
+
+        saveSlots[slotNumber].nameText.text = "Empty Save Slot";
+        saveSlots[slotNumber].saveTime.text = "";
+        saveSlots[slotNumber].notesInputField.text = "";
+        saveSlots[slotNumber].slotPortrait.texture = loadImageFromURL.unknownPortrait.texture;
+
+        // Delete PlayerPrefs keys for the slot
+        PlayerPrefs.DeleteKey("SlotName_" + slotNumber);
+        PlayerPrefs.DeleteKey("SlotTime_" + slotNumber);
+        PlayerPrefs.DeleteKey("SlotNote_" + slotNumber);
+        PlayerPrefs.DeleteKey("SlotPortrait_" + slotNumber);
+
+        SaveSlotData();
     }
 
     public int SelectedIndex

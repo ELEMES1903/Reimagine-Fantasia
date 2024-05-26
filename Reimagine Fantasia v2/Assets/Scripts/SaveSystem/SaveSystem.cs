@@ -99,11 +99,11 @@ public class SaveSystem : MonoBehaviour
                 resourceName = cr.resourceName.text
             }).ToArray(),
 
-            missScore = otherStat.missScore,
-            armorScore = otherStat.armorScore,
-            freeMovement = otherStat.freeMovement,
-            initiative = otherStat.initiative,
-            critGap = otherStat.critGap,
+            //missScore = otherStat.missScore,
+            //armorScore = otherStat.armorScore,
+            //freeMovement = otherStat.freeMovement,
+            //initiative = otherStat.initiative,
+            //critGap = otherStat.critGap,
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -155,11 +155,11 @@ public class SaveSystem : MonoBehaviour
             healthBar.currentMaxHP = data.healthData.currentMaxHP;
             healthBar.currentHP = data.healthData.currentHP;
 
-            otherStat.missScore = data.missScore;
-            otherStat.armorScore = data.armorScore;
-            otherStat.freeMovement = data.freeMovement;
-            otherStat.initiative = data.initiative;
-            otherStat.critGap = data.critGap;
+            //otherStat.missScore = data.missScore;
+            //otherStat.armorScore = data.armorScore;
+            //otherStat.freeMovement = data.freeMovement;
+            //otherStat.initiative = data.initiative;
+            //otherStat.critGap = data.critGap;
 
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
@@ -218,6 +218,23 @@ public class SaveSystem : MonoBehaviour
             Debug.LogWarning("No save data found in slot " + slotIndex + ".");
         }
     }
+
+    public void DeleteData(int slotIndex)
+    {
+        string saveFileName = "saveData" + slotIndex + fileExtension;
+        string saveFilePath = Path.Combine(saveDirectory, saveFileName);
+
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+            Debug.Log("Data deleted from slot " + slotIndex + ".");
+        }
+        else
+        {
+            Debug.LogWarning("No save data found in slot " + slotIndex + ".");
+        }
+    }
+
 }
 
 [System.Serializable]

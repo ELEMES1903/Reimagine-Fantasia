@@ -13,6 +13,9 @@ public class SettingsManager : MonoBehaviour
     Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
 
+    public GameObject deleteSettings;
+    public GameObject enableDeleteButton;
+
     [Header("Health")]
     public GameObject healthTab;
     public GameObject healthSettings;
@@ -123,4 +126,8 @@ public class SettingsManager : MonoBehaviour
     //PROFECIENCY
     public void OpenProfeciencySettings() { profeciencySettings.SetActive(true); attributeTab.SetActive(false); }
     public void CloseProfeciencySettings() { profeciencySettings.SetActive(false); attributeTab.SetActive(true); }
+
+    //DELETE OPTIONS
+    public void OpenDeleteSettings() { deleteSettings.SetActive(true); enableDeleteButton.SetActive(false); }
+    public void CloseDeleteSettings() { deleteSettings.SetActive(false); enableDeleteButton.SetActive(true); }
 }
