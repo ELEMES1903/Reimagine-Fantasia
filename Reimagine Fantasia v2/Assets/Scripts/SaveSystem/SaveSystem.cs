@@ -20,6 +20,8 @@ public class SaveSystem : MonoBehaviour
     private LoadImageFromURL loadImageFromURL;
     private SaveSlot saveSlotScript;
 
+    private KitTextManager kitTextManager;
+
     private string savePath;
     private string slotNameSavePath;
 
@@ -59,6 +61,7 @@ public class SaveSystem : MonoBehaviour
         modifiersManager = GetComponent<ModifiersManager>();
         loadImageFromURL = GetComponent<LoadImageFromURL>();
         saveSlotScript = GetComponent<SaveSlot>();
+        kitTextManager = GetComponent<KitTextManager>();
     }
 
     // Method to save the health and attribute data to a JSON file
@@ -97,13 +100,23 @@ public class SaveSystem : MonoBehaviour
                 maxValue = cr.maxValue,
                 minValue = cr.minValue,
                 resourceName = cr.resourceName.text
+
             }).ToArray(),
 
-            //missScore = otherStat.missScore,
-            //armorScore = otherStat.armorScore,
-            //freeMovement = otherStat.freeMovement,
-            //initiative = otherStat.initiative,
-            //critGap = otherStat.critGap,
+            kitTextDatas = kitTextManager.Ability.Select(ab => new KitTextData
+            {
+                name = ab.name.text,
+                tierSetType = ab.tierSetType.text,
+                castRules = ab.castRules.text,
+                abilityText = ab.abilityText.text,
+
+            }).ToArray(),
+
+            missScore = otherStat.missScore,
+            armorScore = otherStat.armorScore,
+            freeMovement = otherStat.freeMovement,
+            initiative = otherStat.initiative,
+            critGap = otherStat.critGap,
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -155,11 +168,11 @@ public class SaveSystem : MonoBehaviour
             healthBar.currentMaxHP = data.healthData.currentMaxHP;
             healthBar.currentHP = data.healthData.currentHP;
 
-            //otherStat.missScore = data.missScore;
-            //otherStat.armorScore = data.armorScore;
-            //otherStat.freeMovement = data.freeMovement;
-            //otherStat.initiative = data.initiative;
-            //otherStat.critGap = data.critGap;
+            otherStat.missScore = data.missScore;
+            otherStat.armorScore = data.armorScore;
+            otherStat.freeMovement = data.freeMovement;
+            otherStat.initiative = data.initiative;
+            otherStat.critGap = data.critGap;
 
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
@@ -202,6 +215,14 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].maxValue = data.customResourceData[i].maxValue;
                 customResource.customResource[i].minValue = data.customResourceData[i].minValue;
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
+            }
+
+            for (int i = 0; i < data.kitTextDatas.Length; i++)
+            {
+                kitTextManager.Ability[i].name.text = data.kitTextDatas[i].name;
+                kitTextManager.Ability[i].tierSetType.text = data.kitTextDatas[i].tierSetType;
+                kitTextManager.Ability[i].castRules.text = data.kitTextDatas[i].castRules;
+                kitTextManager.Ability[i].abilityText.text = data.kitTextDatas[i].abilityText;
             }
 
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
@@ -253,6 +274,7 @@ public class SaveDataStructure
     public SkillData[] skillData;
     public StatData[] statData;
     public CustomResourceData[] customResourceData;
+    public KitTextData[] kitTextDatas;
 
     public int missScore;
     public int armorScore;
@@ -311,4 +333,13 @@ public class SkillData
     public string name;
     public int baseValue;
     public ModifierData[] modifiers; // Add this field
+}
+
+[System.Serializable]
+public class KitTextData
+{
+    public string name;
+    public string tierSetType;
+    public string castRules;
+    public string abilityText;
 }
