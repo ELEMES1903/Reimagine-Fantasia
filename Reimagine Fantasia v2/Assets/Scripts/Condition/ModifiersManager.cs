@@ -135,6 +135,7 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
+        otherStat.UpdateStatModifierText();
     }
 
     private void RemoveModifier(object cherry, string modifierName)
@@ -218,6 +219,7 @@ public class ModifiersManager : MonoBehaviour
         {
             Debug.LogWarning("Invalid element type.");
         }
+        otherStat.UpdateStatModifierText();
     }
 
     public void RemoveAllModifiers()

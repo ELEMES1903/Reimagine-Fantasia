@@ -46,10 +46,9 @@ public class OtherStat : MonoBehaviour
             }
             else
             {
-                
             }
-
         }
+        UpdateStatModifierText();
     }
 
     void OnInputFieldFocused(StatArray stat)
