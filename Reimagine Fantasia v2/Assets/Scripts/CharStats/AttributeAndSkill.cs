@@ -15,6 +15,8 @@ public class SkillArray
     public Modifier[] modifiers;
     public Toggle proficientToggle;
     public Toggle signatureToggle;
+    public string otherStatName1;
+    public string otherStatName2;
 }
 
 [System.Serializable]
@@ -138,6 +140,7 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValueText.text = skill.baseValue.ToString() + modifierToText;
             skill.baseValue -= profeciencyBonus;
         }
+
         otherStat.UpdateAll();
     }
 
@@ -156,6 +159,7 @@ public class AttributeAndSkill : MonoBehaviour
         {
             attribute.baseValue = newValue;
             CalculateTotalValue(attribute);
+            otherStat.UpdateAll();
         }
     }
 

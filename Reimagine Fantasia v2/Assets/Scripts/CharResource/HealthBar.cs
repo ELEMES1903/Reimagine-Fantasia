@@ -62,7 +62,7 @@ public class HealthBar : MonoBehaviour
         options.Add("Take Damage");
         options.Add("Heal HP");
         options.Add("Heal Current Max HP");
-        options.Add("Gain Shield");
+        options.Add("Set Shield");
         
         hpChangeDropdown.ClearOptions(); // Clear existing options
         // Add the custom entries to the dropdown
