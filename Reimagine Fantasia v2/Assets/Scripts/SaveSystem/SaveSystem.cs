@@ -19,8 +19,7 @@ public class SaveSystem : MonoBehaviour
     private ModifiersManager modifiersManager;
     private LoadImageFromURL loadImageFromURL;
     private SaveSlot saveSlotScript;
-
-    private KitTextManager kitTextManager;
+    private AbilityFilter abilityFilter;
 
     private string savePath;
     private string slotNameSavePath;
@@ -48,10 +47,10 @@ public class SaveSystem : MonoBehaviour
         {
             Directory.CreateDirectory(saveDirectory);
         }
-        
-    }
-    void Start()
-    {
+
+        GameObject uiManager = GameObject.Find("UI Manager");
+
+        abilityFilter = uiManager.GetComponent<AbilityFilter>();
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         otherStat = GetComponent<OtherStat>();
         healthBar = GetComponent<HealthBar>();
@@ -61,7 +60,6 @@ public class SaveSystem : MonoBehaviour
         modifiersManager = GetComponent<ModifiersManager>();
         loadImageFromURL = GetComponent<LoadImageFromURL>();
         saveSlotScript = GetComponent<SaveSlot>();
-        kitTextManager = GetComponent<KitTextManager>();
     }
 
     // Method to save the health and attribute data to a JSON file
@@ -103,14 +101,7 @@ public class SaveSystem : MonoBehaviour
 
             }).ToArray(),
 
-            kitTextDatas = kitTextManager.Ability.Select(ab => new KitTextData
-            {
-                name = ab.name.text,
-                tierSetType = ab.tierSetType.text,
-                castRules = ab.castRules.text,
-                abilityText = ab.abilityText.text,
-
-            }).ToArray(),
+            acquiredAbilityNames = abilityFilter.GetAcquiredAbilityNames(),
 
             //missScore = otherStat.missScore,
             //armorScore = otherStat.armorScore,
@@ -217,20 +208,13 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
             }
 
-            for (int i = 0; i < data.kitTextDatas.Length; i++)
-            {
-                kitTextManager.Ability[i].name.text = data.kitTextDatas[i].name;
-                kitTextManager.Ability[i].tierSetType.text = data.kitTextDatas[i].tierSetType;
-                kitTextManager.Ability[i].castRules.text = data.kitTextDatas[i].castRules;
-                kitTextManager.Ability[i].abilityText.text = data.kitTextDatas[i].abilityText;
-            }
-
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             customResource.UpdateCustomText();
             attributeAndSkill.UpdateAll();
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
+            abilityFilter.LoadAcquiredAbilities(data.acquiredAbilityNames);
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
         }
@@ -274,7 +258,7 @@ public class SaveDataStructure
     public SkillData[] skillData;
     public StatData[] statData;
     public CustomResourceData[] customResourceData;
-    public KitTextData[] kitTextDatas;
+    public List<string> acquiredAbilityNames;
 
     public int missScore;
     public int armorScore;
@@ -324,7 +308,7 @@ public class ConditionData
 public class StatData
 {
     public string name;
-    public ModifierData[] modifiers; // Add this field
+    public ModifierData[] modifiers;
 }
 
 [System.Serializable]
@@ -332,7 +316,7 @@ public class SkillData
 {
     public string name;
     public int baseValue;
-    public ModifierData[] modifiers; // Add this field
+    public ModifierData[] modifiers;
 }
 
 [System.Serializable]

@@ -9,7 +9,6 @@ public class StatArray
 {
     public string name;
     public Modifier[] modifiers;
-    //public TMP_Text statText;
     public TMP_InputField inputField;
     public TMP_Text finalValueText;
     public TMP_Text inputText;
