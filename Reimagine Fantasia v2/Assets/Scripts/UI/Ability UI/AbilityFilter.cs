@@ -14,14 +14,16 @@ public class AbilityFilter : MonoBehaviour
     [Header("Parent GameObjects")]
     public GameObject unacquiredAbilitiesParent;
     public GameObject filteredAbilitiesParent;
-    public GameObject acquiredSetAbilitiesParent;
-    public GameObject acquiredSkillAbilitiesParent;
-    public GameObject acquiredTraitsParent;
-    public GameObject acquiredBackgroundsParent;
+    public GameObject SetAbilitiesParent;
+    public GameObject SkillAbilitiesParent;
+    public GameObject unacquiredSkillAbilitiesParent;
+    public GameObject TraitsParent;
+    public GameObject BackgroundsParent;
 
     [Header("Other")]
     public List<GameObject> allUnacquiredAbilities = new List<GameObject>();
     public List<GameObject> allAcquiredAbilities = new List<GameObject>();
+    public List<GameObject> allSkillAbilities = new List<GameObject>();
     public Toggle enableRemoveAbilityToggle;
     public TMP_Text enableToggleText;
 
@@ -34,9 +36,11 @@ public class AbilityFilter : MonoBehaviour
         // Get all abilities from the unacquired abilities parent
         AddChildrenToList(unacquiredAbilitiesParent.transform, allUnacquiredAbilities);
         
-        AddChildrenToList(acquiredSetAbilitiesParent.transform, allAcquiredAbilities);
-        AddChildrenToList(acquiredTraitsParent.transform, allAcquiredAbilities);
-        AddChildrenToList(acquiredBackgroundsParent.transform, allAcquiredAbilities);
+        AddChildrenToList(SetAbilitiesParent.transform, allAcquiredAbilities);
+        AddChildrenToList(TraitsParent.transform, allAcquiredAbilities);
+        AddChildrenToList(BackgroundsParent.transform, allAcquiredAbilities);
+
+        AddChildrenToList(unacquiredSkillAbilitiesParent.transform, allSkillAbilities);
 
         // Add listeners to the input fields and dropdown to trigger filtering
         nameFilterInputField.onValueChanged.AddListener(OnFilterChanged);
@@ -44,15 +48,9 @@ public class AbilityFilter : MonoBehaviour
         categoryDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
         setDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
 
-        if (allAcquiredAbilities.Count > 0)
-        {
-            enableRemoveAbilityToggle.onValueChanged.AddListener(delegate { UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn); });
-            UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn);
-        }
-        else
-        {
-            Debug.LogWarning("No child abilities found under allAcquiredAbilitiesParent.");
-        }
+        enableRemoveAbilityToggle.onValueChanged.AddListener(delegate { UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn); });
+        UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn);
+
     }
 
     void AddChildrenToList(Transform parent, List<GameObject> list)
@@ -112,7 +110,7 @@ public class AbilityFilter : MonoBehaviour
                 }
             }
         }
-        abilityOrganizer.OrganizeAbilities();
+        //abilityOrganizer.OrganizeAbilities();
     }
 
     public List<string> GetAcquiredAbilityNames()
@@ -139,11 +137,22 @@ public class AbilityFilter : MonoBehaviour
                 if (abilityScript != null && abilityScript.abilityName == abilityName)
                 {
                     abilityScript.AddAbility();
+                    abilityScript.CheckIfSkillAbilityEligible(abilityScript.skillAbilitySkill);
                     allAcquiredAbilities.Add(ability);
                     allUnacquiredAbilities.Remove(ability);
                     break;
                 }
             }
+        }
+    }
+
+    public void CheckAndUpdateSkillAbilities(string skillName)
+    {
+        foreach (GameObject skillAbility in allSkillAbilities)
+        {
+            Ability abilityScript = skillAbility.GetComponent<Ability>();
+
+            abilityScript.CheckIfSkillAbilityEligible(skillName);
         }
     }
 }

@@ -87,11 +87,6 @@ public class SaveSystem : MonoBehaviour
                 modifiers = s.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray()
             }).ToArray(),
 
-            statData = otherStat.stats.Select(stat => new StatData
-            {
-                modifiers = stat.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray()
-            }).ToArray(),
-
             customResourceData = customResource.customResource.Select(cr => new CustomResourceData
             {
                 currentValue = cr.currentValue,
@@ -101,13 +96,15 @@ public class SaveSystem : MonoBehaviour
 
             }).ToArray(),
 
-            acquiredAbilityNames = abilityFilter.GetAcquiredAbilityNames(),
+            statData = otherStat.stats.Select(stat => new StatData
+            {
+                name = stat.name, // Store the stat name
+                modifiers = stat.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray(),
+                baseValue = stat.baseValue, // Store the base value
+                totalValue = stat.totalValue // Store the total value
+            }).ToArray(),
 
-            //missScore = otherStat.missScore,
-            //armorScore = otherStat.armorScore,
-            //freeMovement = otherStat.freeMovement,
-            //initiative = otherStat.initiative,
-            //critGap = otherStat.critGap,
+            acquiredAbilityNames = abilityFilter.GetAcquiredAbilityNames(),
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -159,12 +156,6 @@ public class SaveSystem : MonoBehaviour
             healthBar.currentMaxHP = data.healthData.currentMaxHP;
             healthBar.currentHP = data.healthData.currentHP;
 
-            //otherStat.missScore = data.missScore;
-            //otherStat.armorScore = data.armorScore;
-            //otherStat.freeMovement = data.freeMovement;
-            //otherStat.initiative = data.initiative;
-            //otherStat.critGap = data.critGap;
-
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
             stress.lightStress = data.lightStress;
@@ -208,6 +199,17 @@ public class SaveSystem : MonoBehaviour
                 customResource.customResource[i].resourceName.text = data.customResourceData[i].resourceName;
             }
 
+            foreach (var stat in data.statData)
+            {
+                var statArray = otherStat.stats.FirstOrDefault(s => s.name == stat.name);
+                if (statArray != null)
+                {
+                    statArray.baseValue = stat.baseValue; // Load the base value
+                    statArray.totalValue = stat.totalValue; // Load the total value
+                    statArray.modifiers = stat.modifiers.Select(m => new Modifier { name = m.name, value = m.value }).ToArray();
+                }
+            }
+
             saveSlot.charInputField.text = saveSlot.saveSlots[slotIndex].nameText.text;
 
             customResource.UpdateCustomText();
@@ -215,6 +217,7 @@ public class SaveSystem : MonoBehaviour
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
             abilityFilter.LoadAcquiredAbilities(data.acquiredAbilityNames);
+            otherStat.UpdateAll(); 
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
         }
@@ -309,6 +312,8 @@ public class StatData
 {
     public string name;
     public ModifierData[] modifiers;
+    public int baseValue;
+    public int totalValue;
 }
 
 [System.Serializable]

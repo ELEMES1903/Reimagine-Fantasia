@@ -11,12 +11,18 @@ public class Ability : MonoBehaviour
     public string setType;
     public int tier;
 
+    [Header("Skill Ability Info")]
+
+    public string skillAbilitySkill;
+    public int skillAbilityLevel;
+
     [Header("UI Buttons")]
     public Button removeAbilityButton;
     private Button addAbilityButton;
 
     // Reference to the AbilityFilter script
     private AbilityFilter abilityFilter;
+    private AttributeAndSkill attributeAndSkill;
 
     // Set up references and event listeners
     void Start()
@@ -24,6 +30,7 @@ public class Ability : MonoBehaviour
         removeAbilityButton = transform.Find("remove Button").GetComponent<Button>();
         addAbilityButton = transform.Find("add Button").GetComponent<Button>();
         abilityFilter = FindObjectOfType<AbilityFilter>();
+        attributeAndSkill = FindObjectOfType<AttributeAndSkill>();
 
         removeAbilityButton.onClick.AddListener(RemoveAbility);
         addAbilityButton.onClick.AddListener(AddAbility);
@@ -63,15 +70,24 @@ public class Ability : MonoBehaviour
 
         if (abilityType == "Trait")
         {
-            transform.SetParent(abilityFilter.acquiredTraitsParent.transform);
+            transform.SetParent(abilityFilter.TraitsParent.transform);
         }
         else if (abilityType == "Background")
         {
-            transform.SetParent(abilityFilter.acquiredBackgroundsParent.transform);
+            transform.SetParent(abilityFilter.BackgroundsParent.transform);
         }
         else 
         { 
-            transform.SetParent(abilityFilter.acquiredSetAbilitiesParent.transform);
+            transform.SetParent(abilityFilter.SetAbilitiesParent.transform);
+        }
+        
+        if(abilityFilter.enableRemoveAbilityToggle.isOn)
+        {
+            removeAbilityButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            removeAbilityButton.gameObject.SetActive(true);
         }
 
         // Add the GameObject to the list
@@ -80,5 +96,41 @@ public class Ability : MonoBehaviour
         //Remove itself from the ability filter list
         int index = abilityFilter.allUnacquiredAbilities.IndexOf(gameObject);
         abilityFilter.allUnacquiredAbilities.RemoveAt(index);
+        
+    }
+
+    public int FindSkillBaseValue(string skillName)
+    {
+        foreach (AttributeArray attribute in attributeAndSkill.attributes)
+        {
+            foreach(SkillArray skill in attribute.skills)
+            {
+                if(skillName == skill.name)
+                {
+                    return skill.baseValue;
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    public void CheckIfSkillAbilityEligible(string skillName)
+    {
+        if(abilityType == "Skill Ability" && skillName == skillAbilitySkill)
+        {
+            int skillBaseValue = FindSkillBaseValue(skillName);
+
+            if(skillBaseValue >= skillAbilityLevel)
+            {
+                transform.SetParent(abilityFilter.SkillAbilitiesParent.transform);
+                gameObject.SetActive(true);     
+            }
+            else
+            {
+                transform.SetParent(abilityFilter.unacquiredSkillAbilitiesParent.transform);     
+                gameObject.SetActive(false);           
+            }
+        }
     }
 }
