@@ -13,13 +13,13 @@ public class ItemFilter : MonoBehaviour
     public GameObject unacquiredItemsParent;
     public GameObject filteredItemsParent;
     public GameObject ItemsParent;
-    public GameObject ringsParent;
-    public GameObject braceletsParent;
-    public GameObject necklaceParent;
-    public GameObject headwearParent;
+    //public GameObject ringsParent;
+    //public GameObject braceletsParent;
+    //public GameObject necklaceParent;
+    //public GameObject headwearParent;
     public GameObject bodywearParent;
-    public GameObject handwearParent;
-    public GameObject footwearParent;
+    //public GameObject handwearParent;
+    //public GameObject footwearParent;
 
     [Header("Other")]
     public List<GameObject> allUnacquiredItems = new List<GameObject>();

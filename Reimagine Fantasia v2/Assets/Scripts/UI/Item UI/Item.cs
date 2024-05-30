@@ -28,17 +28,16 @@ public class Item : MonoBehaviour
         addItemButton = transform.Find("add Button").GetComponent<Button>();
         equipButton = transform.Find("equip Button").GetComponent<Button>();
 
-        equipButtonText = GetComponentInChildren<TMP_Text>();
+        // Assuming the TMP_Text is a child of the equip button
+        equipButtonText = equipButton.GetComponentInChildren<TMP_Text>();
 
-        itemFilter = GetComponent<ItemFilter>(); 
-        abilityFilter = GetComponent<AbilityFilter>();
+        itemFilter = FindObjectOfType<ItemFilter>(); 
 
         removeItemButton.onClick.AddListener(RemoveItem);
         addItemButton.onClick.AddListener(AddItem);
         equipButton.onClick.AddListener(EquipItem);
     }
 
-    
     void RemoveItem()
     {
         removeItemButton.gameObject.SetActive(false);
@@ -50,19 +49,15 @@ public class Item : MonoBehaviour
         abilityFilter.allUnacquiredAbilities.Add(gameObject);
 
         //Remove itself from the ability filter list
-        int index = abilityFilter.allAcquiredStuff.IndexOf(gameObject);
-        abilityFilter.allAcquiredStuff.RemoveAt(index);
-
+        abilityFilter.allAcquiredStuff.Remove(gameObject);
     }
 
-    // Method to add the ability to the acquired list based on type
     public void AddItem()
     {
         addItemButton.gameObject.SetActive(false);
-
         transform.SetParent(itemFilter.ItemsParent.transform);
 
-        if(abilityFilter.enableRemoveAbilityToggle.isOn)
+        if (abilityFilter.enableRemoveAbilityToggle.isOn)
         {
             removeItemButton.gameObject.SetActive(false);
         }
@@ -75,23 +70,21 @@ public class Item : MonoBehaviour
         abilityFilter.allAcquiredStuff.Add(gameObject);
 
         //Remove itself from the ability filter list
-        int index = abilityFilter.allUnacquiredAbilities.IndexOf(gameObject);
-        abilityFilter.allUnacquiredAbilities.RemoveAt(index);
-        
+        abilityFilter.allUnacquiredAbilities.Remove(gameObject);
     }
 
     public void EquipItem()
     {
-        // Dictionary to map item types to their corresponding parents
-        var itemTypeToParentMap = new Dictionary<string, Transform>
+        // Dictionary to map item types to their corresponding parents and their limits
+        var itemTypeToParentMap = new Dictionary<string, (Transform parent, int limit)>
         {
-            { "Headwear", itemFilter.headwearParent.transform },
-            { "Bodywear", itemFilter.bodywearParent.transform },
-            { "Handwear", itemFilter.handwearParent.transform },
-            { "Footwear", itemFilter.footwearParent.transform },
-            { "Ring", itemFilter.ringsParent.transform },
-            { "Bracelet", itemFilter.braceletsParent.transform },
-            { "Necklace", itemFilter.necklaceParent.transform },
+            //{ "Headwear", (itemFilter.headwearParent.transform, 5) }, // Example with limit 5
+            { "Bodywear", (itemFilter.bodywearParent.transform, 1) },
+            //{ "Handwear", (itemFilter.handwearParent.transform, 5) },
+            //{ "Footwear", (itemFilter.footwearParent.transform, 5) },
+            //{ "Ring", (itemFilter.ringsParent.transform, 5) },
+            //{ "Bracelet", (itemFilter.braceletsParent.transform, 5) },
+            //{ "Necklace", (itemFilter.necklaceParent.transform, 5) },
         };
 
         // Check if the item is currently equipped
@@ -100,20 +93,31 @@ public class Item : MonoBehaviour
             removeItemButton.gameObject.SetActive(true);
 
             // Set the parent based on the item type
-            if (itemTypeToParentMap.TryGetValue(itemType, out Transform parentTransform))
+            if (itemTypeToParentMap.TryGetValue(itemType, out var parentInfo))
             {
-                transform.SetParent(parentTransform);
+                Transform parentTransform = parentInfo.parent;
+                int limit = parentInfo.limit;
+
+                // Check if the parent has reached its child limit
+                if (parentTransform.childCount < limit)
+                {
+                    transform.SetParent(parentTransform);
+                    equipButtonText.text = "Unequip";
+                    isEquipped = false;
+                }
+                else
+                {
+                    // Optionally show a message or visual feedback that the parent is full
+                    Debug.Log("Cannot equip item. Parent has reached its child limit.");
+                }
             }
-            
-            equipButtonText.text = "Unequip";
-            isEquipped = false;    
         }
         else
         {
             // Set the parent to ItemsParent and mark as equipped
             transform.SetParent(itemFilter.ItemsParent.transform);
             equipButtonText.text = "Equip";
-            isEquipped = true;  
+            isEquipped = true;
         }
     }
 }
