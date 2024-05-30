@@ -142,7 +142,7 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValueText.text = skill.baseValue.ToString() + modifierToText;
             skill.baseValue -= profeciencyBonus;
 
-            abilityFilter.CheckAndUpdateSkillAbilities(skill.name);
+            //abilityFilter.CheckAndUpdateSkillAbilities(skill.name);
         }
 
         otherStat.UpdateAll();

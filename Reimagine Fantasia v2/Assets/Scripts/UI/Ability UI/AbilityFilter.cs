@@ -22,7 +22,7 @@ public class AbilityFilter : MonoBehaviour
 
     [Header("Other")]
     public List<GameObject> allUnacquiredAbilities = new List<GameObject>();
-    public List<GameObject> allAcquiredAbilities = new List<GameObject>();
+    public List<GameObject> allAcquiredStuff = new List<GameObject>();
     public List<GameObject> allSkillAbilities = new List<GameObject>();
     public Toggle enableRemoveAbilityToggle;
     public TMP_Text enableToggleText;
@@ -36,9 +36,9 @@ public class AbilityFilter : MonoBehaviour
         // Get all abilities from the unacquired abilities parent
         AddChildrenToList(unacquiredAbilitiesParent.transform, allUnacquiredAbilities);
         
-        AddChildrenToList(SetAbilitiesParent.transform, allAcquiredAbilities);
-        AddChildrenToList(TraitsParent.transform, allAcquiredAbilities);
-        AddChildrenToList(BackgroundsParent.transform, allAcquiredAbilities);
+        AddChildrenToList(SetAbilitiesParent.transform, allAcquiredStuff);
+        AddChildrenToList(TraitsParent.transform, allAcquiredStuff);
+        AddChildrenToList(BackgroundsParent.transform, allAcquiredStuff);
 
         AddChildrenToList(unacquiredSkillAbilitiesParent.transform, allSkillAbilities);
 
@@ -68,12 +68,15 @@ public class AbilityFilter : MonoBehaviour
 
     void UpdateRemoveAbilityToggle(bool isOn)
     {
-        foreach (GameObject ability in allAcquiredAbilities)
+        foreach (GameObject ability in allAcquiredStuff)
         {
-            Button removeButton = ability.GetComponent<Ability>().removeAbilityButton;
-            if (removeButton != null)
+            if(ability.gameObject.transform.parent.name == "SetAbilities" || ability.gameObject.transform.parent.name == "Items")
             {
-                removeButton.gameObject.SetActive(!isOn);
+                Button removeButton = ability.GetComponent<Ability>().removeAbilityButton;
+                if (removeButton != null)
+                {
+                    removeButton.gameObject.SetActive(!isOn);
+                }
             }
         }
         enableToggleText.text = isOn ? "Enable Ability Remove Option" : "Disable Ability Remove Option";
@@ -92,9 +95,9 @@ public class AbilityFilter : MonoBehaviour
             if (abilityScript != null)
             {
                 bool matchesName = string.IsNullOrEmpty(nameFilter) || abilityScript.abilityName.ToLower().Contains(nameFilter);
-                bool matchesType = typeFilter == "All Types" || typeFilter == "" || abilityScript.abilityType.ToLower().Equals(typeFilter);
-                bool matchesCategory = categoryFilter == "All Categories" || categoryFilter == "" || abilityScript.categoryType.ToLower().Equals(categoryFilter);
-                bool matchesSet = setFilter == "All Sets" || setFilter == "" || abilityScript.setType.ToLower().Equals(setFilter);
+                bool matchesType = string.IsNullOrEmpty(typeFilter) || abilityScript.abilityType.ToLower().Equals(typeFilter);
+                bool matchesCategory = string.IsNullOrEmpty(categoryFilter) || abilityScript.categoryType.ToLower().Equals(categoryFilter);
+                bool matchesSet = string.IsNullOrEmpty(setFilter) || abilityScript.setType.ToLower().Equals(setFilter);
 
                 if (matchesName && matchesType && matchesCategory && matchesSet)
                 {
@@ -116,7 +119,7 @@ public class AbilityFilter : MonoBehaviour
     public List<string> GetAcquiredAbilityNames()
     {
         List<string> acquiredAbilityNames = new List<string>();
-        foreach (GameObject ability in allAcquiredAbilities)
+        foreach (GameObject ability in allAcquiredStuff)
         {
             Ability abilityScript = ability.GetComponent<Ability>();
             if (abilityScript != null)
@@ -138,7 +141,7 @@ public class AbilityFilter : MonoBehaviour
                 {
                     abilityScript.AddAbility();
                     abilityScript.CheckIfSkillAbilityEligible(abilityScript.skillAbilitySkill);
-                    allAcquiredAbilities.Add(ability);
+                    allAcquiredStuff.Add(ability);
                     allUnacquiredAbilities.Remove(ability);
                     break;
                 }

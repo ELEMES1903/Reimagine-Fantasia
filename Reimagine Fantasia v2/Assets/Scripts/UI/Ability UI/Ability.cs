@@ -58,8 +58,8 @@ public class Ability : MonoBehaviour
         abilityFilter.allUnacquiredAbilities.Add(gameObject);
 
         //Remove itself from the ability filter list
-        int index = abilityFilter.allAcquiredAbilities.IndexOf(gameObject);
-        abilityFilter.allAcquiredAbilities.RemoveAt(index);
+        int index = abilityFilter.allAcquiredStuff.IndexOf(gameObject);
+        abilityFilter.allAcquiredStuff.RemoveAt(index);
 
     }
 
@@ -91,7 +91,7 @@ public class Ability : MonoBehaviour
         }
 
         // Add the GameObject to the list
-        abilityFilter.allAcquiredAbilities.Add(gameObject);
+        abilityFilter.allAcquiredStuff.Add(gameObject);
 
         //Remove itself from the ability filter list
         int index = abilityFilter.allUnacquiredAbilities.IndexOf(gameObject);

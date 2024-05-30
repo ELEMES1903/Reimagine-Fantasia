@@ -24,13 +24,15 @@ public class DropdownFilter : MonoBehaviour
         PopulateCategoryDropdown();
 
         // Initialize set dropdown based on the default category
-        OnCategoryChanged(categoryDropdown.value);
+        if (categoryDropdown.options.Count > 0)
+        {
+            OnCategoryChanged(categoryDropdown.value);
+        }
     }
 
     void PopulateCategoryDropdown()
     {
-        List<string> categories = new List<string> { "All Categories" };
-        categories.AddRange(categoryToSets.Keys);
+        List<string> categories = new List<string>(categoryToSets.Keys);
         categoryDropdown.ClearOptions();
         categoryDropdown.AddOptions(categories);
     }
@@ -43,19 +45,14 @@ public class DropdownFilter : MonoBehaviour
         List<string> sets;
         if (categoryToSets.TryGetValue(selectedCategory, out sets))
         {
-            // Insert "All Sets" as the first option
-            List<string> setsWithAllOption = new List<string> { "All Sets" };
-            setsWithAllOption.AddRange(sets);
-
-            // Update set dropdown
+            // Update set dropdown with the sets for the selected category
             setDropdown.ClearOptions();
-            setDropdown.AddOptions(setsWithAllOption);
+            setDropdown.AddOptions(sets);
         }
-        else if (selectedCategory == "All Categories")
+        else
         {
-            // If "All Categories" is selected, show "All Sets" as the only option in setDropdown
+            // If no sets are found for the selected category, clear the set dropdown
             setDropdown.ClearOptions();
-            setDropdown.AddOptions(new List<string> { "All Sets" });
         }
     }
 }
