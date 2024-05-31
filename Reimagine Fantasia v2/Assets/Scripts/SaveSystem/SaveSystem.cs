@@ -1,12 +1,7 @@
 using UnityEngine;
 using System.IO;
-using Unity.VisualScripting;
-using UnityEngine.UI;
-using TMPro;
 using System.Linq;
 using System.Collections.Generic;
-using System;
-
 
 public class SaveSystem : MonoBehaviour
 {
@@ -73,12 +68,11 @@ public class SaveSystem : MonoBehaviour
             attributeData = new AttributeData[attributeAndSkill.attributes.Length],
             conditionData = new ConditionData[conditions.conditions.Length],
 
-            healthData = new HealthData
+            healthData = healthBar.hpUI.Select(h => new HealthData
             {
-                maxHP = healthBar.maxHP,
-                currentMaxHP = healthBar.currentMaxHP,
-                currentHP = healthBar.currentHP
-            },
+                hpValue = h.hpValue
+            }).ToArray(),
+
 
             skillData = attributeAndSkill.attributes.SelectMany(a => a.skills).Select(s => new SkillData
             {
@@ -98,10 +92,10 @@ public class SaveSystem : MonoBehaviour
 
             statData = otherStat.stats.Select(stat => new StatData
             {
-                name = stat.name, // Store the stat name
+                name = stat.name,
                 modifiers = stat.modifiers.Select(m => new ModifierData { name = m.name, value = m.value }).ToArray(),
-                baseValue = stat.baseValue, // Store the base value
-                totalValue = stat.totalValue // Store the total value
+                baseValue = stat.baseValue,
+                totalValue = stat.totalValue
             }).ToArray(),
 
             acquiredAbilityNames = abilityFilter.GetAcquiredAbilityNames(),
@@ -151,11 +145,6 @@ public class SaveSystem : MonoBehaviour
             string jsonData = File.ReadAllText(saveFilePath);
             SaveDataStructure data = JsonUtility.FromJson<SaveDataStructure>(jsonData);
 
-            // Update the HealthBar script with the loaded health values
-            healthBar.maxHP = data.healthData.maxHP;
-            healthBar.currentMaxHP = data.healthData.currentMaxHP;
-            healthBar.currentHP = data.healthData.currentHP;
-
             stress.heavyStress = data.heavyStress;
             stress.normalStress = data.normalStress;
             stress.lightStress = data.lightStress;
@@ -170,6 +159,11 @@ public class SaveSystem : MonoBehaviour
             {
                 attributeAndSkill.attributes[i].baseValue = data.attributeData[i].baseValue;
                 attributeAndSkill.attributes[i].modifiers = data.attributeData[i].modifiers.Select(m => new Modifier { name = m.name, value = m.value }).ToArray();
+            }
+
+            for (int i = 0; i < data.healthData.Length; i++)
+            {
+                healthBar.hpUI[i].hpValue = data.healthData[i].hpValue;
             }
 
             foreach (var skill in data.skillData)
@@ -255,7 +249,7 @@ public class ModifierData
 [System.Serializable]
 public class SaveDataStructure
 {
-    public HealthData healthData;
+    public HealthData[] healthData;
     public AttributeData[] attributeData;
     public ConditionData[] conditionData;
     public SkillData[] skillData;
@@ -286,9 +280,7 @@ public class CustomResourceData
 [System.Serializable]
 public class HealthData
 {
-    public int maxHP;
-    public int currentMaxHP;
-    public int currentHP;
+    public int hpValue;
 }
 
 [System.Serializable]

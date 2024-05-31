@@ -6,41 +6,29 @@ using UnityEngine.UI;
 
 public class PageToggleHelper : MonoBehaviour
 {
-    public Button button; // Reference to the Toggle component
-    public TMP_Text buttonText;
-    public GameObject mainPage; // The first GameObject
-    public string mainPageButtonText;
-    public GameObject options; // The second GameObject
-    public string optionsButtonText;
-
-    private int number = 1;
+    public Button mainButton;
+    public Button optionButton;
+    public GameObject mainPage;
+    public GameObject optionsPage;
 
     void Start()
     {
-        // Add a listener to the toggle to call ToggleObjects when the value changes
-        button.onClick.AddListener(ToggleObjects);
+        mainButton.onClick.AddListener(OpenMainPage);
+        mainButton.onClick.AddListener(OpenOptionPage);
 
         mainPage.SetActive(true);
-        options.SetActive(false);
-        buttonText.text = mainPageButtonText;
+        optionsPage.SetActive(false);
     }
 
-    void ToggleObjects()
+    void OpenMainPage()
     {
-        if (number == 1)
-        {
-            mainPage.SetActive(true);
-            options.SetActive(false);
-            number = 0;
-            buttonText.text = mainPageButtonText;
-        }
-        else
-        {
-            mainPage.SetActive(false);
-            options.SetActive(true);
-            number = 1;
-            buttonText.text = optionsButtonText;
-        }
+        mainPage.SetActive(true);
+        optionsPage.SetActive(false);
+    }
+    void OpenOptionPage()
+    {
+        mainPage.SetActive(false);
+        optionsPage.SetActive(true);
     }
 
 }

@@ -70,13 +70,16 @@ public class AbilityFilter : MonoBehaviour
     {
         foreach (GameObject ability in allAcquiredStuff)
         {
-            if(ability.gameObject.transform.parent.name == "SetAbilities" || ability.gameObject.transform.parent.name == "Items")
+            if(ability.gameObject.transform.parent.name == "SetAbilities")
             {
-                Button removeButton = ability.GetComponent<Ability>().removeAbilityButton;
-                if (removeButton != null)
-                {
-                    removeButton.gameObject.SetActive(!isOn);
-                }
+                Button abilityRemoveButton = ability.GetComponent<Ability>().removeAbilityButton;
+                abilityRemoveButton.gameObject.SetActive(!isOn);
+            }
+
+            if(ability.gameObject.transform.parent.name == "Items")
+            {
+                Button itemRemoveButton = ability.GetComponent<Item>().removeItemButton ;
+                itemRemoveButton.gameObject.SetActive(!isOn);
             }
         }
         enableToggleText.text = isOn ? "Enable Ability Remove Option" : "Disable Ability Remove Option";

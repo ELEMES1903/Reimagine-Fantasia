@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 [RequireComponent(typeof(Image))]
 public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler 
@@ -10,8 +11,8 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     
     public TabGroup tabGroup;
     public Image background;
-
-
+    public TMP_Text buttonText;
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         tabGroup.OnTabSelected(this);
@@ -28,6 +29,7 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     // Start is called before the first frame update
     void Start()
     {
+        buttonText = GetComponentInChildren<TMP_Text>();
         background = GetComponent<Image>();
         tabGroup.Subscribe(this);
     }

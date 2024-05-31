@@ -13,17 +13,19 @@ public class ItemFilter : MonoBehaviour
     public GameObject unacquiredItemsParent;
     public GameObject filteredItemsParent;
     public GameObject ItemsParent;
-    //public GameObject ringsParent;
-    //public GameObject braceletsParent;
-    //public GameObject necklaceParent;
-    //public GameObject headwearParent;
+    public GameObject ringsParent;
+    public GameObject braceletsParent;
+    public GameObject necklaceParent;
+
+    public GameObject headwearParent;
     public GameObject bodywearParent;
-    //public GameObject handwearParent;
-    //public GameObject footwearParent;
+    public GameObject handwearParent;
+    public GameObject footwearParent;
 
     [Header("Other")]
     public List<GameObject> allUnacquiredItems = new List<GameObject>();
     public List<GameObject> allAcquiredItems = new List<GameObject>();
+    public List<GameObject> allEquipedItems = new List<GameObject>();
 
     void Start()
     {
@@ -31,6 +33,16 @@ public class ItemFilter : MonoBehaviour
         typeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
 
         AddChildrenToList(unacquiredItemsParent.transform, allUnacquiredItems);
+
+        AddChildrenToList(headwearParent.transform, allEquipedItems);
+        AddChildrenToList(bodywearParent.transform, allEquipedItems);
+        AddChildrenToList(handwearParent.transform, allEquipedItems);
+        AddChildrenToList(footwearParent.transform, allEquipedItems);
+
+        AddChildrenToList(ringsParent.transform, allEquipedItems);
+        AddChildrenToList(braceletsParent.transform, allEquipedItems);
+        AddChildrenToList(necklaceParent.transform, allEquipedItems);
+
     }
 
     void AddChildrenToList(Transform parent, List<GameObject> list)
@@ -44,6 +56,14 @@ public class ItemFilter : MonoBehaviour
     void OnFilterChanged(string filterText)
     {
         FilterItems();
+    }
+
+    void UpdateEquipedItems()
+    {
+        foreach (GameObject item in allEquipedItems)
+        {
+            
+        }
     }
 
     void FilterItems()

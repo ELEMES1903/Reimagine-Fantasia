@@ -31,11 +31,13 @@ public class Item : MonoBehaviour
         // Assuming the TMP_Text is a child of the equip button
         equipButtonText = equipButton.GetComponentInChildren<TMP_Text>();
 
-        itemFilter = FindObjectOfType<ItemFilter>(); 
+        itemFilter = FindObjectOfType<ItemFilter>();
+        abilityFilter = FindObjectOfType<AbilityFilter>(); 
 
         removeItemButton.onClick.AddListener(RemoveItem);
         addItemButton.onClick.AddListener(AddItem);
         equipButton.onClick.AddListener(EquipItem);
+
     }
 
     void RemoveItem()

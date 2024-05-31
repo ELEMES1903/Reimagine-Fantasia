@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TabGroup : MonoBehaviour
 {
@@ -56,6 +57,21 @@ public class TabGroup : MonoBehaviour
                 objectsToSwap[i].SetActive(false);
             }
         }
+
+        foreach (TabButton tabButton in tabButtons)
+        {
+            if (tabButton.buttonText != null)
+            {
+                if (tabButton == selectedTab)
+                {
+                    tabButton.buttonText.fontStyle = FontStyles.Underline;
+                }
+                else
+                {
+                    tabButton.buttonText.fontStyle = FontStyles.Normal;
+                }
+            }
+        }
     }
 
     public void ResetTabs()
@@ -64,6 +80,12 @@ public class TabGroup : MonoBehaviour
         {
             if(selectedTab != null && button == selectedTab) { continue;}
             button.background.sprite = tabIdle;
+
+            // Reset the text underline for non-selected tabs
+            if (button.buttonText != null)
+            {
+                button.buttonText.fontStyle = FontStyles.Normal;
+            }
         }
     }
 
