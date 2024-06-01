@@ -37,7 +37,7 @@ public class AttributeAndSkill : MonoBehaviour
     public AttributeArray[] attributes;
     private OtherStat otherStat;
     private ModifiersManager modifiersManager;
-    private AbilityFilter abilityFilter;
+    private FilterManager filterManager;
     public TMP_Dropdown levelDropdown;
     public TMP_Text profeciencyValue;
 
@@ -45,7 +45,7 @@ public class AttributeAndSkill : MonoBehaviour
     {
         otherStat = GetComponent<OtherStat>();
         modifiersManager = GetComponent<ModifiersManager>();
-        abilityFilter = GetComponent<AbilityFilter>();
+        filterManager = GetComponent<FilterManager>();
 
         // Initialize input field listeners
         foreach (AttributeArray attribute in attributes)
@@ -142,7 +142,7 @@ public class AttributeAndSkill : MonoBehaviour
             skill.modifiedValueText.text = skill.baseValue.ToString() + modifierToText;
             skill.baseValue -= profeciencyBonus;
 
-            //abilityFilter.CheckAndUpdateSkillAbilities(skill.name);
+            //filterManager.CheckAndUpdateSkillAbilities(skill.name);
         }
 
         otherStat.UpdateAll();

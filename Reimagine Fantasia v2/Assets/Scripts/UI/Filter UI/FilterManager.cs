@@ -3,54 +3,78 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityFilter : MonoBehaviour
+public class FilterManager : MonoBehaviour
 {
     [Header("Filter Options UI Components")]
     public TMP_InputField nameFilterInputField;
     public TMP_Dropdown typeDropdown;
+    public TMP_Dropdown itemTypeDropdown;
+    public TMP_Dropdown abilityTypeDropdown;
     public TMP_Dropdown categoryDropdown;
     public TMP_Dropdown setDropdown;
 
-    [Header("Parent GameObjects")]
-    public GameObject unacquiredAbilitiesParent;
-    public GameObject filteredAbilitiesParent;
+    [Header("Stuff Parent GameObjects")]
+    public GameObject unacquiredStuffParent;
+    public GameObject filteredStuffParent;
+
+    [Header("Ability Parent GameObjects")]
     public GameObject SetAbilitiesParent;
     public GameObject SkillAbilitiesParent;
     public GameObject unacquiredSkillAbilitiesParent;
     public GameObject TraitsParent;
     public GameObject BackgroundsParent;
+    public GameObject KnowledgeParent;
 
-    [Header("Other")]
-    public List<GameObject> allUnacquiredAbilities = new List<GameObject>();
+    [Header("Item Parent GameObjects")]
+    public GameObject ItemsParent;
+    public GameObject ringsParent;
+    public GameObject braceletsParent;
+    public GameObject necklaceParent;
+
+    public GameObject headwearParent;
+    public GameObject bodywearParent;
+    public GameObject handwearParent;
+    public GameObject footwearParent;
+
+    [Header("Lists")]
+    public List<GameObject> allUnacquiredStuff = new List<GameObject>();
     public List<GameObject> allAcquiredStuff = new List<GameObject>();
     public List<GameObject> allSkillAbilities = new List<GameObject>();
+    public List<GameObject> allEquipedItems = new List<GameObject>();
+
     public Toggle enableRemoveAbilityToggle;
     public TMP_Text enableToggleText;
 
-    private AbilityOrganizer abilityOrganizer;
-
     void Start()
     {
-        abilityOrganizer = GetComponent<AbilityOrganizer>();
+        AddChildrenToList(unacquiredStuffParent.transform, allUnacquiredStuff);
 
-        // Get all abilities from the unacquired abilities parent
-        AddChildrenToList(unacquiredAbilitiesParent.transform, allUnacquiredAbilities);
-        
         AddChildrenToList(SetAbilitiesParent.transform, allAcquiredStuff);
         AddChildrenToList(TraitsParent.transform, allAcquiredStuff);
         AddChildrenToList(BackgroundsParent.transform, allAcquiredStuff);
 
         AddChildrenToList(unacquiredSkillAbilitiesParent.transform, allSkillAbilities);
 
+        AddChildrenToList(headwearParent.transform, allEquipedItems);
+        AddChildrenToList(bodywearParent.transform, allEquipedItems);
+        AddChildrenToList(handwearParent.transform, allEquipedItems);
+        AddChildrenToList(footwearParent.transform, allEquipedItems);
+        AddChildrenToList(ringsParent.transform, allEquipedItems);
+        AddChildrenToList(braceletsParent.transform, allEquipedItems);
+        AddChildrenToList(necklaceParent.transform, allEquipedItems);
+
         // Add listeners to the input fields and dropdown to trigger filtering
         nameFilterInputField.onValueChanged.AddListener(OnFilterChanged);
         typeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
+
+        abilityTypeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
         categoryDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
         setDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
 
+        itemTypeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
+
         enableRemoveAbilityToggle.onValueChanged.AddListener(delegate { UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn); });
         UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn);
-
     }
 
     void AddChildrenToList(Transform parent, List<GameObject> list)
@@ -70,16 +94,14 @@ public class AbilityFilter : MonoBehaviour
     {
         foreach (GameObject ability in allAcquiredStuff)
         {
-            if(ability.gameObject.transform.parent.name == "SetAbilities")
+            if(ability.gameObject.transform.parent.name != "Unacquired Stuff" && allEquipedItems.Contains(ability) == false)
             {
-                Button abilityRemoveButton = ability.GetComponent<Ability>().removeAbilityButton;
-                abilityRemoveButton.gameObject.SetActive(!isOn);
-            }
-
-            if(ability.gameObject.transform.parent.name == "Items")
-            {
-                Button itemRemoveButton = ability.GetComponent<Item>().removeItemButton ;
-                itemRemoveButton.gameObject.SetActive(!isOn);
+                Button abilityRemoveButton = ability.GetComponent<Ability>().removeButton;
+                if(abilityRemoveButton != null)
+                {
+                    abilityRemoveButton.gameObject.SetActive(!isOn);
+                }
+                
             }
         }
         enableToggleText.text = isOn ? "Enable Ability Remove Option" : "Disable Ability Remove Option";
@@ -88,35 +110,42 @@ public class AbilityFilter : MonoBehaviour
     void FilterAbilities()
     {
         string nameFilter = nameFilterInputField.text.ToLower();
-        string typeFilter = typeDropdown.options[typeDropdown.value].text.ToLower();
+        string typeFilter = typeDropdown.options[abilityTypeDropdown.value].text.ToLower();
+
+        string abilityTypeFilter = abilityTypeDropdown.options[abilityTypeDropdown.value].text.ToLower();
         string categoryFilter = categoryDropdown.options[categoryDropdown.value].text.ToLower();
         string setFilter = setDropdown.options[setDropdown.value].text.ToLower();
 
-        foreach (GameObject ability in allUnacquiredAbilities)
+        string itemTypeFilter = itemTypeDropdown.options[itemTypeDropdown.value].text.ToLower();
+
+        foreach (GameObject ability in allUnacquiredStuff)
         {
             Ability abilityScript = ability.GetComponent<Ability>();
             if (abilityScript != null)
             {
-                bool matchesName = string.IsNullOrEmpty(nameFilter) || abilityScript.abilityName.ToLower().Contains(nameFilter);
-                bool matchesType = string.IsNullOrEmpty(typeFilter) || abilityScript.abilityType.ToLower().Equals(typeFilter);
-                bool matchesCategory = string.IsNullOrEmpty(categoryFilter) || abilityScript.categoryType.ToLower().Equals(categoryFilter);
-                bool matchesSet = string.IsNullOrEmpty(setFilter) || abilityScript.setType.ToLower().Equals(setFilter);
+                bool matchesName = string.IsNullOrEmpty(nameFilter) || abilityScript.Name.ToLower().Contains(nameFilter);
+                bool matchesType = string.IsNullOrEmpty(typeFilter) || abilityScript.Type.ToLower().Equals(typeFilter);
 
-                if (matchesName && matchesType && matchesCategory && matchesSet)
+                bool matchesAbilityType = !abilityTypeDropdown.gameObject.activeSelf || string.IsNullOrEmpty(abilityTypeFilter) || abilityScript.abilityType.ToLower().Equals(abilityTypeFilter);
+                bool matchesCategory = !categoryDropdown.gameObject.activeSelf || string.IsNullOrEmpty(categoryFilter) || abilityScript.categoryType.ToLower().Equals(categoryFilter);
+                bool matchesSet = !setDropdown.gameObject.activeSelf || string.IsNullOrEmpty(setFilter) || abilityScript.setType.ToLower().Equals(setFilter);
+
+                bool matchesItemType = !itemTypeDropdown.gameObject.activeSelf || string.IsNullOrEmpty(itemTypeFilter) || abilityScript.itemType.ToLower().Equals(itemTypeFilter);
+
+                if (matchesName && matchesType && matchesAbilityType && matchesCategory && matchesSet && matchesItemType)
                 {
                     // If the ability matches all filters, move it to the unacquired abilities parent and activate it
-                    ability.transform.SetParent(unacquiredAbilitiesParent.transform);
+                    ability.transform.SetParent(unacquiredStuffParent.transform);
                     ability.SetActive(true);
                 }
                 else
                 {
                     // If the ability does not match the filters, move it to the filtered upgrades parent and deactivate it
-                    ability.transform.SetParent(filteredAbilitiesParent.transform);
+                    ability.transform.SetParent(filteredStuffParent.transform);
                     ability.SetActive(false);
                 }
             }
         }
-        //abilityOrganizer.OrganizeAbilities();
     }
 
     public List<string> GetAcquiredAbilityNames()
@@ -127,7 +156,7 @@ public class AbilityFilter : MonoBehaviour
             Ability abilityScript = ability.GetComponent<Ability>();
             if (abilityScript != null)
             {
-                acquiredAbilityNames.Add(abilityScript.abilityName);
+                acquiredAbilityNames.Add(abilityScript.Name);
             }
         }
         return acquiredAbilityNames;
@@ -137,15 +166,15 @@ public class AbilityFilter : MonoBehaviour
     {
         foreach (string abilityName in acquiredAbilityNames)
         {
-            foreach (GameObject ability in allUnacquiredAbilities)
+            foreach (GameObject ability in allUnacquiredStuff)
             {
                 Ability abilityScript = ability.GetComponent<Ability>();
-                if (abilityScript != null && abilityScript.abilityName == abilityName)
+                if (abilityScript != null && abilityScript.Name == abilityName)
                 {
                     abilityScript.AddAbility();
-                    abilityScript.CheckIfSkillAbilityEligible(abilityScript.skillAbilitySkill);
+                    abilityScript.CheckIfSkillAbilityEligible(abilityScript.nameOfSkill);
                     allAcquiredStuff.Add(ability);
-                    allUnacquiredAbilities.Remove(ability);
+                    allUnacquiredStuff.Remove(ability);
                     break;
                 }
             }
@@ -157,7 +186,6 @@ public class AbilityFilter : MonoBehaviour
         foreach (GameObject skillAbility in allSkillAbilities)
         {
             Ability abilityScript = skillAbility.GetComponent<Ability>();
-
             abilityScript.CheckIfSkillAbilityEligible(skillName);
         }
     }

@@ -14,7 +14,7 @@ public class SaveSystem : MonoBehaviour
     private ModifiersManager modifiersManager;
     private LoadImageFromURL loadImageFromURL;
     private SaveSlot saveSlotScript;
-    private AbilityFilter abilityFilter;
+    private FilterManager filterManager;
 
     private string savePath;
     private string slotNameSavePath;
@@ -43,9 +43,7 @@ public class SaveSystem : MonoBehaviour
             Directory.CreateDirectory(saveDirectory);
         }
 
-        GameObject uiManager = GameObject.Find("UI Manager");
-
-        abilityFilter = uiManager.GetComponent<AbilityFilter>();
+        filterManager = GetComponent<FilterManager>();
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         otherStat = GetComponent<OtherStat>();
         healthBar = GetComponent<HealthBar>();
@@ -98,7 +96,7 @@ public class SaveSystem : MonoBehaviour
                 totalValue = stat.totalValue
             }).ToArray(),
 
-            acquiredAbilityNames = abilityFilter.GetAcquiredAbilityNames(),
+            acquiredAbilityNames = filterManager.GetAcquiredAbilityNames(),
 
             heavyStress = stress.heavyStress,
             normalStress = stress.normalStress,
@@ -210,7 +208,7 @@ public class SaveSystem : MonoBehaviour
             attributeAndSkill.UpdateAll();
             stress.CalculateStressAndEnergy();
             healthBar.UpdateHealthBars();
-            abilityFilter.LoadAcquiredAbilities(data.acquiredAbilityNames);
+            filterManager.LoadAcquiredAbilities(data.acquiredAbilityNames);
             otherStat.UpdateAll(); 
 
             Debug.Log("Data loaded from slot " + slotIndex + ".");
