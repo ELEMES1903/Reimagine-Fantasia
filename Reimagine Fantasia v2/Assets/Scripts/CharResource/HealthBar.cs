@@ -27,6 +27,11 @@ public class HealthBar : MonoBehaviour
     public Button decreaseHP;
     public Toggle isCurrentMaxHp;
 
+    public int hp;
+    public int currentHp;
+    public int maxHp;
+    public int shield;
+
     void Start()
     {
         //fill.color = gradient.Evaluate(1f);
@@ -37,18 +42,23 @@ public class HealthBar : MonoBehaviour
         foreach (HPArray element in hpUI)
         {
             element.hpInputField.onEndEdit.AddListener(delegate { OnHPInputValueChanged(element); });
-            element.hpInputField.onSelect.AddListener(delegate { OnInputFieldFocused(element); });
-            element.hpInputField.text = "10";
-            element.inputText.text = "10";
-            element.finalHpText.text = "10";
-            element.hpValue = 10;
 
-            OnInputFieldFocused(element);
+            element.hpInputField.onEndEdit.AddListener(delegate { OnInputFieldFocusLost(element); });
+            element.hpInputField.onSelect.AddListener(delegate { OnInputFieldFocused(element); });
+
+            OnInputFieldFocusLost(element);
         }
+
         UpdateHealthBars();
     }
 
     void OnInputFieldFocused(HPArray element)
+    {
+        element.inputText.gameObject.SetActive(true);
+        element.finalHpText.gameObject.SetActive(false);
+    }
+
+    void OnInputFieldFocusLost(HPArray element)
     {
         element.inputText.gameObject.SetActive(false);
         element.finalHpText.gameObject.SetActive(true);
@@ -56,64 +66,29 @@ public class HealthBar : MonoBehaviour
 
     public void OnHPInputValueChanged(HPArray element)
     {
-        element.inputText.gameObject.SetActive(true);
-        element.finalHpText.gameObject.SetActive(false);
-
         if (int.TryParse(element.hpInputField.text, out int newValue))
         {
             if(element.name == "Shield")
             {
-                if(newValue > element.hpValue)
+                if(shield < newValue)
                 {
-                    element.hpValue = newValue;
+                    shield = newValue;
                 }
             }
-            element.hpValue = newValue;
+            else if(element.name == "HP")
+            {
+                hp = newValue;
+            }
+            else if(element.name == "Current Max HP")
+            {
+                currentHp = newValue;
+            }
+            else if(element.name == "Max HP")
+            {
+                maxHp = newValue;
+            }
+            
         }
-        UpdateHealthBars();
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (FindHPElement("Shield").hpValue > 0)
-        {
-            FindHPElement("Shield").hpValue -= damage;
-        }
-        else
-        {
-            ApplyDamageToHP(damage);
-        }
-        UpdateHealthBars();
-    }
-
-    private void ApplyDamageToHP(int damage)
-    {        
-        if (FindHPElement("HP").hpValue > 0)
-        {
-            FindHPElement("HP").hpValue -= damage;
-        }
-        else
-        {
-            ApplyDamageToMaxHP(damage);
-        }
-        UpdateHealthBars();
-    }
-
-    private void ApplyDamageToMaxHP(int damage)
-    {
-        FindHPElement("Current Max HP").hpValue -= damage;
-        UpdateHealthBars();
-    }
-
-    public void HpHeal(int healAmount)
-    {
-        FindHPElement("HP").hpValue += healAmount;
-        UpdateHealthBars();
-    }
-
-    public void CurrentMaxHpHeal(int healAmount)
-    {
-        FindHPElement("Current Max HP").hpValue += healAmount;
         UpdateHealthBars();
     }
 
@@ -123,51 +98,42 @@ public class HealthBar : MonoBehaviour
         {
             if(isCurrentMaxHp.isOn)
             {
-                CurrentMaxHpHeal(1);
+                currentHp++;
             }
             else
             {
-                HpHeal(1);
+                hp++;
             }
         }
         else
         {
             if(isCurrentMaxHp.isOn)
             {
-                ApplyDamageToMaxHP(1);
+                currentHp--;
             }
             else
             {
-                TakeDamage(1);
+                hp--;
             }
         }
+        UpdateHealthBars();
     }
 
     public void UpdateHealthBars()
     {
-        HPArray HP = FindHPElement("HP");
-        HPArray currentMaxHP = FindHPElement("Current Max HP");
-        HPArray maxHP = FindHPElement("Max HP");
-        HPArray shield = FindHPElement("Shield");
-        
-        currentMaxHP.hpValue = Mathf.Clamp(currentMaxHP.hpValue, 0, maxHP.hpValue);
-        HP.hpValue = Mathf.Clamp(HP.hpValue, 0, currentMaxHP.hpValue);
-        shield.hpValue = Mathf.Clamp(shield.hpValue, 0, maxHP.hpValue);
+        currentHp = Mathf.Clamp(currentHp, 0, maxHp);
+        hp = Mathf.Clamp(hp, 0, currentHp);
+        shield = Mathf.Clamp(shield, 0, 100);
 
-        foreach (HPArray element in hpUI)
+        FindHPElement("HP").hpValue = hp;
+        FindHPElement("Current Max HP").hpValue = currentHp;
+        FindHPElement("Max HP").hpValue = maxHp;
+        FindHPElement("Shield").hpValue = shield;
+
+        foreach(HPArray element in hpUI)
         {
-            if(element.name == "Shield")
-            {
-                element.finalHpText.text = "(" + element.hpValue.ToString() + ")";
-            }
-            else
-            {
-                element.finalHpText.text = element.hpValue.ToString();
-            }
+            element.finalHpText.text = element.hpValue.ToString();
         }
-        //hpSlider.value = currentHP;
-        //currentMaxHpSlider.value = currentMaxHP;
-        //fill.color = gradient.Evaluate(hpSlider.normalizedValue);
     }
 
     public HPArray FindHPElement(string hpType)

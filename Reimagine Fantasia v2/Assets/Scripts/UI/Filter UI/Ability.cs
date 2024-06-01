@@ -44,6 +44,7 @@ public class Ability : MonoBehaviour
         addButton = transform.Find("add Button").GetComponent<Button>();
         equipButton = transform.Find("equip Button").GetComponent<Button>();
         itemSelectButton = transform.Find("item select Button").GetComponent<Button>();
+        equipButtonText = equipButton.GetComponentInChildren<TMP_Text>();
 
         filterManager = FindObjectOfType<FilterManager>();
         attributeAndSkill = FindObjectOfType<AttributeAndSkill>();
@@ -62,14 +63,18 @@ public class Ability : MonoBehaviour
             itemSelectButton.onClick.AddListener(ItemSelected);
         }
         
-        if(transform.parent.name != "Unacquired Abilities")
-        {
-            addButton.gameObject.SetActive(false);
-        }
-        else
+        if(transform.parent.name == "Unacquired Stuff")
         {
             addButton.gameObject.SetActive(true);
             removeButton.gameObject.SetActive(false);
+            equipButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            addButton.gameObject.SetActive(false);
+            removeButton.gameObject.SetActive(false);
+
+            DynamicRemoveButtonCheck();
         }
     }
 
@@ -93,26 +98,32 @@ public class Ability : MonoBehaviour
     // Method to add the ability to the acquired list based on type
     public void AddAbility()
     {
+        addButton.gameObject.SetActive(false);
+
         if(isEquipped)
         {
             EquipItem();
         }
         else
         {
-            addButton.gameObject.SetActive(false);
-
-            var itemTypeToParentMap = new Dictionary<string, Transform>
+            if(Type == "Item")
             {
-                { "Set Ability", filterManager.SetAbilitiesParent.transform },
-                { "Background", filterManager.BackgroundsParent.transform },
-                { "Trait", filterManager.TraitsParent.transform },
-                { "Knowledge", filterManager.KnowledgeParent.transform },
-                { "Item", filterManager.KnowledgeParent.transform }
-            };
-
-            if (itemTypeToParentMap.TryGetValue(itemType, out Transform parentTransform))
+                transform.SetParent(filterManager.ItemsParent.transform);
+            }
+            else
             {
-                transform.SetParent(parentTransform);
+                var itemTypeToParentMap = new Dictionary<string, Transform>
+                {
+                    { "Set Ability", filterManager.SetAbilitiesParent.transform },
+                    { "Background", filterManager.BackgroundsParent.transform },
+                    { "Trait", filterManager.TraitsParent.transform },
+                    { "Knowledge", filterManager.KnowledgeParent.transform },
+                };
+
+                if (itemTypeToParentMap.TryGetValue(abilityType, out Transform parentTransform))
+                {
+                    transform.SetParent(parentTransform);
+                }
             }
             
             if(filterManager.enableRemoveAbilityToggle.isOn)
@@ -124,10 +135,10 @@ public class Ability : MonoBehaviour
                 removeButton.gameObject.SetActive(true);
             }
 
-            // Add the GameObject to the list
+            equipButton.gameObject.SetActive(true);
+
             filterManager.allAcquiredStuff.Add(gameObject);
 
-            //Remove itself from the ability filter list
             int index = filterManager.allUnacquiredStuff.IndexOf(gameObject);
             filterManager.allUnacquiredStuff.RemoveAt(index);
         }
@@ -181,11 +192,9 @@ public class Ability : MonoBehaviour
             { "Necklace", (filterManager.necklaceParent.transform, 1) },
         };
 
-        // Check if the item is currently equipped
-        if (isEquipped)
+        // Check if the item is currently unequipped
+        if (!isEquipped)
         {
-            removeButton.gameObject.SetActive(true);
-
             // Set the parent based on the item type
             if (itemTypeToParentMap.TryGetValue(itemType, out var parentInfo))
             {
@@ -196,6 +205,10 @@ public class Ability : MonoBehaviour
                 if (parentTransform.childCount < limit)
                 {
                     transform.SetParent(parentTransform);
+
+                    removeButton.gameObject.SetActive(false);
+                    equipButton.gameObject.SetActive(true);
+
                     equipButtonText.text = "Unequip";
                     isEquipped = false;
 
@@ -210,12 +223,32 @@ public class Ability : MonoBehaviour
         else
         {
             transform.SetParent(filterManager.ItemsParent.transform);
+
+            equipButton.gameObject.SetActive(true);
+            DynamicRemoveButtonCheck();
+
             equipButtonText.text = "Equip";
             isEquipped = true;
 
             //Remove itself from the ability filter list
             int index = filterManager.allEquipedItems.IndexOf(gameObject);
-            filterManager.allEquipedItems.RemoveAt(index);
+
+            if(filterManager.allEquipedItems.Contains(gameObject))
+            {
+                filterManager.allEquipedItems.RemoveAt(index);
+            }
+        }
+    }
+
+    void DynamicRemoveButtonCheck()
+    {
+        if(filterManager.enableRemoveAbilityToggle.isOn && filterManager.allEquipedItems.Contains(gameObject) == false)
+        {
+            removeButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            removeButton.gameObject.SetActive(false);
         }
     }
 

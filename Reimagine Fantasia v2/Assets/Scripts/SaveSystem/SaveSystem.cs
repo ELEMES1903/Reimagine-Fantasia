@@ -43,7 +43,7 @@ public class SaveSystem : MonoBehaviour
             Directory.CreateDirectory(saveDirectory);
         }
 
-        filterManager = GetComponent<FilterManager>();
+        filterManager = FindObjectOfType<FilterManager>();
         attributeAndSkill = GetComponent<AttributeAndSkill>();
         otherStat = GetComponent<OtherStat>();
         healthBar = GetComponent<HealthBar>();
@@ -174,15 +174,6 @@ public class SaveSystem : MonoBehaviour
                 }
             }
 
-            foreach (var stat in data.statData)
-            {
-                var statArray = otherStat.stats.FirstOrDefault(s => s.name == stat.name);
-                if (statArray != null)
-                {
-                    statArray.modifiers = stat.modifiers.Select(m => new Modifier { name = m.name, value = m.value }).ToArray();
-                }
-            }
-
             for (int i = 0; i < data.customResourceData.Length; i++)
             {
                 customResource.customResource[i].currentValue = data.customResourceData[i].currentValue;
@@ -196,8 +187,8 @@ public class SaveSystem : MonoBehaviour
                 var statArray = otherStat.stats.FirstOrDefault(s => s.name == stat.name);
                 if (statArray != null)
                 {
-                    statArray.baseValue = stat.baseValue; // Load the base value
-                    statArray.totalValue = stat.totalValue; // Load the total value
+                    statArray.baseValue = stat.baseValue;
+                    statArray.totalValue = stat.totalValue;
                     statArray.modifiers = stat.modifiers.Select(m => new Modifier { name = m.name, value = m.value }).ToArray();
                 }
             }

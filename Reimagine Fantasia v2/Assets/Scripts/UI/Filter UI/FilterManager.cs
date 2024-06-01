@@ -151,31 +151,50 @@ public class FilterManager : MonoBehaviour
     public List<string> GetAcquiredAbilityNames()
     {
         List<string> acquiredAbilityNames = new List<string>();
-        foreach (GameObject ability in allAcquiredStuff)
+
+        if (allAcquiredStuff != null)
         {
-            Ability abilityScript = ability.GetComponent<Ability>();
-            if (abilityScript != null)
+            foreach (GameObject ability in allAcquiredStuff)
             {
-                acquiredAbilityNames.Add(abilityScript.Name);
+                if (ability != null)
+                {
+                    Ability abilityScript = ability.GetComponent<Ability>();
+                    if (abilityScript != null && !string.IsNullOrEmpty(abilityScript.Name))
+                    {
+                        acquiredAbilityNames.Add(abilityScript.Name);
+                    }
+                }
             }
         }
+
         return acquiredAbilityNames;
     }
 
     public void LoadAcquiredAbilities(List<string> acquiredAbilityNames)
     {
+        if (acquiredAbilityNames == null || allUnacquiredStuff == null || allAcquiredStuff == null)
+        {
+            return;
+        }
+
         foreach (string abilityName in acquiredAbilityNames)
         {
-            foreach (GameObject ability in allUnacquiredStuff)
+            if (!string.IsNullOrEmpty(abilityName))
             {
-                Ability abilityScript = ability.GetComponent<Ability>();
-                if (abilityScript != null && abilityScript.Name == abilityName)
+                foreach (GameObject ability in allUnacquiredStuff)
                 {
-                    abilityScript.AddAbility();
-                    abilityScript.CheckIfSkillAbilityEligible(abilityScript.nameOfSkill);
-                    allAcquiredStuff.Add(ability);
-                    allUnacquiredStuff.Remove(ability);
-                    break;
+                    if (ability != null)
+                    {
+                        Ability abilityScript = ability.GetComponent<Ability>();
+                        if (abilityScript != null && abilityScript.Name == abilityName)
+                        {
+                            abilityScript.AddAbility();
+                            abilityScript.CheckIfSkillAbilityEligible(abilityScript.nameOfSkill);
+                            allAcquiredStuff.Add(ability);
+                            allUnacquiredStuff.Remove(ability);
+                            break;
+                        }
+                    }
                 }
             }
         }
