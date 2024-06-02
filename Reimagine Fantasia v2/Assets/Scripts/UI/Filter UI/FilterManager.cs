@@ -42,9 +42,6 @@ public class FilterManager : MonoBehaviour
     public List<GameObject> allSkillAbilities = new List<GameObject>();
     public List<GameObject> allEquipedItems = new List<GameObject>();
 
-    public Toggle enableRemoveAbilityToggle;
-    public TMP_Text enableToggleText;
-
     void Start()
     {
         AddChildrenToList(unacquiredStuffParent.transform, allUnacquiredStuff);
