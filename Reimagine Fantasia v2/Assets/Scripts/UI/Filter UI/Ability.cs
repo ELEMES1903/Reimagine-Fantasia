@@ -7,6 +7,9 @@ public class Ability : MonoBehaviour
 {
     public string Name;
     public string Type;
+    public bool equipabble;
+    public bool isEquipped;
+    public  Button selectButton;
 
     [Header("Ability Info")]
     public string abilityType;
@@ -23,13 +26,6 @@ public class Ability : MonoBehaviour
     public string weightCost;
     public string goldCost;
 
-    [Header("UI Buttons")]
-    public Button removeButton;
-    private Button addButton;
-    private Button equipButton;
-    private TMP_Text equipButtonText;
-    public bool isEquipped;
-
     [Header("Item Description UI")]
     public string itemProperties;
     public string itemDescription;
@@ -40,50 +36,22 @@ public class Ability : MonoBehaviour
 
     void Start()
     {   
-        removeButton = transform.Find("remove Button").GetComponent<Button>();
-        addButton = transform.Find("add Button").GetComponent<Button>();
-        equipButton = transform.Find("equip Button").GetComponent<Button>();
-        itemSelectButton = transform.Find("item select Button").GetComponent<Button>();
-        equipButtonText = equipButton.GetComponentInChildren<TMP_Text>();
+        selectButton = GetComponentInChildren<Button>();
+        selectButton.onClick.AddListener(delegate {ItemSelected();});
 
         filterManager = FindObjectOfType<FilterManager>();
         attributeAndSkill = FindObjectOfType<AttributeAndSkill>();
         itemDescriptionUI = FindObjectOfType<ItemDescriptionUI>();
 
-        removeButton.onClick.AddListener(RemoveAbility);
-        addButton.onClick.AddListener(AddAbility);
-        
-        if(equipButton != null)
-        {
-            equipButton.onClick.AddListener(EquipItem);
-        }
-
         if(itemSelectButton != null)
         {
             itemSelectButton.onClick.AddListener(ItemSelected);
         }
-        
-        if(transform.parent.name == "Unacquired Stuff")
-        {
-            addButton.gameObject.SetActive(true);
-            removeButton.gameObject.SetActive(false);
-            equipButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            addButton.gameObject.SetActive(false);
-            removeButton.gameObject.SetActive(false);
-
-            DynamicRemoveButtonCheck();
-        }
     }
 
     // Method to remove the ability from the unacquired list
-    void RemoveAbility()
+    public void RemoveAbility()
     {
-        removeButton.gameObject.SetActive(false);
-        addButton.gameObject.SetActive(true);
-
         transform.SetParent(filterManager.unacquiredStuffParent.transform);
         
         // Add the GameObject to the list
@@ -93,13 +61,12 @@ public class Ability : MonoBehaviour
         int index = filterManager.allAcquiredStuff.IndexOf(gameObject);
         filterManager.allAcquiredStuff.RemoveAt(index);
 
+        itemDescriptionUI.UpdateWhenRemoved();
     }
 
     // Method to add the ability to the acquired list based on type
     public void AddAbility()
     {
-        addButton.gameObject.SetActive(false);
-
         if(isEquipped)
         {
             EquipItem();
@@ -125,17 +92,7 @@ public class Ability : MonoBehaviour
                     transform.SetParent(parentTransform);
                 }
             }
-            
-            if(filterManager.enableRemoveAbilityToggle.isOn)
-            {
-                removeButton.gameObject.SetActive(false);
-            }
-            else
-            {
-                removeButton.gameObject.SetActive(true);
-            }
-
-            equipButton.gameObject.SetActive(true);
+            itemDescriptionUI.UpdateWhenAdded();
 
             filterManager.allAcquiredStuff.Add(gameObject);
 
@@ -205,13 +162,8 @@ public class Ability : MonoBehaviour
                 if (parentTransform.childCount < limit)
                 {
                     transform.SetParent(parentTransform);
-
-                    removeButton.gameObject.SetActive(false);
-                    equipButton.gameObject.SetActive(true);
-
-                    equipButtonText.text = "Unequip";
-                    isEquipped = false;
-
+                    isEquipped = true;
+                    itemDescriptionUI.UpdateWhenEquip();
                     filterManager.allEquipedItems.Add(gameObject);
                 }
                 else
@@ -223,12 +175,8 @@ public class Ability : MonoBehaviour
         else
         {
             transform.SetParent(filterManager.ItemsParent.transform);
-
-            equipButton.gameObject.SetActive(true);
-            DynamicRemoveButtonCheck();
-
-            equipButtonText.text = "Equip";
-            isEquipped = true;
+            isEquipped = false;
+            itemDescriptionUI.UpdateWhenUnequip();
 
             //Remove itself from the ability filter list
             int index = filterManager.allEquipedItems.IndexOf(gameObject);
@@ -240,20 +188,12 @@ public class Ability : MonoBehaviour
         }
     }
 
-    void DynamicRemoveButtonCheck()
-    {
-        if(filterManager.enableRemoveAbilityToggle.isOn && filterManager.allEquipedItems.Contains(gameObject) == false)
-        {
-            removeButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            removeButton.gameObject.SetActive(false);
-        }
-    }
-
     public void ItemSelected()
     {
+        itemDescriptionUI.currentObject = gameObject;
+        itemDescriptionUI.abilityScript = itemDescriptionUI.currentObject.GetComponent<Ability>();
+        itemDescriptionUI.GlobalUpdate();
+        
         itemDescriptionUI.Name.text = Name;
         itemDescriptionUI.Properties.text = itemProperties;
         itemDescriptionUI.Description.text = itemDescription;

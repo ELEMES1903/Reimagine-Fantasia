@@ -65,16 +65,13 @@ public class FilterManager : MonoBehaviour
 
         // Add listeners to the input fields and dropdown to trigger filtering
         nameFilterInputField.onValueChanged.AddListener(OnFilterChanged);
-        typeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
+        typeDropdown.onValueChanged.AddListener(delegate { OnTypeChanged(); OnFilterChanged(""); });
 
         abilityTypeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
         categoryDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
         setDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
 
         itemTypeDropdown.onValueChanged.AddListener(delegate { OnFilterChanged(""); });
-
-        enableRemoveAbilityToggle.onValueChanged.AddListener(delegate { UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn); });
-        UpdateRemoveAbilityToggle(enableRemoveAbilityToggle.isOn);
     }
 
     void AddChildrenToList(Transform parent, List<GameObject> list)
@@ -90,33 +87,15 @@ public class FilterManager : MonoBehaviour
         FilterAbilities();
     }
 
-    void UpdateRemoveAbilityToggle(bool isOn)
-    {
-        foreach (GameObject ability in allAcquiredStuff)
-        {
-            if(ability.gameObject.transform.parent.name != "Unacquired Stuff" && allEquipedItems.Contains(ability) == false)
-            {
-                Button abilityRemoveButton = ability.GetComponent<Ability>().removeButton;
-                if(abilityRemoveButton != null)
-                {
-                    abilityRemoveButton.gameObject.SetActive(!isOn);
-                }
-                
-            }
-        }
-        enableToggleText.text = isOn ? "Enable Ability Remove Option" : "Disable Ability Remove Option";
-    }
-
     void FilterAbilities()
     {
         string nameFilter = nameFilterInputField.text.ToLower();
-        string typeFilter = typeDropdown.options[abilityTypeDropdown.value].text.ToLower();
+        string typeFilter = typeDropdown.options[typeDropdown.value].text.ToLower();
 
-        string abilityTypeFilter = abilityTypeDropdown.options[abilityTypeDropdown.value].text.ToLower();
-        string categoryFilter = categoryDropdown.options[categoryDropdown.value].text.ToLower();
-        string setFilter = setDropdown.options[setDropdown.value].text.ToLower();
-
-        string itemTypeFilter = itemTypeDropdown.options[itemTypeDropdown.value].text.ToLower();
+        string abilityTypeFilter = abilityTypeDropdown.gameObject.activeSelf ? abilityTypeDropdown.options[abilityTypeDropdown.value].text.ToLower() : string.Empty;
+        string categoryFilter = categoryDropdown.gameObject.activeSelf ? categoryDropdown.options[categoryDropdown.value].text.ToLower() : string.Empty;
+        string setFilter = setDropdown.gameObject.activeSelf ? setDropdown.options[setDropdown.value].text.ToLower() : string.Empty;
+        string itemTypeFilter = itemTypeDropdown.gameObject.activeSelf ? itemTypeDropdown.options[itemTypeDropdown.value].text.ToLower() : string.Empty;
 
         foreach (GameObject ability in allUnacquiredStuff)
         {
@@ -126,11 +105,11 @@ public class FilterManager : MonoBehaviour
                 bool matchesName = string.IsNullOrEmpty(nameFilter) || abilityScript.Name.ToLower().Contains(nameFilter);
                 bool matchesType = string.IsNullOrEmpty(typeFilter) || abilityScript.Type.ToLower().Equals(typeFilter);
 
-                bool matchesAbilityType = !abilityTypeDropdown.gameObject.activeSelf || string.IsNullOrEmpty(abilityTypeFilter) || abilityScript.abilityType.ToLower().Equals(abilityTypeFilter);
-                bool matchesCategory = !categoryDropdown.gameObject.activeSelf || string.IsNullOrEmpty(categoryFilter) || abilityScript.categoryType.ToLower().Equals(categoryFilter);
-                bool matchesSet = !setDropdown.gameObject.activeSelf || string.IsNullOrEmpty(setFilter) || abilityScript.setType.ToLower().Equals(setFilter);
+                bool matchesAbilityType = string.IsNullOrEmpty(abilityTypeFilter) || abilityScript.abilityType.ToLower().Equals(abilityTypeFilter);
+                bool matchesCategory = string.IsNullOrEmpty(categoryFilter) || abilityScript.categoryType.ToLower().Equals(categoryFilter);
+                bool matchesSet = string.IsNullOrEmpty(setFilter) || abilityScript.setType.ToLower().Equals(setFilter);
 
-                bool matchesItemType = !itemTypeDropdown.gameObject.activeSelf || string.IsNullOrEmpty(itemTypeFilter) || abilityScript.itemType.ToLower().Equals(itemTypeFilter);
+                bool matchesItemType = string.IsNullOrEmpty(itemTypeFilter) || abilityScript.itemType.ToLower().Equals(itemTypeFilter);
 
                 if (matchesName && matchesType && matchesAbilityType && matchesCategory && matchesSet && matchesItemType)
                 {
@@ -146,6 +125,28 @@ public class FilterManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnTypeChanged()
+    {
+        string selectedType = typeDropdown.options[typeDropdown.value].text.ToLower();
+
+        if (selectedType == "item")
+        {
+            abilityTypeDropdown.gameObject.SetActive(false);
+            categoryDropdown.gameObject.SetActive(false);
+            setDropdown.gameObject.SetActive(false);
+            itemTypeDropdown.gameObject.SetActive(true);
+        }
+        else if (selectedType == "ability")
+        {
+            abilityTypeDropdown.gameObject.SetActive(true);
+            categoryDropdown.gameObject.SetActive(true);
+            setDropdown.gameObject.SetActive(true);
+            itemTypeDropdown.gameObject.SetActive(false);
+        }
+
+        FilterAbilities();
     }
 
     public List<string> GetAcquiredAbilityNames()
